@@ -29,3 +29,5 @@ hs_error_pid*
 .repo
 .needspull
 .settings
+.project
+.classpath
