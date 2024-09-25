@@ -20,7 +20,7 @@ public class BinarySearchTree
     // Insert a record into the tree.
     // Records can be anything, but they must be Comparable
     // e: The record to insert.
-    public void insert(Comparable e) {
+    public void insert(Comparable<BSTNode> e) {
         root = inserthelp(root, e);
         nodecount++;
       }
@@ -28,8 +28,8 @@ public class BinarySearchTree
     // Remove a record from the tree
     // key: The key value of record to remove
     // Returns the record removed, null if there is none.
-    public Comparable remove(Comparable key) {
-      Comparable temp = findhelp(root, key); // First find it
+    public Comparable<BSTNode> remove(Comparable<BSTNode> key) {
+      Comparable<BSTNode> temp = findhelp(root, key); // First find it
       if (temp != null) {
         root = removehelp(root, key); // Now remove it
         nodecount--;
@@ -39,7 +39,9 @@ public class BinarySearchTree
 
     // Return the record with key value k, null if none exists
     // key: The key value to find
-    public Comparable find(Comparable key) { return findhelp(root, key); }
+    public Comparable<BSTNode> find(Comparable<BSTNode> key) {
+        return findhelp(root, key); 
+    }
 
     // Return the number of records in the dictionary
     public int size() { return nodecount;    }
