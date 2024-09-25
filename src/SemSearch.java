@@ -3,6 +3,10 @@
  * {Project Description Here}
  */
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.util.Scanner;
+
 /**
  * The class containing the main method.
  *
@@ -37,6 +41,9 @@ public class SemSearch {
      */
     public static void main(String[] args) {
         // This is the main file for the program.
-        Seminar dum = new Seminar();
+//        Seminar dum = new Seminar();
+            Controller controller = new Controller(Integer.parseInt(args[0]));
+            CommandProcessor commandProcessor =
+                new CommandProcessor(args[1], controller);
     }
 }
