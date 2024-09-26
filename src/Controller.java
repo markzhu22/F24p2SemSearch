@@ -200,7 +200,7 @@ public class Controller {
             return;
         }
 
-        printIndented(tree, node.right(), level + 1, field);
+        printIndented(tree, node.left(), level + 1, field);
 
         for (int i = 0; i < level; i++) {
             System.out.print("    ");
@@ -227,7 +227,7 @@ public class Controller {
                 System.out.println("Invalid field: " + field);
         }
 
-        printIndented(tree, node.left(), level + 1, field);
+        printIndented(tree, node.right(), level + 1, field);
     }
 
     /**
