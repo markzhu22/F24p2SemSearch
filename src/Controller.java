@@ -154,7 +154,7 @@ public class Controller {
      */
     public void print(String field) {
         switch (field) {
-            case "id":
+            case "ID":
                 System.out.println("ID Tree:");
                 printIndented(idTree, idTree.getRoot(), 0);
                 break;
@@ -170,10 +170,10 @@ public class Controller {
                 System.out.println("Keyword Tree:");
                 printIndented(keywordTree, keywordTree.getRoot(), 0);
                 break;
-            //case "location":
-                //System.out.println("Location Tree:");
-                //printPreOrder(locationTree.getRoot(), 0);
-               // break;
+            // case "location":
+            // System.out.println("Location Tree:");
+            // printPreOrder(locationTree.getRoot(), 0);
+            // break;
             default:
                 System.out.println("Invalid field: " + field);
         }
@@ -193,17 +193,22 @@ public class Controller {
      */
     private void printIndented(BinarySearchTree tree, BSTNode node, int level) {
         if (node == null) {
+            for (int i = 0; i < level; i++) {
+                System.out.print("    ");
+            }
+            System.out.println("(null)");
             return;
         }
 
         printIndented(tree, node.right(), level + 1);
+
         for (int i = 0; i < level; i++) {
             System.out.print("    ");
         }
         System.out.println(node.value());
+
         printIndented(tree, node.left(), level + 1);
     }
-
 
     /**
      * Preorder traversal for location tree (assuming BinTree or similar
@@ -213,19 +218,19 @@ public class Controller {
      *            The current node being visited.
      * @param level
      *            The current level (used to calculate indentation).
-    private void printPreOrder(BSTNode node, int level) {
-        if (node == null) {
-            return;
-        }
-
-        for (int i = 0; i < level; i++) {
-            System.out.print("    ");
-        }
-        System.out.println(node.value());
-
-        printPreOrder(node.left(), level + 1);
-
-        printPreOrder(node.right(), level + 1);
-    }
-    */
+     *            private void printPreOrder(BSTNode node, int level) {
+     *            if (node == null) {
+     *            return;
+     *            }
+     * 
+     *            for (int i = 0; i < level; i++) {
+     *            System.out.print(" ");
+     *            }
+     *            System.out.println(node.value());
+     * 
+     *            printPreOrder(node.left(), level + 1);
+     * 
+     *            printPreOrder(node.right(), level + 1);
+     *            }
+     */
 }
