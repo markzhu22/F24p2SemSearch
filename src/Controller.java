@@ -25,6 +25,14 @@ public class Controller {
      *            The seminar to insert.
      */
     public void insert(Seminar seminar) {
+        // Check for invalid coordinates
+        if (seminar.x() < 0 || seminar.y() < 0 || seminar.x() > 100 || seminar
+            .y() > 100) {
+            System.out.println("Insert FAILED - Bad x, y coordinates: "
+                + seminar.x() + ", " + seminar.y());
+            return;
+        }
+
         idTree.insertById(seminar);
         dateTree.insertByDate(seminar);
         costTree.insertByCost(seminar);
@@ -52,19 +60,80 @@ public class Controller {
     }
 
 
-    // Range search for cost
-    public void searchByCostRange(int low, int high) {
-        System.out.println("Searching seminars by cost range " + low + " - "
-            + high);
-        costTree.findByCostRange(low, high);
+    /**
+     * Searches for a seminar by its ID.
+     * 
+     * @param id
+     *            The ID of the seminar to search for.
+     */
+    public void searchById(int id) {
+        Seminar seminar = idTree.findById(id);
+        if (seminar != null) {
+            System.out.println("Found record with ID " + id + ":");
+            System.out.println(seminar);
+        }
+        else {
+            System.out.println("Search FAILED -- There is no record with ID "
+                + id);
+        }
     }
 
 
-    // Range search for date
+    /**
+     * Searches for seminars that match the given keyword.
+     * 
+     * @param keyword
+     *            The keyword to search for.
+     */
+    public void searchByKeyword(String keyword) {
+        System.out.println("Seminars matching keyword " + keyword + ":");
+        boolean found = keywordTree.findByKeyword(keyword);
+
+        if (!found) {
+            System.out.println(
+                "Search FAILED -- No seminars found with keyword " + keyword);
+        }
+    }
+
+
+    /**
+     * Searches for seminars within the given cost range.
+     * 
+     * @param low
+     *            The lower bound of the cost range.
+     * @param high
+     *            The upper bound of the cost range.
+     */
+    public void searchByCostRange(int low, int high) {
+        System.out.println("Searching seminars by cost range " + low + " - "
+            + high);
+        boolean found = costTree.findByCostRange(low, high);
+        if (!found) {
+            System.out.println(
+                "Search FAILED -- No seminars found in cost range " + low
+                    + " to " + high);
+        }
+    }
+
+
+    /**
+     * Searches for seminars within the given date range.
+     * 
+     * @param low
+     *            The lower bound of the date range.
+     * @param high
+     *            The upper bound of the date range.
+     */
     public void searchByDateRange(String low, String high) {
         System.out.println("Searching seminars by date range " + low + " - "
             + high);
-        dateTree.findByDateRange(low, high);
+        boolean found = dateTree.findByDateRange(low, high);
+
+        if (!found) {
+            System.out.println(
+                "Search FAILED -- No seminars found in date range " + low
+                    + " to " + high);
+        }
     }
 
 
