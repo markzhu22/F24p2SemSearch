@@ -19,22 +19,54 @@ public class CommandProcessor
                 // Check insert
                 if (cmd.matches("insert(.*)"))
                 {
-                    int id = Integer.parseInt(cmd.split(" ")[1]);
-                    
-                    //control.insert();
-                    System.out.print(id);
+                    int id = Integer.parseInt(cmd.split("\\s+")[1]);
+                    String title = scanner.nextLine().trim();
+                    String[] numbers = scanner.nextLine().trim().split("\\s+");
+                    String date = numbers[0];
+                    int length = Integer.parseInt(numbers[1]);
+                    short x = Short.parseShort(numbers[2]);
+                    short y = Short.parseShort(numbers[3]);
+                    int cost = Integer.parseInt(numbers[4]);
+                    cmd = scanner.nextLine().trim();
+                    String [] keywords = cmd.split("\\s+");
+                    cmd = scanner.nextLine().trim();
+                    String description = cmd;
+                    Seminar newSem = new Seminar(id, title, date, length, x, y, cost, keywords, description);
+                    control.insert(newSem);
                 }
                 
                 // Check remove
-                else if (cmd.matches("remove(.*)"))
+                else if (cmd.matches("delete(.*)"))
                 {
-                    //control.remove();
+                    int id = Integer.parseInt(cmd.split("\\s+")[1]);
+                    //control.delete(id);
                 }
 
                 // Check print
                 else if (cmd.matches("print(.*)"))
                 {
-                    //control.print();
+                    String kywd = cmd.split("\\s+")[1];
+                    control.print(kywd);
+                }
+                else if (cmd.matches("search(.*)")) {
+                    String kywd = cmd.split("\\s+")[1];
+
+                    switch (kywd) {
+                        case "ID":
+                            control.searchById(Integer.parseInt(cmd.split("\\s+")[2]));
+                            break;
+                        case "date":
+                            control.searchByDateRange(cmd.split("\\s+")[2],cmd.split("\\s+")[3]);
+                            break;
+                        case "cost":
+                            control.searchByCostRange(Integer.parseInt(cmd.split("\\s+")[2]),Integer.parseInt(cmd.split("\\s+")[3]));
+                            break;
+                        case "keyword":
+                            control.searchByKeyword(cmd.split("\\s+")[2]);
+                            break;
+                        default:
+                            System.out.println("Invalid keyword");
+                    }
                 }
             }
             scanner.close();
