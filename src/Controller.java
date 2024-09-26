@@ -52,6 +52,22 @@ public class Controller {
     }
 
 
+    // Range search for cost
+    public void searchByCostRange(int low, int high) {
+        System.out.println("Searching seminars by cost range " + low + " - "
+            + high);
+        costTree.findByCostRange(low, high);
+    }
+
+
+    // Range search for date
+    public void searchByDateRange(String low, String high) {
+        System.out.println("Searching seminars by date range " + low + " - "
+            + high);
+        dateTree.findByDateRange(low, high);
+    }
+
+
     /**
      * Prints all the seminars based on a specific tree (id, date, cost,
      * keyword).

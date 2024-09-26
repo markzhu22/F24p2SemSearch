@@ -46,43 +46,52 @@ public class BinarySearchTree {
     }
 
 
-    private Seminar findByDateHelp(BSTNode rt, String date) {
-        if (rt == null)
-            return null;
-        if (rt.value().date().compareTo(date) > 0) {
-            return findByDateHelp(rt.left(), date);
+    public void findByDateRange(BSTNode rt, String low, String high) {
+        if (rt == null) {
+            return;
         }
-        else if (rt.value().date().equals(date)) {
-            return rt.value();
-        }
-        else {
-            return findByDateHelp(rt.right(), date);
-        }
-    }
 
-
-    public Seminar findByDate(String date) {
-        return findByDateHelp(root, date);
-    }
-
-
-    private Seminar findByCostHelp(BSTNode rt, int cost) {
-        if (rt == null)
-            return null;
-        if (rt.value().cost() > cost) {
-            return findByCostHelp(rt.left(), cost);
+        if (rt.value().date().compareTo(low) > 0) {
+            findByDateRange(rt.left(), low, high);
         }
-        else if (rt.value().cost() == cost) {
-            return rt.value();
+
+        if (rt.value().date().compareTo(low) >= 0 && rt.value().date()
+            .compareTo(high) <= 0) {
+            System.out.println(rt.value());
         }
-        else {
-            return findByCostHelp(rt.right(), cost);
+
+        if (rt.value().date().compareTo(high) < 0) {
+            findByDateRange(rt.right(), low, high);
         }
     }
 
 
-    public Seminar findByCost(int cost) {
-        return findByCostHelp(root, cost);
+    public void findByDateRange(String low, String high) {
+        findByDateRange(root, low, high);
+    }
+
+
+    public void findByCostRange(BSTNode rt, int low, int high) {
+        if (rt == null) {
+            return;
+        }
+
+        if (rt.value().cost() > low) {
+            findByCostRange(rt.left(), low, high);
+        }
+
+        if (rt.value().cost() >= low && rt.value().cost() <= high) {
+            System.out.println(rt.value());
+        }
+
+        if (rt.value().cost() < high) {
+            findByCostRange(rt.right(), low, high);
+        }
+    }
+
+
+    public void findByCostRange(int low, int high) {
+        findByCostRange(root, low, high);
     }
 
 
