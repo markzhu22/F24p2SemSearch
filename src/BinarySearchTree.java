@@ -46,73 +46,88 @@ public class BinarySearchTree {
     }
 
 
-    public void findByDateRange(BSTNode rt, String low, String high) {
+    private boolean findByDateRangeHelper(BSTNode rt, String low, String high) {
         if (rt == null) {
-            return;
+            return false;
         }
 
-        if (rt.value().date().compareTo(low) > 0) {
-            findByDateRange(rt.left(), low, high);
+        boolean found = false;
+
+        if (rt.value().date().compareTo(low) >= 0) {
+            found |= findByDateRangeHelper(rt.left(), low, high);
         }
 
         if (rt.value().date().compareTo(low) >= 0 && rt.value().date()
             .compareTo(high) <= 0) {
             System.out.println(rt.value());
+            found = true;
         }
 
-        if (rt.value().date().compareTo(high) < 0) {
-            findByDateRange(rt.right(), low, high);
+        if (rt.value().date().compareTo(high) <= 0) {
+            found |= findByDateRangeHelper(rt.right(), low, high);
         }
+
+        return found;
     }
 
 
-    public void findByDateRange(String low, String high) {
-        findByDateRange(root, low, high);
+    public boolean findByDateRange(String low, String high) {
+        return findByDateRangeHelper(root, low, high);
     }
 
 
-    public void findByCostRange(BSTNode rt, int low, int high) {
+    private boolean findByCostRangeHelper(BSTNode rt, int low, int high) {
         if (rt == null) {
-            return;
+            return false;
         }
 
-        if (rt.value().cost() > low) {
-            findByCostRange(rt.left(), low, high);
+        boolean found = false;
+
+        if (rt.value().cost() >= low) {
+            found |= findByCostRangeHelper(rt.left(), low, high);
         }
 
         if (rt.value().cost() >= low && rt.value().cost() <= high) {
             System.out.println(rt.value());
+            found = true;
         }
 
-        if (rt.value().cost() < high) {
-            findByCostRange(rt.right(), low, high);
+        if (rt.value().cost() <= high) {
+            found |= findByCostRangeHelper(rt.right(), low, high);
         }
+
+        return found;
     }
 
 
-    public void findByCostRange(int low, int high) {
-        findByCostRange(root, low, high);
+    public boolean findByCostRange(int low, int high) {
+        return findByCostRangeHelper(root, low, high);
     }
 
 
-    private Seminar findByKeywordHelp(BSTNode rt, String keyword) {
-        if (rt == null)
-            return null;
+    private boolean findByKeywordHelper(BSTNode rt, String keyword) {
+        if (rt == null) {
+            return false;
+        }
+
+        boolean found = false;
+
         for (String k : rt.value().keywords()) {
             if (k.equals(keyword)) {
-                return rt.value();
+                System.out.println(rt.value());
+                found = true;
             }
         }
 
-        Seminar leftResult = findByKeywordHelp(rt.left(), keyword);
-        if (leftResult != null)
-            return leftResult;
-        return findByKeywordHelp(rt.right(), keyword);
+        boolean foundInLeft = findByKeywordHelper(rt.left(), keyword);
+        boolean foundInRight = findByKeywordHelper(rt.right(), keyword);
+
+        return found || foundInLeft || foundInRight;
     }
 
 
-    public Seminar findByKeyword(String keyword) {
-        return findByKeywordHelp(root, keyword);
+    public boolean findByKeyword(String keyword) {
+        return findByKeywordHelper(root, keyword);
     }
 
 
