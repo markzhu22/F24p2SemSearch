@@ -156,19 +156,19 @@ public class Controller {
         switch (field) {
             case "ID":
                 System.out.println("ID Tree:");
-                printIndented(idTree, idTree.getRoot(), 0);
+                printIndented(idTree, idTree.getRoot(), 0, field);
                 break;
             case "date":
                 System.out.println("Date Tree:");
-                printIndented(dateTree, dateTree.getRoot(), 0);
+                printIndented(dateTree, dateTree.getRoot(), 0, field);
                 break;
             case "cost":
                 System.out.println("Cost Tree:");
-                printIndented(costTree, costTree.getRoot(), 0);
+                printIndented(costTree, costTree.getRoot(), 0, field);
                 break;
             case "keyword":
                 System.out.println("Keyword Tree:");
-                printIndented(keywordTree, keywordTree.getRoot(), 0);
+                printIndented(keywordTree, keywordTree.getRoot(), 0, field);
                 break;
             // case "location":
             // System.out.println("Location Tree:");
@@ -191,7 +191,7 @@ public class Controller {
      * @param level
      *            The current level (used to calculate indentation).
      */
-    private void printIndented(BinarySearchTree tree, BSTNode node, int level) {
+    private void printIndented(BinarySearchTree tree, BSTNode node, int level, String field) {
         if (node == null) {
             for (int i = 0; i < level; i++) {
                 System.out.print("    ");
@@ -200,14 +200,34 @@ public class Controller {
             return;
         }
 
-        printIndented(tree, node.right(), level + 1);
+        printIndented(tree, node.right(), level + 1, field);
 
         for (int i = 0; i < level; i++) {
             System.out.print("    ");
         }
-        System.out.println(node.value());
+        
+        switch(field) {
+            case "ID":
+                System.out.println(node.value().id());
+                break;
+            case "date":
+                System.out.println(node.value().date());
+                break;
+            case "cost":
+                System.out.println(node.value().cost());
+                break;
+            case "keyword":
+                System.out.println(node.value().keywords());
+                break;
+            // case "location":
+            // System.out.println("Location Tree:");
+            // printPreOrder(locationTree.getRoot(), 0);
+            // break;
+            default:
+                System.out.println("Invalid field: " + field);
+        }
 
-        printIndented(tree, node.left(), level + 1);
+        printIndented(tree, node.left(), level + 1, field);
     }
 
     /**
