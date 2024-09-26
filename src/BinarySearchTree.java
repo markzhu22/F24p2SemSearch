@@ -108,9 +108,16 @@ public class BinarySearchTree {
 
 
     private BSTNode insertByIdHelp(BSTNode rt, Seminar seminar) {
-        if (rt == null)
+        if (rt == null) {
             return new BSTNode(seminar);
-        if (seminar.id() <= rt.value().id()) {
+        }
+
+        if (seminar.id() == rt.value().id()) {
+            System.out.println("Duplicate seminar ID: " + seminar.id()
+                + " - insertion ignored.");
+            return rt;
+        }
+        else if (seminar.id() < rt.value().id()) {
             rt.setLeft(insertByIdHelp(rt.left(), seminar));
         }
         else {
@@ -122,14 +129,22 @@ public class BinarySearchTree {
 
     public void insertById(Seminar seminar) {
         root = insertByIdHelp(root, seminar);
-        nodecount++;
+        if (root != null) {
+            nodecount++;
+        }
     }
 
 
     private BSTNode insertByDateHelp(BSTNode rt, Seminar seminar) {
         if (rt == null)
             return new BSTNode(seminar);
-        if (seminar.date().compareTo(rt.value().date()) <= 0) {
+
+        if (seminar.date().equals(rt.value().date())) {
+            System.out.println("Duplicate seminar date: " + seminar.date()
+                + " - insertion ignored.");
+            return rt;
+        }
+        else if (seminar.date().compareTo(rt.value().date()) <= 0) {
             rt.setLeft(insertByDateHelp(rt.left(), seminar));
         }
         else {
@@ -141,14 +156,21 @@ public class BinarySearchTree {
 
     public void insertByDate(Seminar seminar) {
         root = insertByDateHelp(root, seminar);
-        nodecount++;
+        if (root != null) {
+            nodecount++;
+        }
     }
 
 
     private BSTNode insertByCostHelp(BSTNode rt, Seminar seminar) {
         if (rt == null)
             return new BSTNode(seminar);
-        if (seminar.cost() <= rt.value().cost()) {
+        if (seminar.cost() == rt.value().cost()) {
+            System.out.println("Duplicate seminar cost: " + seminar.cost()
+                + " - insertion ignored.");
+            return rt;
+        }
+        else if (seminar.cost() <= rt.value().cost()) {
             rt.setLeft(insertByCostHelp(rt.left(), seminar));
         }
         else {
@@ -160,14 +182,22 @@ public class BinarySearchTree {
 
     public void insertByCost(Seminar seminar) {
         root = insertByCostHelp(root, seminar);
-        nodecount++;
+        if (root != null) {
+            nodecount++;
+        }
     }
 
 
     private BSTNode insertByKeywordHelp(BSTNode rt, Seminar seminar) {
         if (rt == null)
             return new BSTNode(seminar);
-        if (seminar.keywords()[0].compareTo(rt.value().keywords()[0]) <= 0) {
+        if (seminar.keywords()[0].equals(rt.value().keywords()[0])) {
+            System.out.println("Duplicate seminar keyword: " + seminar
+                .keywords()[0] + " - insertion ignored.");
+            return rt;
+        }
+        else if (seminar.keywords()[0].compareTo(rt.value()
+            .keywords()[0]) <= 0) {
             rt.setLeft(insertByKeywordHelp(rt.left(), seminar));
         }
         else {
@@ -179,7 +209,9 @@ public class BinarySearchTree {
 
     public void insertByKeyword(Seminar seminar) {
         root = insertByKeywordHelp(root, seminar);
-        nodecount++;
+        if (root != null) {
+            nodecount++;
+        }
     }
 
 
