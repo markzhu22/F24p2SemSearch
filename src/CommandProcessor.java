@@ -48,6 +48,7 @@ public class CommandProcessor
                     String kywd = cmd.split("\\s+")[1];
                     control.print(kywd);
                 }
+                
                 else if (cmd.matches("search(.*)")) {
                     String kywd = cmd.split("\\s+")[1];
 
