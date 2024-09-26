@@ -13,6 +13,12 @@ public class BinarySearchTree {
     }
 
 
+    // Getter for the root node
+    public BSTNode getRoot() {
+        return root;
+    }
+
+
     // Reinitialize tree
     public void clear() {
         root = null;
@@ -270,6 +276,7 @@ public class BinarySearchTree {
             rt.setRight(removeByIdHelp(rt.right(), id));
         }
         else {
+            // Node found, remove it
             if (rt.left() == null)
                 return rt.right();
             else if (rt.right() == null)
@@ -298,7 +305,7 @@ public class BinarySearchTree {
         else if (date.compareTo(rt.value().date()) > 0) {
             rt.setRight(removeByDateHelp(rt.right(), date));
         }
-        else { // Node found
+        else {
             if (rt.left() == null)
                 return rt.right();
             else if (rt.right() == null)

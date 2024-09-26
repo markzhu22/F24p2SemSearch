@@ -41,21 +41,28 @@ public class Controller {
 
 
     /**
-     * Removes a seminar from all the BinarySearchTrees.
+     * Deletes a seminar with the given ID from all trees (ID, date, cost,
+     * keyword).
      * 
      * @param id
-     *            The ID of the seminar to remove.
+     *            The ID of the seminar to delete.
      */
-    public void remove(int id) {
+    public void delete(int id) {
         Seminar seminar = idTree.findById(id);
         if (seminar != null) {
             idTree.removeById(id);
+
             dateTree.removeByDate(seminar.date());
+
             costTree.removeByCost(seminar.cost());
+
             keywordTree.removeByKeyword(seminar.keywords()[0]);
+
+            System.out.println("Record with ID " + id
+                + " successfully deleted from the database.");
         }
         else {
-            System.out.println("Seminar with ID " + id + " not found.");
+            System.out.println("Record with ID " + id + " not found.");
         }
     }
 
@@ -139,25 +146,34 @@ public class Controller {
 
     /**
      * Prints all the seminars based on a specific tree (id, date, cost,
-     * keyword).
+     * keyword, location).
      * 
      * @param field
-     *            The field to print by ("id", "date", "cost", or "keyword").
+     *            The field to print by ("id", "date", "cost", "keyword", or
+     *            "location").
      */
     public void print(String field) {
         switch (field) {
             case "id":
-                printInOrder(idTree);
+                System.out.println("ID Tree:");
+                printIndented(idTree, idTree.getRoot(), 0);
                 break;
             case "date":
-                printInOrder(dateTree);
+                System.out.println("Date Tree:");
+                printIndented(dateTree, dateTree.getRoot(), 0);
                 break;
             case "cost":
-                printInOrder(costTree);
+                System.out.println("Cost Tree:");
+                printIndented(costTree, costTree.getRoot(), 0);
                 break;
             case "keyword":
-                printInOrder(keywordTree);
+                System.out.println("Keyword Tree:");
+                printIndented(keywordTree, keywordTree.getRoot(), 0);
                 break;
+            //case "location":
+                //System.out.println("Location Tree:");
+                //printPreOrder(locationTree.getRoot(), 0);
+               // break;
             default:
                 System.out.println("Invalid field: " + field);
         }
@@ -165,27 +181,51 @@ public class Controller {
 
 
     /**
-     * Helper method to print the seminars in-order from a BinarySearchTree.
+     * Helper method to print the tree with indentation based on the distance
+     * from the bottom.
      * 
      * @param tree
-     *            The BinarySearchTree to print.
+     *            The tree to print.
+     * @param node
+     *            The current node being visited.
+     * @param level
+     *            The current level (used to calculate indentation).
      */
-    private void printInOrder(BinarySearchTree tree) {
-        printInOrderHelper(tree.getRoot());
+    private void printIndented(BinarySearchTree tree, BSTNode node, int level) {
+        if (node == null) {
+            return;
+        }
+
+        printIndented(tree, node.right(), level + 1);
+        for (int i = 0; i < level; i++) {
+            System.out.print("    ");
+        }
+        System.out.println(node.value());
+        printIndented(tree, node.left(), level + 1);
     }
 
 
     /**
-     * Recursive in-order traversal to print each seminar in the tree.
+     * Preorder traversal for location tree (assuming BinTree or similar
+     * structure).
      * 
      * @param node
      *            The current node being visited.
-     */
-    private void printInOrderHelper(BSTNode node) {
-        if (node != null) {
-            printInOrderHelper(node.left());
-            System.out.println(node.value());
-            printInOrderHelper(node.right());
+     * @param level
+     *            The current level (used to calculate indentation).
+    private void printPreOrder(BSTNode node, int level) {
+        if (node == null) {
+            return;
         }
+
+        for (int i = 0; i < level; i++) {
+            System.out.print("    ");
+        }
+        System.out.println(node.value());
+
+        printPreOrder(node.left(), level + 1);
+
+        printPreOrder(node.right(), level + 1);
     }
+    */
 }
