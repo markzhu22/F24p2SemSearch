@@ -156,7 +156,8 @@ public class Controller {
         switch (field) {
             case "ID":
                 System.out.println("ID Tree:");
-                printIndented(idTree, idTree.getRoot(), calculateHeight(idTree.getRoot())+1, false, field);
+                printIndented(idTree, idTree.getRoot(), calculateHeight(idTree
+                    .getRoot()) + 1, false, field);
                 break;
             case "date":
                 System.out.println("Date Tree:");
@@ -182,15 +183,16 @@ public class Controller {
 
 
     /**
-     * Helper method to print the tree with indentation based on the distance
-     * from the bottom.
+     * Helper method to print the tree with slashes for the structure.
      * 
-     * @param tree
-     *            The tree to print.
      * @param node
      *            The current node being visited.
      * @param level
      *            The current level (used to calculate indentation).
+     * @param height
+     *            The height of the tree.
+     * @param field
+     *            The field being printed (id, date, cost, keyword).
      */
     private void printIndented(
         BinarySearchTree tree,
@@ -201,21 +203,22 @@ public class Controller {
         if (node == null) {
             for (int i = 0; i < level; i++) {
                 System.out.print("    ");
+
             }
             System.out.println("(null)");
-            for (int i = 0; i < level+1; i++) {
+            for (int i = 0; i < level + 1; i++) {
                 System.out.print("    ");
             }
             System.out.println(isLeft ? "/" : "\\");
             return;
         }
 
-        printIndented(tree, node.left(), level - 1, false, field);
+        printIndented(tree, node.left(), level, false, field);
 
+        
         for (int i = 0; i < level; i++) {
-            System.out.print("    "); 
+            System.out.print("    ");
         }
-
 
         String nodeValue = null;
         switch (field) {
@@ -240,28 +243,129 @@ public class Controller {
         }
 
         System.out.println("(" + nodeValue + ")");
-        for (int i = 0; i < level+1; i++) {
-            System.out.print("    ");
+        for (int i = 0; i < level + 1; i++) {
+            System.out.print(" ");
         }
-        System.out.println(isLeft ? "/" : "\\"); 
+        System.out.println(isLeft ? "/" : "\\");
 
-        printIndented(tree, node.right(), level-1, true, field);
+        printIndented(tree, node.right(), level - 1, true, field);
     }
-    
+
+
     /**
      * Helper method to calculate the height of a tree.
      * 
-     * @param node The current node.
+     * @param node
+     *            The current node.
      * @return The height of the tree.
      */
     private int calculateHeight(BSTNode node) {
         if (node == null) {
-            return -1;  
+            return -1;
         }
 
-        return 1 + Math.max(calculateHeight(node.left()), calculateHeight(node.right()));
+        return 1 + Math.max(calculateHeight(node.left()), calculateHeight(node
+            .right()));
     }
 
+    /**
+     * Prints all the seminars based on a specific tree (id, date, cost,
+     * keyword, location).
+     * 
+     * @param field
+     *            The field to print by ("ID", "date", "cost", "keyword", or
+     *            "location").
+     */
+// public void print(String field) {
+// int height;
+// switch (field) {
+// case "ID":
+// System.out.println("ID Tree:");
+// height = calculateHeight(idTree.getRoot());
+// printIndented(idTree.getRoot(), 0, false, height, field);
+// break;
+// case "date":
+// System.out.println("Date Tree:");
+// height = calculateHeight(dateTree.getRoot());
+// printIndented(dateTree.getRoot(), 0, false, height, field);
+// break;
+// case "cost":
+// System.out.println("Cost Tree:");
+// height = calculateHeight(costTree.getRoot());
+// printIndented(costTree.getRoot(), 0, false, height, field);
+// break;
+// case "keyword":
+// System.out.println("Keyword Tree:");
+// height = calculateHeight(keywordTree.getRoot());
+// printIndented(keywordTree.getRoot(), 0, false, height, field);
+// break;
+// default:
+// System.out.println("Invalid field: " + field);
+// }
+// }
+
+    /**
+     * Helper method to print the tree with slashes for the structure.
+     * 
+     * @param node
+     *            The current node being visited.
+     * @param level
+     *            The current level (used to calculate indentation).
+     * @param height
+     *            The height of the tree.
+     * @param field
+     *            The field being printed (id, date, cost, keyword).
+     */
+// private void printIndented(
+// BSTNode node,
+// int level,
+// boolean traverseLeft,
+// int height,
+// String field) {
+// if (node == null) {
+// int indentLevel = height - level;
+// for (int i = 0; i < indentLevel; i++) {
+// System.out.print(" ");
+// }
+// System.out.println("(null)");
+// System.out.println(traverseLeft ? "/" : "\\");
+// return;
+// }
+//
+// printIndented(node.left(), level + 1, true, height, field);
+//
+// int indentLevel = height - level;
+// for (int i = 0; i < indentLevel; i++) {
+// System.out.print(" ");
+// }
+//
+// String nodeValue;
+// switch (field) {
+// case "ID":
+// nodeValue = String.valueOf(node.value().id());
+// break;
+// case "date":
+// nodeValue = node.value().date();
+// break;
+// case "cost":
+// nodeValue = String.valueOf(node.value().cost());
+// break;
+// case "keyword":
+// nodeValue = String.join(", ", node.value().keywords());
+// break;
+// // case "location":
+// // System.out.println("Location Tree:");
+// // printPreOrder(locationTree.getRoot(), 0);
+// // break;
+// default:
+// nodeValue = "Invalid field";
+// }
+//
+// System.out.println("(" + nodeValue + ")");
+// System.out.println(traverseLeft ? "/" : "\\");
+//
+// printIndented(node.right(), level + 1, false, height, field);
+// }
 
     /**
      * Preorder traversal for location tree (assuming BinTree or similar
@@ -286,5 +390,5 @@ public class Controller {
      *            printPreOrder(node.right(), level + 1);
      *            }
      */
-    
+
 }

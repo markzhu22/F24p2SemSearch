@@ -49,9 +49,11 @@ public class ProblemSpecTest extends TestCase {
         SemSearch.main(args);
 
         // Actual output from your System console
+        @SuppressWarnings("unused")
         String actualOutput = systemOut().getHistory();
 
         // Expected output from file
+        @SuppressWarnings("unused")
         String expectedOutput = readFile(
             "solutionTestData/P2_sampleOutput.txt");
 
@@ -79,9 +81,11 @@ public class ProblemSpecTest extends TestCase {
         SemSearch.main(args);
 
         // Actual output from your System console
+        @SuppressWarnings("unused")
         String actualOutput = systemOut().getHistory();
 
         // Expected output from file
+        @SuppressWarnings("unused")
         String expectedOutput = readFile(
             "solutionTestData/P2_syntaxInsertOutput.txt");
 

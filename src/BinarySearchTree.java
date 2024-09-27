@@ -1,5 +1,5 @@
 public class BinarySearchTree {
-    private BSTNode root; // Root of the BST
+    public BSTNode root; // Root of the BST
     private int nodecount; // Number of nodes in the BST
 
     // ----------------------------------------------------------
@@ -139,6 +139,7 @@ public class BinarySearchTree {
 
     private BSTNode insertByIdHelp(BSTNode rt, Seminar seminar) {
         if (rt == null) {
+            nodecount++;
             return new BSTNode(seminar);
         }
 
@@ -159,42 +160,42 @@ public class BinarySearchTree {
 
     public void insertById(Seminar seminar) {
         root = insertByIdHelp(root, seminar);
-        if (root != null) {
-            nodecount++;
-        }
     }
 
 
     private BSTNode insertByDateHelp(BSTNode rt, Seminar seminar) {
-        if (rt == null)
+        if (rt == null) {
+            nodecount++;
             return new BSTNode(seminar);
+        }
 
         if (seminar.date().equals(rt.value().date())) {
             System.out.println("Duplicate seminar date: " + seminar.date()
                 + " - insertion ignored.");
             return rt;
         }
-        else if (seminar.date().compareTo(rt.value().date()) <= 0) {
+
+        if (seminar.date().compareTo(rt.value().date()) < 0) {
             rt.setLeft(insertByDateHelp(rt.left(), seminar));
         }
         else {
             rt.setRight(insertByDateHelp(rt.right(), seminar));
         }
+
         return rt;
     }
 
 
     public void insertByDate(Seminar seminar) {
         root = insertByDateHelp(root, seminar);
-        if (root != null) {
-            nodecount++;
-        }
     }
 
 
     private BSTNode insertByCostHelp(BSTNode rt, Seminar seminar) {
-        if (rt == null)
+        if (rt == null) {
+            nodecount++;
             return new BSTNode(seminar);
+        }
         if (seminar.cost() == rt.value().cost()) {
             System.out.println("Duplicate seminar cost: " + seminar.cost()
                 + " - insertion ignored.");
@@ -212,15 +213,15 @@ public class BinarySearchTree {
 
     public void insertByCost(Seminar seminar) {
         root = insertByCostHelp(root, seminar);
-        if (root != null) {
-            nodecount++;
-        }
+
     }
 
 
     private BSTNode insertByKeywordHelp(BSTNode rt, Seminar seminar) {
-        if (rt == null)
+        if (rt == null) {
+            nodecount++;
             return new BSTNode(seminar);
+        }
         if (seminar.keywords()[0].equals(rt.value().keywords()[0])) {
             System.out.println("Duplicate seminar keyword: " + seminar
                 .keywords()[0] + " - insertion ignored.");
@@ -239,13 +240,11 @@ public class BinarySearchTree {
 
     public void insertByKeyword(Seminar seminar) {
         root = insertByKeywordHelp(root, seminar);
-        if (root != null) {
-            nodecount++;
-        }
+
     }
 
 
-    private Seminar findMax(BSTNode rt) {
+    public Seminar findMax(BSTNode rt) {
         if (rt == null) {
             return null;
         }
@@ -258,7 +257,7 @@ public class BinarySearchTree {
     }
 
 
-    private BSTNode deleteMax(BSTNode rt) {
+    public BSTNode deleteMax(BSTNode rt) {
         if (rt.right() == null)
             return rt.left();
         rt.setRight(deleteMax(rt.right()));
