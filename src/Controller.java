@@ -156,7 +156,7 @@ public class Controller {
         switch (field) {
             case "ID":
                 System.out.println("ID Tree:");
-                printIndented(idTree, idTree.getRoot(), 0, false, field);
+                printIndented(idTree, idTree.getRoot(), calculateHeight(idTree.getRoot())+1, false, field);
                 break;
             case "date":
                 System.out.println("Date Tree:");
@@ -199,19 +199,20 @@ public class Controller {
         boolean isLeft,
         String field) {
         if (node == null) {
-            int intendedLevel = calculateHeight(node) - level;
-            for (int i = 0; i < intendedLevel; i++) {
+            for (int i = 0; i < level; i++) {
                 System.out.print("    ");
             }
             System.out.println("(null)");
+            for (int i = 0; i < level+1; i++) {
+                System.out.print("    ");
+            }
             System.out.println(isLeft ? "/" : "\\");
             return;
         }
 
-        printIndented(tree, node.left(), level + 1, false, field);
+        printIndented(tree, node.left(), level - 1, false, field);
 
-        int indentLevel = calculateHeight(node) - level;  
-        for (int i = 0; i < indentLevel; i++) {
+        for (int i = 0; i < level; i++) {
             System.out.print("    "); 
         }
 
@@ -237,9 +238,14 @@ public class Controller {
             default:
                 System.out.println("Invalid field");
         }
-        System.out.println((isLeft ? "/" : "\\") + nodeValue);
 
-        printIndented(tree, node.right(), level + 1, true, field);
+        System.out.println("(" + nodeValue + ")");
+        for (int i = 0; i < level+1; i++) {
+            System.out.print("    ");
+        }
+        System.out.println(isLeft ? "/" : "\\"); 
+
+        printIndented(tree, node.right(), level-1, true, field);
     }
     
     /**
