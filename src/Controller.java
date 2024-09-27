@@ -156,19 +156,20 @@ public class Controller {
         switch (field) {
             case "ID":
                 System.out.println("ID Tree:");
-                printIndented(idTree, idTree.getRoot(), 0, field);
+                printIndented(idTree, idTree.getRoot(), 0, false, field);
                 break;
             case "date":
                 System.out.println("Date Tree:");
-                printIndented(dateTree, dateTree.getRoot(), 0, field);
+                printIndented(dateTree, dateTree.getRoot(), 0, false, field);
                 break;
             case "cost":
                 System.out.println("Cost Tree:");
-                printIndented(costTree, costTree.getRoot(), 0, field);
+                printIndented(costTree, costTree.getRoot(), 0, false, field);
                 break;
             case "keyword":
                 System.out.println("Keyword Tree:");
-                printIndented(keywordTree, keywordTree.getRoot(), 0, field);
+                printIndented(keywordTree, keywordTree.getRoot(), 0, false,
+                    field);
                 break;
             // case "location":
             // System.out.println("Location Tree:");
@@ -191,44 +192,70 @@ public class Controller {
      * @param level
      *            The current level (used to calculate indentation).
      */
-    private void printIndented(BinarySearchTree tree, BSTNode node, int level, String field) {
+    private void printIndented(
+        BinarySearchTree tree,
+        BSTNode node,
+        int level,
+        boolean isLeft,
+        String field) {
         if (node == null) {
-            for (int i = 0; i < level; i++) {
+            int intendedLevel = calculateHeight(node) - level;
+            for (int i = 0; i < intendedLevel; i++) {
                 System.out.print("    ");
             }
             System.out.println("(null)");
+            System.out.println(isLeft ? "/" : "\\");
             return;
         }
 
-        printIndented(tree, node.left(), level + 1, field);
+        printIndented(tree, node.left(), level + 1, false, field);
 
-        for (int i = 0; i < level; i++) {
-            System.out.print("    ");
+        int indentLevel = calculateHeight(node) - level;  
+        for (int i = 0; i < indentLevel; i++) {
+            System.out.print("    "); 
         }
-        
-        switch(field) {
+
+
+        String nodeValue = null;
+        switch (field) {
             case "ID":
-                System.out.println(node.value().id());
+                nodeValue = String.valueOf(node.value().id());
                 break;
             case "date":
-                System.out.println(node.value().date());
+                nodeValue = node.value().date();
                 break;
             case "cost":
-                System.out.println(node.value().cost());
+                nodeValue = String.valueOf(node.value().cost());
                 break;
             case "keyword":
-                System.out.println(node.value().keywords());
+                nodeValue = String.valueOf(node.value().keywords());
                 break;
             // case "location":
             // System.out.println("Location Tree:");
             // printPreOrder(locationTree.getRoot(), 0);
             // break;
             default:
-                System.out.println("Invalid field: " + field);
+                System.out.println("Invalid field");
+        }
+        System.out.println((isLeft ? "/" : "\\") + nodeValue);
+
+        printIndented(tree, node.right(), level + 1, true, field);
+    }
+    
+    /**
+     * Helper method to calculate the height of a tree.
+     * 
+     * @param node The current node.
+     * @return The height of the tree.
+     */
+    private int calculateHeight(BSTNode node) {
+        if (node == null) {
+            return -1;  
         }
 
-        printIndented(tree, node.right(), level + 1, field);
+        return 1 + Math.max(calculateHeight(node.left()), calculateHeight(node.right()));
     }
+
 
     /**
      * Preorder traversal for location tree (assuming BinTree or similar
