@@ -120,7 +120,7 @@ public class ReferenceTest extends student.TestCase
         SemSearch.main(args);
         
         args = new String[1];
-        SemSearch.main(args);
+        SemSearch.main(args); 
         
         fuzzyEquals("Invalid number format for worldSize. Please provide an integer.\r\n"
             + "An error occurred: null\r\n"

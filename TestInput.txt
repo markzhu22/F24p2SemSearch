@@ -13,7 +13,7 @@ Computational Biology and Bioinformatics in CS at Virginia Tech
 Bioinformatics computation_biology Biology Computer_Science VT Virginia_Tech
     Introduction to   bioinformatics and computation biology
     
-search ID 1
+search ID 1 
 search cost 0 100
 search date 0 1
 search keyword VT
