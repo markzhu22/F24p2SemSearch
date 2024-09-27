@@ -201,23 +201,29 @@ public class Controller {
         String field) {
 
         int spacesCount = Math.max(0, height - level);
-        String space = " ".repeat(spacesCount);
+        String space = "";
+        
+        for (int i = 0; i < spacesCount; i++) {
+            space += "    ";
+        }
 
         if (node == null) {
+//            String extra = "";
+//            if (spacesCount != 0) {
+//                extra = "    ";
+//            }
             System.out.println(space + "(null)");
             return;
         }
 
-        printIndented(tree, node.right(), level + 1, height, field);
+        printIndented(tree, node.left(), level + 1, height, field);
 
         String nodeValue = getNodeValue(node, field);
-        System.out.println(space + "(" + nodeValue + ")");
+        System.out.println(space +  "\\");
+        System.out.println(space +  "(" + nodeValue + ")");
+        System.out.println(space + "/");
 
-        if (node.left() != null || node.right() != null) {
-            System.out.println(space + "/ \\"); // Both left and right slash
-        }
-
-        printIndented(tree, node.left(), level + 1, height, field);
+        printIndented(tree, node.right(), level + 1, height, field);
     }
 
 
@@ -299,7 +305,7 @@ public class Controller {
      */
     private int calculateHeight(BSTNode node) {
         if (node == null) {
-            return -1;
+            return 0;
         }
 
         return 1 + Math.max(calculateHeight(node.left()), calculateHeight(node
