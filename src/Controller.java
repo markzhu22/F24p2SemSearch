@@ -143,7 +143,6 @@ public class Controller {
         }
     }
 
-
     /**
      * Prints all the seminars based on a specific tree (id, date, cost,
      * keyword, location).
@@ -152,34 +151,34 @@ public class Controller {
      *            The field to print by ("id", "date", "cost", "keyword", or
      *            "location").
      */
-    public void print(String field) {
-        switch (field) {
-            case "ID":
-                System.out.println("ID Tree:");
-                printIndented(idTree, idTree.getRoot(), calculateHeight(idTree
-                    .getRoot()) + 1, false, field);
-                break;
-            case "date":
-                System.out.println("Date Tree:");
-                printIndented(dateTree, dateTree.getRoot(), 0, false, field);
-                break;
-            case "cost":
-                System.out.println("Cost Tree:");
-                printIndented(costTree, costTree.getRoot(), 0, false, field);
-                break;
-            case "keyword":
-                System.out.println("Keyword Tree:");
-                printIndented(keywordTree, keywordTree.getRoot(), 0, false,
-                    field);
-                break;
-            // case "location":
-            // System.out.println("Location Tree:");
-            // printPreOrder(locationTree.getRoot(), 0);
-            // break;
-            default:
-                System.out.println("Invalid field: " + field);
-        }
-    }
+// public void print(String field) {
+// switch (field) {
+// case "ID":
+// System.out.println("ID Tree:");
+// printIndented(idTree, idTree.getRoot(), calculateHeight(idTree
+// .getRoot()) + 1, false, field);
+// break;
+// case "date":
+// System.out.println("Date Tree:");
+// printIndented(dateTree, dateTree.getRoot(), 0, false, field);
+// break;
+// case "cost":
+// System.out.println("Cost Tree:");
+// printIndented(costTree, costTree.getRoot(), 0, false, field);
+// break;
+// case "keyword":
+// System.out.println("Keyword Tree:");
+// printIndented(keywordTree, keywordTree.getRoot(), 0, false,
+// field);
+// break;
+// // case "location":
+// // System.out.println("Location Tree:");
+// // printPreOrder(locationTree.getRoot(), 0);
+// // break;
+// default:
+// System.out.println("Invalid field: " + field);
+// }
+// }
 
 
     /**
@@ -198,29 +197,41 @@ public class Controller {
         BinarySearchTree tree,
         BSTNode node,
         int level,
-        boolean isLeft,
+        int height,
         String field) {
-        if (node == null) {
-            for (int i = 0; i < level; i++) {
-                System.out.print("    ");
 
-            }
-            System.out.println("(null)");
-            for (int i = 0; i < level + 1; i++) {
-                System.out.print("    ");
-            }
-            System.out.println(isLeft ? "/" : "\\");
+        int spacesCount = Math.max(0, height - level);
+        String space = " ".repeat(spacesCount);
+
+        if (node == null) {
+            System.out.println(space + "(null)");
             return;
         }
 
-        printIndented(tree, node.left(), level, false, field);
+        printIndented(tree, node.right(), level + 1, height, field);
 
-        
-        for (int i = 0; i < level; i++) {
-            System.out.print("    ");
+        String nodeValue = getNodeValue(node, field);
+        System.out.println(space + "(" + nodeValue + ")");
+
+        if (node.left() != null || node.right() != null) {
+            System.out.println(space + "/ \\"); // Both left and right slash
         }
 
-        String nodeValue = null;
+        printIndented(tree, node.left(), level + 1, height, field);
+    }
+
+
+    /**
+     * Helper method to get the appropriate node value based on the field.
+     * 
+     * @param node
+     *            The current node.
+     * @param field
+     *            The field being printed.
+     * @return The value of the node for the given field.
+     */
+    private String getNodeValue(BSTNode node, String field) {
+        String nodeValue = "";
         switch (field) {
             case "ID":
                 nodeValue = String.valueOf(node.value().id());
@@ -234,21 +245,48 @@ public class Controller {
             case "keyword":
                 nodeValue = String.valueOf(node.value().keywords());
                 break;
-            // case "location":
-            // System.out.println("Location Tree:");
-            // printPreOrder(locationTree.getRoot(), 0);
-            // break;
             default:
-                System.out.println("Invalid field");
+                nodeValue = "Invalid field";
         }
+        return nodeValue;
+    }
 
-        System.out.println("(" + nodeValue + ")");
-        for (int i = 0; i < level + 1; i++) {
-            System.out.print(" ");
+
+    /**
+     * Prints all the seminars based on a specific tree (id, date, cost,
+     * keyword, location).
+     * 
+     * @param field
+     *            The field to print by ("id", "date", "cost", "keyword", or
+     *            "location").
+     */
+    public void print(String field) {
+        int height;
+        switch (field) {
+            case "ID":
+                System.out.println("ID Tree:");
+                height = calculateHeight(idTree.getRoot());
+                printIndented(idTree, idTree.getRoot(), 0, height, field);
+                break;
+            case "date":
+                System.out.println("Date Tree:");
+                height = calculateHeight(dateTree.getRoot());
+                printIndented(dateTree, dateTree.getRoot(), 0, height, field);
+                break;
+            case "cost":
+                System.out.println("Cost Tree:");
+                height = calculateHeight(costTree.getRoot());
+                printIndented(costTree, costTree.getRoot(), 0, height, field);
+                break;
+            case "keyword":
+                System.out.println("Keyword Tree:");
+                height = calculateHeight(keywordTree.getRoot());
+                printIndented(keywordTree, keywordTree.getRoot(), 0, height,
+                    field);
+                break;
+            default:
+                System.out.println("Invalid field: " + field);
         }
-        System.out.println(isLeft ? "/" : "\\");
-
-        printIndented(tree, node.right(), level - 1, true, field);
     }
 
 
