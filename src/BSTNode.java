@@ -1,6 +1,6 @@
 public class BSTNode
 {
-    private Seminar element; // Element for this node
+    private Object element; // Element for this node
     private BSTNode left;          // Pointer to left child
     private BSTNode right;         // Pointer to right child
 
@@ -11,14 +11,14 @@ public class BSTNode
     }
 
 
-    public BSTNode(Seminar val)
+    public BSTNode(Object val)
     {
         left = right = null;
         element = val;
     }
 
 
-    public BSTNode(Seminar val, BSTNode l, BSTNode r)
+    public BSTNode(Object val, BSTNode l, BSTNode r)
     {
         left = l;
         right = r;
@@ -27,13 +27,23 @@ public class BSTNode
 
 
     // Get and set the element value
-    public Seminar value()
+    public Seminar semValue()
     {
-        return element;
+        return (Seminar)element;
+    }
+    
+    public String stringValue()
+    {
+        return (String)element;
     }
 
 
     public void setValue(Seminar v)
+    {
+        element = v;
+    }
+    
+    public void setStringValue(String v)
     {
         element = v;
     }

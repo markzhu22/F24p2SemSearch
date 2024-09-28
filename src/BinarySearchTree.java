@@ -33,13 +33,13 @@ public class BinarySearchTree {
 
 
     private Seminar findByIdHelp(BSTNode rt, int id) {
-        if (rt == null)
+        if (isNull(rt))
             return null;
-        if (rt.value().id() > id) {
+        if (rt.semValue().id() > id) {
             return findByIdHelp(rt.left(), id);
         }
-        else if (rt.value().id() == id) {
-            return rt.value();
+        else if (rt.semValue().id() == id) {
+            return rt.semValue();
         }
         else {
             return findByIdHelp(rt.right(), id);
@@ -53,23 +53,23 @@ public class BinarySearchTree {
 
 
     private boolean findByDateRangeHelper(BSTNode rt, String low, String high) {
-        if (rt == null) {
+        if (isNull(rt)) {
             return false;
         }
 
         boolean found = false;
 
-        if (rt.value().date().compareTo(low) >= 0) {
+        if (rt.semValue().date().compareTo(low) >= 0) {
             found |= findByDateRangeHelper(rt.left(), low, high);
         }
 
-        if (rt.value().date().compareTo(low) >= 0 && rt.value().date()
+        if (rt.semValue().date().compareTo(low) >= 0 && rt.semValue().date()
             .compareTo(high) <= 0) {
-            System.out.println(rt.value());
+            System.out.println(rt.semValue());
             found = true;
         }
 
-        if (rt.value().date().compareTo(high) <= 0) {
+        if (rt.semValue().date().compareTo(high) <= 0) {
             found |= findByDateRangeHelper(rt.right(), low, high);
         }
 
@@ -83,22 +83,22 @@ public class BinarySearchTree {
 
 
     private boolean findByCostRangeHelper(BSTNode rt, int low, int high) {
-        if (rt == null) {
+        if (isNull(rt)) {
             return false;
         }
 
         boolean found = false;
 
-        if (rt.value().cost() >= low) {
+        if (rt.semValue().cost() >= low) {
             found |= findByCostRangeHelper(rt.left(), low, high);
         }
 
-        if (rt.value().cost() >= low && rt.value().cost() <= high) {
-            System.out.println(rt.value());
+        if (rt.semValue().cost() >= low && rt.semValue().cost() <= high) {
+            System.out.println(rt.semValue());
             found = true;
         }
 
-        if (rt.value().cost() <= high) {
+        if (rt.semValue().cost() <= high) {
             found |= findByCostRangeHelper(rt.right(), low, high);
         }
 
@@ -112,17 +112,15 @@ public class BinarySearchTree {
 
 
     private boolean findByKeywordHelper(BSTNode rt, String keyword) {
-        if (rt == null) {
+        if (isNull(rt)) {
             return false;
         }
 
         boolean found = false;
 
-        for (String k : rt.value().keywords()) {
-            if (k.equals(keyword)) {
-                System.out.println(rt.value());
-                found = true;
-            }
+        if (rt.stringValue().equals(keyword)) {
+            System.out.println(rt.stringValue());
+            found = true;
         }
 
         boolean foundInLeft = findByKeywordHelper(rt.left(), keyword);
@@ -138,17 +136,17 @@ public class BinarySearchTree {
 
 
     private BSTNode insertByIdHelp(BSTNode rt, Seminar seminar) {
-        if (rt == null) {
+        if (isNull(rt)) {
             nodecount++;
             return new BSTNode(seminar);
         }
 
-        if (seminar.id() == rt.value().id()) {
+        if (seminar.id() == rt.semValue().id()) {
             System.out.println("Duplicate seminar ID: " + seminar.id()
                 + " - insertion ignored.");
             return rt;
         }
-        else if (seminar.id() < rt.value().id()) {
+        else if (seminar.id() < rt.semValue().id()) {
             rt.setLeft(insertByIdHelp(rt.left(), seminar));
         }
         else {
@@ -164,18 +162,18 @@ public class BinarySearchTree {
 
 
     private BSTNode insertByDateHelp(BSTNode rt, Seminar seminar) {
-        if (rt == null) {
+        if (isNull(rt)) {
             nodecount++;
             return new BSTNode(seminar);
         }
 
-        if (seminar.date().equals(rt.value().date())) {
+        if (seminar.date().equals(rt.semValue().date())) {
             System.out.println("Duplicate seminar date: " + seminar.date()
                 + " - insertion ignored.");
             return rt;
         }
 
-        if (seminar.date().compareTo(rt.value().date()) < 0) {
+        if (seminar.date().compareTo(rt.semValue().date()) < 0) {
             rt.setLeft(insertByDateHelp(rt.left(), seminar));
         }
         else {
@@ -192,16 +190,16 @@ public class BinarySearchTree {
 
 
     private BSTNode insertByCostHelp(BSTNode rt, Seminar seminar) {
-        if (rt == null) {
+        if (isNull(rt)) {
             nodecount++;
             return new BSTNode(seminar);
         }
-        if (seminar.cost() == rt.value().cost()) {
+        if (seminar.cost() == rt.semValue().cost()) {
             System.out.println("Duplicate seminar cost: " + seminar.cost()
                 + " - insertion ignored.");
             return rt;
         }
-        else if (seminar.cost() <= rt.value().cost()) {
+        else if (seminar.cost() <= rt.semValue().cost()) {
             rt.setLeft(insertByCostHelp(rt.left(), seminar));
         }
         else {
@@ -217,48 +215,56 @@ public class BinarySearchTree {
     }
 
 
-    private BSTNode insertByKeywordHelp(BSTNode rt, Seminar seminar) {
-        if (rt == null) {
+    private BSTNode insertByKeywordHelp(BSTNode rt, String keywords) {
+        if (isNull(rt)) {
             nodecount++;
-            return new BSTNode(seminar);
+            return new BSTNode(keywords);
         }
-        if (seminar.keywords()[0].equals(rt.value().keywords()[0])) {
-            System.out.println("Duplicate seminar keyword: " + seminar
-                .keywords()[0] + " - insertion ignored.");
-            return rt;
-        }
-        else if (seminar.keywords()[0].compareTo(rt.value()
-            .keywords()[0]) <= 0) {
-            rt.setLeft(insertByKeywordHelp(rt.left(), seminar));
+        if (keywords.compareTo(rt.stringValue()) <= 0) {
+            rt.setLeft(insertByKeywordHelp(rt.left(), keywords));
         }
         else {
-            rt.setRight(insertByKeywordHelp(rt.right(), seminar));
+            rt.setRight(insertByKeywordHelp(rt.right(), keywords));
         }
         return rt;
     }
 
 
     public void insertByKeyword(Seminar seminar) {
-        root = insertByKeywordHelp(root, seminar);
+        for (String keyword : seminar.keywords()) {
+            root = insertByKeywordHelp(root, keyword);
+        }
 
     }
 
 
     public Seminar findMax(BSTNode rt) {
-        if (rt == null) {
+        if (isNull(rt)) {
             return null;
         }
 
-        while (rt.right() != null) {
+        while (!isNull(rt.right())) {
             rt = rt.right();
         }
 
-        return rt.value();
+        return rt.semValue();
+    }
+    
+    public String findStringMax(BSTNode rt) {
+        if (isNull(rt)) {
+            return null;
+        }
+
+        while (!isNull(rt.right())) {
+            rt = rt.right();
+        }
+
+        return rt.stringValue();
     }
 
 
     public BSTNode deleteMax(BSTNode rt) {
-        if (rt.right() == null)
+        if (isNull(rt.right()))
             return rt.left();
         rt.setRight(deleteMax(rt.right()));
         return rt;
@@ -266,19 +272,19 @@ public class BinarySearchTree {
 
 
     private BSTNode removeByIdHelp(BSTNode rt, int id) {
-        if (rt == null)
+        if (isNull(rt))
             return null;
-        if (id < rt.value().id()) {
+        if (id < rt.semValue().id()) {
             rt.setLeft(removeByIdHelp(rt.left(), id));
         }
-        else if (id > rt.value().id()) {
+        else if (id > rt.semValue().id()) {
             rt.setRight(removeByIdHelp(rt.right(), id));
         }
         else {
             // Node found, remove it
-            if (rt.left() == null)
+            if (isNull(rt.left()))
                 return rt.right();
-            else if (rt.right() == null)
+            else if (isNull(rt.right()))
                 return rt.left();
             else {
                 rt.setValue(findMax(rt.left()));
@@ -291,23 +297,23 @@ public class BinarySearchTree {
 
     public void removeById(int id) {
         root = removeByIdHelp(root, id);
-        nodecount--;
+        decrement(nodecount);
     }
 
 
     private BSTNode removeByDateHelp(BSTNode rt, String date) {
-        if (rt == null)
+        if (isNull(rt))
             return null;
-        if (date.compareTo(rt.value().date()) < 0) {
+        if (date.compareTo(rt.semValue().date()) < 0) {
             rt.setLeft(removeByDateHelp(rt.left(), date));
         }
-        else if (date.compareTo(rt.value().date()) > 0) {
+        else if (date.compareTo(rt.semValue().date()) > 0) {
             rt.setRight(removeByDateHelp(rt.right(), date));
         }
         else {
-            if (rt.left() == null)
+            if (isNull(rt.left()))
                 return rt.right();
-            else if (rt.right() == null)
+            else if (isNull(rt.right()))
                 return rt.left();
             else {
                 rt.setValue(findMax(rt.left()));
@@ -320,23 +326,23 @@ public class BinarySearchTree {
 
     public void removeByDate(String date) {
         root = removeByDateHelp(root, date);
-        nodecount--;
+        decrement(nodecount);
     }
 
 
     private BSTNode removeByCostHelp(BSTNode rt, int cost) {
-        if (rt == null)
+        if (isNull(rt))
             return null;
-        if (cost < rt.value().cost()) {
+        if (cost < rt.semValue().cost()) {
             rt.setLeft(removeByCostHelp(rt.left(), cost));
         }
-        else if (cost > rt.value().cost()) {
+        else if (cost > rt.semValue().cost()) {
             rt.setRight(removeByCostHelp(rt.right(), cost));
         }
         else {
-            if (rt.left() == null)
+            if (isNull(rt.left()))
                 return rt.right();
-            else if (rt.right() == null)
+            else if (isNull(rt.right()))
                 return rt.left();
             else {
                 rt.setValue(findMax(rt.left()));
@@ -349,23 +355,23 @@ public class BinarySearchTree {
 
     public void removeByCost(int cost) {
         root = removeByCostHelp(root, cost);
-        nodecount--;
+        decrement(nodecount);
     }
 
 
     private BSTNode removeByKeywordHelp(BSTNode rt, String keyword) {
         if (rt == null)
             return null;
-        if (rt.value().keywords()[0].compareTo(keyword) > 0) {
+        if (rt.stringValue().compareTo(keyword) > 0) {
             rt.setLeft(removeByKeywordHelp(rt.left(), keyword));
         }
-        else if (rt.value().keywords()[0].equals(keyword)) {
-            if (rt.left() == null)
+        else if (rt.stringValue().equals(keyword)) {
+            if (isNull(rt.left()))
                 return rt.right();
-            else if (rt.right() == null)
+            else if (isNull(rt.right()))
                 return rt.left();
             else {
-                rt.setValue(findMax(rt.left()));
+                rt.setStringValue(findStringMax(rt.left()));
                 rt.setLeft(deleteMax(rt.left()));
             }
         }
@@ -378,7 +384,14 @@ public class BinarySearchTree {
 
     public void removeByKeyword(String keyword) {
         root = removeByKeywordHelp(root, keyword);
-        nodecount--;
+        decrement(nodecount);
+    }
+    
+    public boolean isNull(Object s) {
+        return s == null;
     }
 
+    public int decrement(int i) {
+        return i--;
+    }
 }

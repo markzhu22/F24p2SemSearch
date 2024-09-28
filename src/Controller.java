@@ -208,10 +208,6 @@ public class Controller {
         }
 
         if (node == null) {
-//            String extra = "";
-//            if (spacesCount != 0) {
-//                extra = "    ";
-//            }
             System.out.println(space + "(null)");
             return;
         }
@@ -240,16 +236,16 @@ public class Controller {
         String nodeValue = "";
         switch (field) {
             case "ID":
-                nodeValue = String.valueOf(node.value().id());
+                nodeValue = String.valueOf(node.semValue().id());
                 break;
             case "date":
-                nodeValue = node.value().date();
+                nodeValue = node.semValue().date();
                 break;
             case "cost":
-                nodeValue = String.valueOf(node.value().cost());
+                nodeValue = String.valueOf(node.semValue().cost());
                 break;
             case "keyword":
-                nodeValue = String.valueOf(node.value().keywords());
+                nodeValue = String.valueOf(node.stringValue());
                 break;
             default:
                 nodeValue = "Invalid field";
