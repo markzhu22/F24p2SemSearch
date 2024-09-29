@@ -52,6 +52,10 @@ public class Seminar {
     }
 
 
+    public String title() {
+        return title;
+    }
+    
     // ----------------------------------------------------------
     /**
      * Returns the seminar ID field
@@ -69,6 +73,10 @@ public class Seminar {
      */
     public String date() {
         return date;
+    }
+    
+    public int length() {
+        return length;
     }
 
 
@@ -109,6 +117,10 @@ public class Seminar {
      */
     public int y() {
         return y;
+    }
+    
+    public String desc() {
+        return desc;
     }
 
 

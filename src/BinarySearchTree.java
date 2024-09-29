@@ -30,8 +30,8 @@ public class BinarySearchTree {
     public int size() {
         return nodecount;
     }
-
-
+    
+    
     private Seminar findByIdHelp(BSTNode rt, int id) {
         if (isNull(rt))
             return null;
@@ -297,7 +297,7 @@ public class BinarySearchTree {
 
     public void removeById(int id) {
         root = removeByIdHelp(root, id);
-        decrement(nodecount);
+        nodecount = decrement(nodecount);
     }
 
 
@@ -326,7 +326,7 @@ public class BinarySearchTree {
 
     public void removeByDate(String date) {
         root = removeByDateHelp(root, date);
-        decrement(nodecount);
+        nodecount = decrement(nodecount);
     }
 
 
@@ -355,7 +355,7 @@ public class BinarySearchTree {
 
     public void removeByCost(int cost) {
         root = removeByCostHelp(root, cost);
-        decrement(nodecount);
+        nodecount = decrement(nodecount);
     }
 
 
@@ -384,7 +384,7 @@ public class BinarySearchTree {
 
     public void removeByKeyword(String keyword) {
         root = removeByKeywordHelp(root, keyword);
-        decrement(nodecount);
+        nodecount = decrement(nodecount);
     }
     
     public boolean isNull(Object s) {

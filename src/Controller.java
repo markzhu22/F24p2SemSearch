@@ -1,4 +1,5 @@
-public class Controller {
+public class Controller
+{
     private BinarySearchTree idTree; // BST for IDs
     private BinarySearchTree dateTree; // BST for dates
     private BinarySearchTree costTree; // BST for costs
@@ -10,7 +11,8 @@ public class Controller {
      * @param worldSize
      *            This is a placeholder for the world size, if needed.
      */
-    public Controller(int worldSize) {
+    public Controller(int worldSize)
+    {
         idTree = new BinarySearchTree();
         dateTree = new BinarySearchTree();
         costTree = new BinarySearchTree();
@@ -24,12 +26,15 @@ public class Controller {
      * @param seminar
      *            The seminar to insert.
      */
-    public void insert(Seminar seminar) {
+    public void insert(Seminar seminar)
+    {
         // Check for invalid coordinates
-        if (seminar.x() < 0 || seminar.y() < 0 || seminar.x() > 100 || seminar
-            .y() > 100) {
-            System.out.println("Insert FAILED - Bad x, y coordinates: "
-                + seminar.x() + ", " + seminar.y());
+        if (seminar.x() < 0 || seminar.y() < 0 || seminar.x() > 100
+            || seminar.y() > 100)
+        {
+            System.out.println(
+                "Insert FAILED - Bad x, y coordinates: " + seminar.x() + ", "
+                    + seminar.y());
             return;
         }
 
@@ -37,6 +42,25 @@ public class Controller {
         dateTree.insertByDate(seminar);
         costTree.insertByCost(seminar);
         keywordTree.insertByKeyword(seminar);
+
+        System.out.print("Successfully inserted record with ID " + seminar.id() + "\n");
+        System.out.print(
+            "ID: " + seminar.id() + ", Title: " + seminar.title() + "\r\n"
+                + "Date: " + seminar.date() + ", Length: " + seminar.length()
+                + ", X: " + seminar.x() + ", Y: " + seminar.y() + ", Cost: "
+                + seminar.cost() + "\r\n" + "Description: " + seminar.desc()
+                + "\r\n" + "Keywords: ");
+        for (String kywd : seminar.keywords())
+        {
+            if (kywd.equals(seminar.keywords()[0]))
+            {
+                System.out.print(kywd);
+            }
+            else {
+                System.out.print(", " + kywd);
+            }
+        }
+        System.out.print("\n");
     }
 
 
@@ -47,9 +71,11 @@ public class Controller {
      * @param id
      *            The ID of the seminar to delete.
      */
-    public void delete(int id) {
+    public void delete(int id)
+    {
         Seminar seminar = idTree.findById(id);
-        if (seminar != null) {
+        if (seminar != null)
+        {
             idTree.removeById(id);
 
             dateTree.removeByDate(seminar.date());
@@ -58,10 +84,12 @@ public class Controller {
 
             keywordTree.removeByKeyword(seminar.keywords()[0]);
 
-            System.out.println("Record with ID " + id
-                + " successfully deleted from the database.");
+            System.out.println(
+                "Record with ID " + id
+                    + " successfully deleted from the database");
         }
-        else {
+        else
+        {
             System.out.println("Record with ID " + id + " not found.");
         }
     }
@@ -73,15 +101,18 @@ public class Controller {
      * @param id
      *            The ID of the seminar to search for.
      */
-    public void searchById(int id) {
+    public void searchById(int id)
+    {
         Seminar seminar = idTree.findById(id);
-        if (seminar != null) {
+        if (seminar != null)
+        {
             System.out.println("Found record with ID " + id + ":");
             System.out.println(seminar);
         }
-        else {
-            System.out.println("Search FAILED -- There is no record with ID "
-                + id);
+        else
+        {
+            System.out
+                .println("Search FAILED -- There is no record with ID " + id);
         }
     }
 
@@ -92,14 +123,10 @@ public class Controller {
      * @param keyword
      *            The keyword to search for.
      */
-    public void searchByKeyword(String keyword) {
+    public void searchByKeyword(String keyword)
+    {
         System.out.println("Seminars matching keyword " + keyword + ":");
         boolean found = keywordTree.findByKeyword(keyword);
-
-        if (!found) {
-            System.out.println(
-                "Search FAILED -- No seminars found with keyword " + keyword);
-        }
     }
 
 
@@ -111,11 +138,13 @@ public class Controller {
      * @param high
      *            The upper bound of the cost range.
      */
-    public void searchByCostRange(int low, int high) {
-        System.out.println("Searching seminars by cost range " + low + " - "
-            + high);
+    public void searchByCostRange(int low, int high)
+    {
+        System.out
+            .println("Seminars with costs in range " + low + " to " + high + ":");
         boolean found = costTree.findByCostRange(low, high);
-        if (!found) {
+        if (!found)
+        {
             System.out.println(
                 "Search FAILED -- No seminars found in cost range " + low
                     + " to " + high);
@@ -131,12 +160,14 @@ public class Controller {
      * @param high
      *            The upper bound of the date range.
      */
-    public void searchByDateRange(String low, String high) {
-        System.out.println("Searching seminars by date range " + low + " - "
-            + high);
+    public void searchByDateRange(String low, String high)
+    {
+        System.out
+            .println("Seminars with dates in range " + low + " to " + high + ":");
         boolean found = dateTree.findByDateRange(low, high);
 
-        if (!found) {
+        if (!found)
+        {
             System.out.println(
                 "Search FAILED -- No seminars found in date range " + low
                     + " to " + high);
@@ -198,28 +229,31 @@ public class Controller {
         BSTNode node,
         int level,
         int height,
-        String field) {
+        String field)
+    {
 
         int spacesCount = Math.max(0, height - level);
         String space = "";
-        
-        for (int i = 0; i < spacesCount; i++) {
+
+        for (int i = 0; i < spacesCount; i++)
+        {
             space += "    ";
         }
 
-        if (node == null) {
+        if (node == null)
+        {
             System.out.println(space + "(null)");
             return;
         }
 
-        printIndented(tree, node.left(), level + 1, height, field);
+        printIndented(tree, node.left(), increment(level), height, field);
 
         String nodeValue = getNodeValue(node, field);
-        System.out.println(space +  "\\");
-        System.out.println(space +  "(" + nodeValue + ")");
+        System.out.println(space + "\\");
+        System.out.println(space + "(" + nodeValue + ")");
         System.out.println(space + "/");
 
-        printIndented(tree, node.right(), level + 1, height, field);
+        printIndented(tree, node.right(), increment(level), height, field);
     }
 
 
@@ -232,9 +266,11 @@ public class Controller {
      *            The field being printed.
      * @return The value of the node for the given field.
      */
-    private String getNodeValue(BSTNode node, String field) {
+    private String getNodeValue(BSTNode node, String field)
+    {
         String nodeValue = "";
-        switch (field) {
+        switch (field)
+        {
             case "ID":
                 nodeValue = String.valueOf(node.semValue().id());
                 break;
@@ -262,29 +298,60 @@ public class Controller {
      *            The field to print by ("id", "date", "cost", "keyword", or
      *            "location").
      */
-    public void print(String field) {
+    public void print(String field)
+    {
         int height;
-        switch (field) {
+        switch (field)
+        {
             case "ID":
                 System.out.println("ID Tree:");
+                if (idTree.getRoot() == null)
+                {
+                    System.out.println("This tree is empty");
+                    break;
+                }
                 height = calculateHeight(idTree.getRoot());
                 printIndented(idTree, idTree.getRoot(), 0, height, field);
+                System.out.println("Number of records: " + idTree.size());
                 break;
             case "date":
                 System.out.println("Date Tree:");
                 height = calculateHeight(dateTree.getRoot());
+                if (dateTree.getRoot() == null)
+                {
+                    System.out.println("This tree is empty");
+                    break;
+                }
                 printIndented(dateTree, dateTree.getRoot(), 0, height, field);
+                System.out.println("Number of records: " + dateTree.size());
                 break;
             case "cost":
                 System.out.println("Cost Tree:");
                 height = calculateHeight(costTree.getRoot());
+                if (costTree.getRoot() == null)
+                {
+                    System.out.println("This tree is empty");
+                    break;
+                }
                 printIndented(costTree, costTree.getRoot(), 0, height, field);
+                System.out.println("Number of records: " + costTree.size());
                 break;
             case "keyword":
                 System.out.println("Keyword Tree:");
+                if (keywordTree.getRoot() == null)
+                {
+                    System.out.println("This tree is empty");
+                    break;
+                }
                 height = calculateHeight(keywordTree.getRoot());
-                printIndented(keywordTree, keywordTree.getRoot(), 0, height,
+                printIndented(
+                    keywordTree,
+                    keywordTree.getRoot(),
+                    0,
+                    height,
                     field);
+                System.out.println("Number of records: " + keywordTree.size());
+
                 break;
             default:
                 System.out.println("Invalid field: " + field);
@@ -299,13 +366,15 @@ public class Controller {
      *            The current node.
      * @return The height of the tree.
      */
-    private int calculateHeight(BSTNode node) {
-        if (node == null) {
+    private int calculateHeight(BSTNode node)
+    {
+        if (node == null)
+        {
             return 0;
         }
 
-        return 1 + Math.max(calculateHeight(node.left()), calculateHeight(node
-            .right()));
+        return increment(Math
+            .max(calculateHeight(node.left()), calculateHeight(node.right())));
     }
 
     /**
@@ -414,21 +483,15 @@ public class Controller {
      * @param node
      *            The current node being visited.
      * @param level
-     *            The current level (used to calculate indentation).
-     *            private void printPreOrder(BSTNode node, int level) {
-     *            if (node == null) {
-     *            return;
-     *            }
-     * 
-     *            for (int i = 0; i < level; i++) {
-     *            System.out.print(" ");
-     *            }
-     *            System.out.println(node.value());
-     * 
+     *            The current level (used to calculate indentation). private
+     *            void printPreOrder(BSTNode node, int level) { if (node ==
+     *            null) { return; } for (int i = 0; i < level; i++) {
+     *            System.out.print(" "); } System.out.println(node.value());
      *            printPreOrder(node.left(), level + 1);
-     * 
-     *            printPreOrder(node.right(), level + 1);
-     *            }
+     *            printPreOrder(node.right(), level + 1); }
      */
 
+    public int increment(int i) {
+        return i+=1;
+    }
 }
