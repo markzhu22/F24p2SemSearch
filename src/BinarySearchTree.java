@@ -134,6 +134,38 @@ public class BinarySearchTree {
         return findByKeywordHelper(root, keyword);
     }
 
+    public BSTNode findHelp(BSTNode rt, Seminar seminar) {
+        if (rt == null) {
+            return null;
+        }
+        BSTNode temp = rt;
+        
+        if (seminar.id() != rt.semValue().id()) {
+            if (seminar.id() < rt.semValue().id()) {
+                temp = findHelp(rt.left(), seminar);
+            }
+            else {
+                temp = findHelp(rt.right(), seminar);
+            }
+        }
+        else {
+            return temp;
+        }
+        
+        return temp;
+    }
+    
+    public boolean find(Seminar seminar) {
+        if (root == null) {
+            return false;
+        }
+        
+        if (findHelp(root, seminar) == null) {
+            return false;
+        }
+        return true;
+    }
+    
 
     private BSTNode insertByIdHelp(BSTNode rt, Seminar seminar) {
         if (isNull(rt)) {
@@ -141,20 +173,15 @@ public class BinarySearchTree {
             return new BSTNode(seminar);
         }
 
-        if (seminar.id() == rt.semValue().id()) {
-            System.out.println("Duplicate seminar ID: " + seminar.id()
-                + " - insertion ignored.");
-            return rt;
-        }
-        else if (seminar.id() < rt.semValue().id()) {
+        if (seminar.id() < (rt.semValue().id())) {
             rt.setLeft(insertByIdHelp(rt.left(), seminar));
         }
         else {
             rt.setRight(insertByIdHelp(rt.right(), seminar));
         }
+
         return rt;
     }
-
 
     public void insertById(Seminar seminar) {
         root = insertByIdHelp(root, seminar);
@@ -165,12 +192,6 @@ public class BinarySearchTree {
         if (isNull(rt)) {
             nodecount++;
             return new BSTNode(seminar);
-        }
-
-        if (seminar.date().equals(rt.semValue().date())) {
-            System.out.println("Duplicate seminar date: " + seminar.date()
-                + " - insertion ignored.");
-            return rt;
         }
 
         if (seminar.date().compareTo(rt.semValue().date()) < 0) {
@@ -194,11 +215,7 @@ public class BinarySearchTree {
             nodecount++;
             return new BSTNode(seminar);
         }
-        if (seminar.cost() == rt.semValue().cost()) {
-            System.out.println("Duplicate seminar cost: " + seminar.cost()
-                + " - insertion ignored.");
-            return rt;
-        }
+
         else if (seminar.cost() <= rt.semValue().cost()) {
             rt.setLeft(insertByCostHelp(rt.left(), seminar));
         }

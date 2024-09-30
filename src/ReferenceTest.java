@@ -1,5 +1,3 @@
-import java.io.FileNotFoundException;
-
 public class ReferenceTest extends student.TestCase
 {
     // ----------------------------------------------------------

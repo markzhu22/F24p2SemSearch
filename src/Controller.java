@@ -38,6 +38,11 @@ public class Controller
             return;
         }
 
+        if (idTree.find(seminar)) {
+            System.out.println("Insert FAILED - There is already a record with ID " + seminar.id());
+            return;
+        }
+        
         idTree.insertById(seminar);
         dateTree.insertByDate(seminar);
         costTree.insertByCost(seminar);

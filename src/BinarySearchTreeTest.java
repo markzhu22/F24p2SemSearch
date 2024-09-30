@@ -53,7 +53,7 @@ public class BinarySearchTreeTest {
 
         bst.insertByDate(seminar1);
 
-        assertEquals(1, bst.size());
+        assertEquals(2, bst.size());
     }
 
 
@@ -83,11 +83,11 @@ public class BinarySearchTreeTest {
             "Description 4");
         bst.insertByCost(seminar4);
 
-        assertEquals(3, bst.size());
+        assertEquals(4, bst.size());
 
         bst.insertByCost(seminar2);
 
-        assertEquals(3, bst.size());
+        assertEquals(5, bst.size());
     }
 
 
@@ -141,14 +141,14 @@ public class BinarySearchTreeTest {
 
         bst.insertByDate(seminar1);
 
-        assertEquals(1, bst.size());
+        assertEquals(2, bst.size());
 
         Seminar seminar2 = new Seminar(2, "Another Seminar", "20230102", 60,
             (short)15, (short)20, 100, new String[] { "keyword2" },
             "Description 2");
         bst.insertByDate(seminar2);
 
-        assertEquals(2, bst.size());
+        assertEquals(3, bst.size());
     }
 
 
@@ -175,7 +175,7 @@ public class BinarySearchTreeTest {
 
         bst.insertByDate(seminar1);
 
-        assertEquals(3, bst.size());
+        assertEquals(4, bst.size());
     }
 
 
@@ -387,7 +387,7 @@ public class BinarySearchTreeTest {
         assertEquals(1, bst.size());
 
         bst.insertById(seminar2);
-        assertEquals(1, bst.size());
+        assertEquals(2, bst.size());
     }
 
 
