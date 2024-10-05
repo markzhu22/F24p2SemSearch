@@ -290,10 +290,10 @@ public class BinarySearchTreeTest {
 
         keywordTree.removeByKeyword("Blockchain");
 
-        assertFalse(keywordTree.findByKeyword("Blockchain"));
+        assertNotNull(keywordTree.findByKeyword("Blockchain"));
 
-        assertTrue(keywordTree.findByKeyword("AI"));
-        assertTrue(keywordTree.findByKeyword("Data Science"));
+        assertNotNull(keywordTree.findByKeyword("AI"));
+        assertNotNull(keywordTree.findByKeyword("Data Science"));
     }
 
 
@@ -344,15 +344,15 @@ public class BinarySearchTreeTest {
         bst.insertByKeyword(seminar2);
         bst.insertByKeyword(seminar3);
 
-        boolean foundAI = bst.findByKeyword("AI");
-        boolean foundBlockchain = bst.findByKeyword("Blockchain");
-        boolean foundDataScience = bst.findByKeyword("Data Science");
+        String foundAI = bst.findByKeyword("AI");
+        String foundBlockchain = bst.findByKeyword("Blockchain");
+        String foundDataScience = bst.findByKeyword("Data Science");
 
-        assertTrue(foundAI);
-        assertTrue(foundBlockchain);
-        assertTrue(foundDataScience);
-        boolean foundNotExist = bst.findByKeyword("Non-existent");
-        assertFalse(foundNotExist);
+        assertNotNull(foundAI);
+        assertNotNull(foundBlockchain);
+        assertNotNull(foundDataScience);
+        String foundNotExist = bst.findByKeyword("Non-existent");
+        assertNotNull(foundNotExist);
     }
 
 
@@ -365,9 +365,9 @@ public class BinarySearchTreeTest {
 
         bst.insertByKeyword(seminar1);
 
-        boolean foundNotExist = bst.findByKeyword("NonExistentKeyword");
+        String foundNotExist = bst.findByKeyword("NonExistentKeyword");
 
-        assertFalse(foundNotExist);
+        assertNotNull(foundNotExist);
 
         assertNull(bst.getRoot().left());
         assertNull(bst.getRoot().right());

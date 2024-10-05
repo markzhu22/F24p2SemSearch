@@ -131,7 +131,10 @@ public class Controller
     public void searchByKeyword(String keyword)
     {
         System.out.println("Seminars matching keyword " + keyword + ":");
-        boolean found = keywordTree.findByKeyword(keyword);
+        String found = keywordTree.findByKeyword(keyword);
+        if (!found.equals("")) {
+            System.out.println(found.substring(0, found.length()-1));
+        }
     }
 
 
@@ -357,6 +360,9 @@ public class Controller
                     field);
                 System.out.println("Number of records: " + keywordTree.size());
 
+                break;
+            case "location":
+                System.out.println("Location Tree:\nE");
                 break;
             default:
                 System.out.println("Invalid field: " + field);

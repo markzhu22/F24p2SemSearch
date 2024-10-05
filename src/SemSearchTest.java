@@ -24,7 +24,8 @@ public class SemSearchTest extends TestCase {
         assertNotNull(sem);
         SemSearch.main(null);
         
-        assertFuzzyEquals("Invalid field: location\r\n"
+        assertFuzzyEquals("Location Tree:\r\n"
+            + "E\r\n"
             + "ID Tree:\r\n"
             + "This tree is empty\r\n"
             + "Search FAILED -- There is no record with ID 1\r\n"
@@ -183,12 +184,22 @@ public class SemSearchTest extends TestCase {
             + "                /\r\n"
             + "            (null)\r\n"
             + "Number of records: 4\r\n"
-            + "Invalid field: location\r\n"
+            + "Location Tree:\r\n"
+            + "E\r\n"
             + "Insert FAILED - There is already a record with ID 10\r\n"
             + "Seminars matching keyword VT:\r\n"
-            + "VT\r\n"
-            + "VT\r\n"
-            + "VT\r\n"
+            + "ID: 10, Title: Computing Systems Research at VT\r\n"
+            + "Date: 0701250830, Length: 30, X: 30, Y: 10, Cost: 17\r\n"
+            + "Description: Seminar about the      Computing systems research at      VT\r\n"
+            + "Keywords: high_performance_computing, grids, VT, computer, science\r\n"
+            + "ID: 2, Title: Computational Biology and Bioinformatics in CS at Virginia Tech\r\n"
+            + "Date: 0610071600, Length: 60, X: 10, Y: 10, Cost: 30\r\n"
+            + "Description: Introduction to   bioinformatics and computation biology\r\n"
+            + "Keywords: Bioinformatics, computation_biology, Biology, Computer_Science, VT, Virginia_Tech\r\n"
+            + "ID: 1, Title: Overview of HCI Research at VT\r\n"
+            + "Date: 0610051600, Length: 90, X: 10, Y: 10, Cost: 45\r\n"
+            + "Description: This seminar will present an overview of HCI research at VT\r\n"
+            + "Keywords: HCI, Computer_Science, VT, Virginia_Tech\r\n"
             + "Found record with ID 1:\r\n"
             + "ID: 1, Title: Overview of HCI Research at VT\r\n"
             + "Date: 0610051600, Length: 90, X: 10, Y: 10, Cost: 45\r\n"
@@ -237,7 +248,9 @@ public class SemSearchTest extends TestCase {
             + "        /\r\n"
             + "    (null)\r\n"
             + "Number of records: 4\r\n"
-            + "Invalid field: location\r\n"
-            + "Usage: java SemSearch <worldSize> <commandFile>\r\n", systemOut().getHistory());
+            + "Location Tree:\r\n"
+            + "E\r\n"
+            + "Usage: java SemSearch <worldSize> <commandFile>\r\n"
+            + "", systemOut().getHistory());
     }
 }

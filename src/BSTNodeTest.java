@@ -2,6 +2,13 @@ import org.junit.Before;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
+// -------------------------------------------------------------------------
+/**
+ *  Test for BSTNode
+ * 
+ *  @author markz + tarinid
+ *  @version Oct 4, 2024
+ */
 public class BSTNodeTest {
     private Seminar seminar1;
     private Seminar seminar2;
@@ -9,6 +16,10 @@ public class BSTNodeTest {
     private BSTNode node2;
     private BSTNode nodeWithChildren;
 
+    // ----------------------------------------------------------
+    /**
+     * Set Up
+     */
     @Before
     public void setUp() {
         seminar1 = new Seminar(1, "Seminar 1", "20230101", 90, (short)10,
@@ -16,12 +27,16 @@ public class BSTNodeTest {
         seminar2 = new Seminar(2, "Seminar 2", "20230201", 60, (short)20,
             (short)20, 100, new String[] { "ML" }, "Description 2");
 
-        node1 = new BSTNode(seminar1);
-        node2 = new BSTNode(seminar2);
-        nodeWithChildren = new BSTNode(seminar1, node1, node2);
+        node1 = new BSTNode(seminar1, seminar1);
+        node2 = new BSTNode(seminar2, seminar2);
+        nodeWithChildren = new BSTNode(seminar1, node1, node2, seminar1);
     }
 
 
+    // ----------------------------------------------------------
+    /**
+     * Test constructor
+     */
     @Test
     public void testDefaultConstructor() {
         BSTNode emptyNode = new BSTNode();
@@ -86,7 +101,7 @@ public class BSTNodeTest {
 
     @Test
     public void testIsLeafWhenOnlyRightChild() {
-        BSTNode nodeWithRightChild = new BSTNode(seminar1);
+        BSTNode nodeWithRightChild = new BSTNode(seminar1, seminar1);
         nodeWithRightChild.setRight(node2);
         assertFalse(nodeWithRightChild.isLeaf());
     }
@@ -94,7 +109,7 @@ public class BSTNodeTest {
 
     @Test
     public void testIsLeafWhenOnlyLeftChild() {
-        BSTNode nodeWithLeftChild = new BSTNode(seminar1);
+        BSTNode nodeWithLeftChild = new BSTNode(seminar1, seminar1);
         nodeWithLeftChild.setLeft(node2);
         assertFalse(nodeWithLeftChild.isLeaf());
     }

@@ -1,3 +1,12 @@
+// -------------------------------------------------------------------------
+/**
+ *  Write a one-sentence summary of your class here.
+ *  Follow it with additional details about its purpose, what abstraction
+ *  it represents, and how to use it.
+ * 
+ *  @author markz
+ *  @version Oct 4, 2024
+ */
 public class BinarySearchTree {
     public BSTNode root; // Root of the BST
     private int nodecount; // Number of nodes in the BST
@@ -111,26 +120,41 @@ public class BinarySearchTree {
     }
 
 
-    private boolean findByKeywordHelper(BSTNode rt, String keyword) {
+    private String findByKeywordHelper(BSTNode rt, String keyword) {
+        String result = "";
         if (isNull(rt)) {
-            return false;
+            return "";
         }
-
-        boolean found = false;
 
         if (rt.stringValue().equals(keyword)) {
-            System.out.println(rt.stringValue());
-            found = true;
+            result = "ID: " + rt.semValue().id() + ", Title: " + rt.semValue().title() + "\r\n"
+                    + "Date: " + rt.semValue().date() + ", Length: " + rt.semValue().length()
+                    + ", X: " + rt.semValue().x() + ", Y: " + rt.semValue().y() + ", Cost: "
+                    + rt.semValue().cost() + "\r\n" + "Description: " + rt.semValue().desc()
+                    + "\r\n" + "Keywords: ";  
+            for (String kywd : rt.semValue().keywords())
+            {
+                if (kywd.equals(rt.semValue().keywords()[0]))
+                {
+                    result = result + (kywd);
+                }
+                else {
+                    result = result + ", " + kywd;
+                }
+            }
+            result = result + "\n";
         }
 
-        boolean foundInLeft = findByKeywordHelper(rt.left(), keyword);
-        boolean foundInRight = findByKeywordHelper(rt.right(), keyword);
+        String foundInLeft = findByKeywordHelper(rt.left(), keyword);
+        result = foundInLeft + result;
+        String foundInRight = findByKeywordHelper(rt.right(), keyword);
+        result = foundInRight + result;
 
-        return found || foundInLeft || foundInRight;
+        return result;
     }
 
 
-    public boolean findByKeyword(String keyword) {
+    public String findByKeyword(String keyword) {
         return findByKeywordHelper(root, keyword);
     }
 
@@ -170,7 +194,7 @@ public class BinarySearchTree {
     private BSTNode insertByIdHelp(BSTNode rt, Seminar seminar) {
         if (isNull(rt)) {
             nodecount++;
-            return new BSTNode(seminar);
+            return new BSTNode(seminar, seminar);
         }
 
         if (seminar.id() < (rt.semValue().id())) {
@@ -191,7 +215,7 @@ public class BinarySearchTree {
     private BSTNode insertByDateHelp(BSTNode rt, Seminar seminar) {
         if (isNull(rt)) {
             nodecount++;
-            return new BSTNode(seminar);
+            return new BSTNode(seminar, seminar);
         }
 
         if (seminar.date().compareTo(rt.semValue().date()) < 0) {
@@ -213,7 +237,7 @@ public class BinarySearchTree {
     private BSTNode insertByCostHelp(BSTNode rt, Seminar seminar) {
         if (isNull(rt)) {
             nodecount++;
-            return new BSTNode(seminar);
+            return new BSTNode(seminar, seminar);
         }
 
         else if (seminar.cost() <= rt.semValue().cost()) {
@@ -232,16 +256,16 @@ public class BinarySearchTree {
     }
 
 
-    private BSTNode insertByKeywordHelp(BSTNode rt, String keywords) {
+    private BSTNode insertByKeywordHelp(BSTNode rt, String keywords, Seminar sem) {
         if (isNull(rt)) {
             nodecount++;
-            return new BSTNode(keywords);
+            return new BSTNode(keywords, sem);
         }
         if (keywords.compareTo(rt.stringValue()) <= 0) {
-            rt.setLeft(insertByKeywordHelp(rt.left(), keywords));
+            rt.setLeft(insertByKeywordHelp(rt.left(), keywords, sem));
         }
         else {
-            rt.setRight(insertByKeywordHelp(rt.right(), keywords));
+            rt.setRight(insertByKeywordHelp(rt.right(), keywords, sem));
         }
         return rt;
     }
@@ -249,7 +273,7 @@ public class BinarySearchTree {
 
     public void insertByKeyword(Seminar seminar) {
         for (String keyword : seminar.keywords()) {
-            root = insertByKeywordHelp(root, keyword);
+            root = insertByKeywordHelp(root, keyword, seminar);
         }
 
     }
