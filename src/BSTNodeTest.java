@@ -1,3 +1,5 @@
+import org.junit.Test;
+
 /**
  * Test for BSTNode
  * 
@@ -175,31 +177,31 @@ public class BSTNodeTest
     
     @Test
     public void testSemValue() {
-        BSTNode seminarNode = new BSTNode(seminar1);
+        BSTNode seminarNode = new BSTNode(seminar1, seminar1);
         assertEquals(seminar1, seminarNode.semValue());
     }
 
     @Test
     public void testStringValue() {
-        BSTNode stringNode = new BSTNode("AI");
+        BSTNode stringNode = new BSTNode("AI", seminar1);
         assertEquals("AI", stringNode.stringValue());
     }
 
     @Test(expected = ClassCastException.class)
     public void testSemValueException() {
-        BSTNode stringNode = new BSTNode("AI");
+        BSTNode stringNode = new BSTNode("AI", seminar1);
         stringNode.semValue();
     }
 
     @Test(expected = ClassCastException.class)
     public void testStringValueException() {
-        BSTNode seminarNode = new BSTNode(seminar1);
+        BSTNode seminarNode = new BSTNode(seminar1, seminar1);
         seminarNode.stringValue();
     }
     
     @Test
     public void testSetStringValue() {
-        BSTNode stringNode = new BSTNode("AI");
+        BSTNode stringNode = new BSTNode("AI", seminar1);
         stringNode.setStringValue("ML");
         assertEquals("ML", stringNode.stringValue());
     }
