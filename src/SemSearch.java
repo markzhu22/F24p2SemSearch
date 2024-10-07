@@ -1,12 +1,13 @@
-
 /**
- * {Project Description Here}
- */
-
-/**
- * The class containing the main method.
+ * This class initiates the SemSearch project, reading commands from the command
+ * file
+ * and processing operations related to the Seminar records.
+ * It supports searching by various criteria including ID, keyword, location,
+ * and cost.
+ * The location search uses a BinTree structure to handle 2D coordinates
+ * efficiently.
  *
- * @author {Your Name Here}
+ * @author {Your Name}
  * @version {Put Something Here}
  */
 
@@ -30,9 +31,14 @@
 // letter of this restriction.
 
 public class SemSearch {
+
     /**
+     * The main method to start the SemSearch program.
+     * 
      * @param args
-     *            Command line parameters
+     *            Command line parameters where args[0] is the world size
+     *            (integer)
+     *            and args[1] is the command file path.
      */
     public static void main(String[] args) {
         if (args == null || args.length < 2) {
@@ -42,12 +48,26 @@ public class SemSearch {
         }
 
         try {
+            // Parse world size
             int worldSize = Integer.parseInt(args[0]);
+            if (worldSize <= 0 || (worldSize & (worldSize - 1)) != 0) {
+                System.out.println(
+                    "World size must be a positive power of two.");
+                return;
+            }
+
+            // Initialize controller
             Controller controller = new Controller(worldSize);
 
+            // Initialize CommandProcessor and handle command processing within
+            // its methods
             @SuppressWarnings("unused")
             CommandProcessor commandProcessor = new CommandProcessor(args[1],
                 controller);
+
+            // At this point, the commandProcessor will handle the file
+            // processing
+            // either inside its constructor or in a specific method
 
         }
         catch (NumberFormatException e) {
