@@ -16,6 +16,7 @@ public class Seminar {
     private String desc; // Seminar description
     private int cost; // Seminar cost
     private int id; // Seminar ID
+    private BinTree binTree;
 
     // ----------------------------------------------------------
     /**
@@ -25,21 +26,39 @@ public class Seminar {
         // Nothing here
     }
 
+
     /**
      * Create a new Seminar object from the field data
      *
-     * @param tin    input title
-     * @param datein input date
-     * @param lin    input length
-     * @param kin    input keywords
-     * @param xin    input x coord
-     * @param yin    input y coord
-     * @param descin input description
-     * @param cin    input cost
-     * @param idin   input ID
+     * @param tin
+     *            input title
+     * @param datein
+     *            input date
+     * @param lin
+     *            input length
+     * @param kin
+     *            input keywords
+     * @param xin
+     *            input x coord
+     * @param yin
+     *            input y coord
+     * @param descin
+     *            input description
+     * @param cin
+     *            input cost
+     * @param idin
+     *            input ID
      */
-    public Seminar(int idin, String tin, String datein, int lin, short xin,
-        short yin, int cin, String[] kin, String descin) {
+    public Seminar(
+        int idin,
+        String tin,
+        String datein,
+        int lin,
+        short xin,
+        short yin,
+        int cin,
+        String[] kin,
+        String descin) {
         id = idin;
         title = tin;
         date = datein;
@@ -49,16 +68,19 @@ public class Seminar {
         cost = cin;
         keywords = kin;
         desc = descin;
+        this.binTree = new BinTree();
     }
 
 
     public String title() {
         return title;
     }
-    
+
+
     // ----------------------------------------------------------
     /**
      * Returns the seminar ID field
+     * 
      * @return the ID field for the seminar
      */
     public int id() {
@@ -69,12 +91,14 @@ public class Seminar {
     // ----------------------------------------------------------
     /**
      * Return the seminar date
+     * 
      * @return the date field for the seminar
      */
     public String date() {
         return date;
     }
-    
+
+
     public int length() {
         return length;
     }
@@ -83,6 +107,7 @@ public class Seminar {
     // ----------------------------------------------------------
     /**
      * Return the seminar date
+     * 
      * @return the date field for the seminar
      */
     public int cost() {
@@ -93,6 +118,7 @@ public class Seminar {
     // ----------------------------------------------------------
     /**
      * Return the seminar keywords
+     * 
      * @return the keywords field for the seminar
      */
     public String[] keywords() {
@@ -103,6 +129,7 @@ public class Seminar {
     // ----------------------------------------------------------
     /**
      * Return the seminar x coordinate
+     * 
      * @return the x coordinate field for the seminar
      */
     public int x() {
@@ -113,14 +140,31 @@ public class Seminar {
     // ----------------------------------------------------------
     /**
      * Return the seminar y coordinate
+     * 
      * @return the y coordinate field for the seminar
      */
     public int y() {
         return y;
     }
-    
+
+
     public String desc() {
         return desc;
+    }
+
+
+    public short getX() {
+        return x;
+    }
+
+
+    public short getY() {
+        return y;
+    }
+
+
+    public BinTree getBinTree() {
+        return binTree;
     }
 
 
@@ -135,8 +179,13 @@ public class Seminar {
             if (i != keywords.length - 1)
                 mykeys += ", ";
         }
-        return "ID: " + id + ", Title: " + title + "\nDate: " + date +
-            ", Length: " + length + ", X: " + x + ", Y: " + y + ", Cost: " +
-            cost + "\nDescription: " + desc + "\nKeywords: " + mykeys;
+        return "ID: " + id + ", Title: " + title + "\nDate: " + date
+            + ", Length: " + length + ", X: " + x + ", Y: " + y + ", Cost: "
+            + cost + "\nDescription: " + desc + "\nKeywords: " + mykeys;
+    }
+
+
+    public String getId() {
+        return null;
     }
 }
