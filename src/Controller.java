@@ -108,7 +108,7 @@ public class Controller
         }
         else
         {
-            System.out.println("Record with ID " + id + " not found.");
+            System.out.println("Delete FAILED -- There is no record with ID" + id);
         }
     }
 
@@ -167,11 +167,8 @@ public class Controller
             "Seminars with costs in range " + low + " to " + high + ":");
         boolean found = costTree.findByCostRange(low, high);
 
-        if (found)
-        {
-            System.out.println(
-                costTree.getTraversalCount() + " nodes visited in this search");
-        }
+        System.out.println(
+            costTree.getTraversalCount() + " nodes visited in this search");
         costTree.resetTraversalCount();
     }
 
@@ -190,11 +187,8 @@ public class Controller
             "Seminars with dates in range " + low + " to " + high + ":");
         boolean found = dateTree.findByDateRange(low, high);
 
-        if (found)
-        {
-            System.out.println(
-                dateTree.getTraversalCount() + " nodes visited in this search");
-        }
+        System.out.println(
+            dateTree.getTraversalCount() + " nodes visited in this search");
         dateTree.resetTraversalCount();
     }
 

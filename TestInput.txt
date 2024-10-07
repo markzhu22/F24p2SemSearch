@@ -1,7 +1,59 @@
+search ID 1
+search keyword VT
+
 insert 1
 Overview of HCI Research at VT
 0610051600 90 1 10 100
 HCI Computer_Science VT Virginia_Tech
 This seminar will present an overview of HCI research at VT
 
-search keyword Computer_Science
+insert 2
+Computational Biology and Bioinformatics in CS at Virginia Tech
+      0610071600       60     10     10 30
+Bioinformatics computation_biology Biology Computer_Science VT Virginia_Tech
+    Introduction to   bioinformatics and computation biology
+    
+search ID 1 
+search cost 0 100
+search date 0 1
+search keyword VT
+print ID
+delete 1
+delete 1
+search cost 0 1
+search date 0 0
+print ID
+print date
+print cost
+
+print :3
+
+insert 1
+Overview of HCI Research at VT
+0610051600 90 -1 10 100
+HCI Computer_Science VT Virginia_Tech
+This seminar will present an overview of HCI research at VT
+
+insert 1
+Overview of HCI Research at VT
+0610051600 90 -1 -1 100
+HCI Computer_Science VT Virginia_Tech
+This seminar will present an overview of HCI research at VT
+
+insert 1
+Overview of HCI Research at VT
+0610051600 90 10 -1 100
+HCI Computer_Science VT Virginia_Tech
+This seminar will present an overview of HCI research at VT
+
+insert 1
+Overview of HCI Research at VT
+0610051600 90 101 10 100
+HCI Computer_Science VT Virginia_Tech
+This seminar will present an overview of HCI research at VT
+
+insert 1
+Overview of HCI Research at VT
+0610051600 90 10 101 100
+HCI Computer_Science VT Virginia_Tech
+This seminar will present an overview of HCI research at VT

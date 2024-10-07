@@ -61,10 +61,10 @@ public class BinarySearchTree {
     }
     
     private boolean findByDateRangeHelper(BSTNode rt, String low, String high) {
+        traversalCount++;
         if (isNull(rt)) {
             return false;
         }
-        traversalCount++;
 
         boolean found = false;
 
@@ -90,10 +90,10 @@ public class BinarySearchTree {
     }
     
     private boolean findByCostRangeHelper(BSTNode rt, int low, int high) {
+        traversalCount++;
         if (isNull(rt)) {
             return false;
         }
-        traversalCount++;
 
         boolean found = false;
 
@@ -113,7 +113,10 @@ public class BinarySearchTree {
         return found;
     }
 
-
+    public String findByKeyword(String keyword) {
+        return findByKeywordHelper(root, keyword);
+    }
+    
     private String findByKeywordHelper(BSTNode rt, String keyword) {
         String result = "";
         if (isNull(rt)) {
@@ -145,11 +148,6 @@ public class BinarySearchTree {
         result = foundInRight + result;
 
         return result;
-    }
-
-
-    public String findByKeyword(String keyword) {
-        return findByKeywordHelper(root, keyword);
     }
 
     public BSTNode findHelp(BSTNode rt, Seminar seminar) {
