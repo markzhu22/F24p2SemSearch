@@ -1,45 +1,45 @@
 // -------------------------------------------------------------------------
 /**
- *  Write a one-sentence summary of your class here.
- *  Follow it with additional details about its purpose, what abstraction
- *  it represents, and how to use it.
+ * Binary Search Tree
  * 
- *  @author markz
+ *  @author markz + tarinid
  *  @version Oct 4, 2024
  */
 public class BinarySearchTree {
-    public BSTNode root; // Root of the BST
+    private BSTNode root; // Root of the BST
     private int nodecount; // Number of nodes in the BST
+    private int traversalCount = 0;
 
     // ----------------------------------------------------------
     /**
      * Create a new BinarySearchTree object.
      */
-    // constructor
     public BinarySearchTree() {
         root = null;
         nodecount = 0;
     }
 
-
-    // Getter for the root node
-    public BSTNode getRoot() {
-        return root;
-    }
-
-
-    // Reinitialize tree
-    public void clear() {
-        root = null;
-        nodecount = 0;
-    }
-
-
-    // Return the number of records in the dictionary
+    // ----------------------------------------------------------
+    /**
+     * Getter function for the size of the tree
+     * @return the size
+     */
     public int size() {
         return nodecount;
     }
+
     
+    // ----------------------------------------------------------
+    /**
+     * Find using the ID
+     * @param id
+     *          ID to be searched
+     * @return
+     *          
+     */
+    public Seminar findById(int id) {
+        return findByIdHelp(root, id);
+    }
     
     private Seminar findByIdHelp(BSTNode rt, int id) {
         if (isNull(rt))
@@ -56,15 +56,15 @@ public class BinarySearchTree {
     }
 
 
-    public Seminar findById(int id) {
-        return findByIdHelp(root, id);
+    public boolean findByDateRange(String low, String high) {
+        return findByDateRangeHelper(root, low, high);
     }
-
-
+    
     private boolean findByDateRangeHelper(BSTNode rt, String low, String high) {
         if (isNull(rt)) {
             return false;
         }
+        traversalCount++;
 
         boolean found = false;
 
@@ -85,16 +85,15 @@ public class BinarySearchTree {
         return found;
     }
 
-
-    public boolean findByDateRange(String low, String high) {
-        return findByDateRangeHelper(root, low, high);
+    public boolean findByCostRange(int low, int high) {
+        return findByCostRangeHelper(root, low, high);
     }
-
-
+    
     private boolean findByCostRangeHelper(BSTNode rt, int low, int high) {
         if (isNull(rt)) {
             return false;
         }
+        traversalCount++;
 
         boolean found = false;
 
@@ -112,11 +111,6 @@ public class BinarySearchTree {
         }
 
         return found;
-    }
-
-
-    public boolean findByCostRange(int low, int high) {
-        return findByCostRangeHelper(root, low, high);
     }
 
 
@@ -275,7 +269,6 @@ public class BinarySearchTree {
         for (String keyword : seminar.keywords()) {
             root = insertByKeywordHelp(root, keyword, seminar);
         }
-
     }
 
 
@@ -428,11 +421,54 @@ public class BinarySearchTree {
         nodecount = decrement(nodecount);
     }
     
+    // ----------------------------------------------------------
+    /**
+     * Clears the trees
+     */
+    public void clear() {
+        root = null;
+        nodecount = 0;
+    }
+    
+    // ----------------------------------------------------------
+    /**
+     * Getter for the root node
+     * @return the root node
+     */
+    public BSTNode getRoot() {
+        return root;
+    }
+    
+    public int getTraversalCount() {
+        return traversalCount;
+    }
+    
+    public void resetTraversalCount() {
+        traversalCount = 0;
+    }
+    
+    // ----------------------------------------------------------
+    // Mutation Testing Functions
+    // ----------------------------------------------------------
+    
+    /**
+     * Checks if the current object is null
+     * @param s 
+     *          object to check
+     * @return if null or not
+     */    
     public boolean isNull(Object s) {
         return s == null;
     }
 
+    // ----------------------------------------------------------
+    /**
+     * Decreases an integer by one
+     * @param i
+     *          the integer to be decremented
+     * @return decremented i 
+     */
     public int decrement(int i) {
-        return i--;
+        return i-1;
     }
 }

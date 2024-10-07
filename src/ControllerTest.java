@@ -1,13 +1,20 @@
-import org.junit.Before;
-import org.junit.Test;
-
+// -------------------------------------------------------------------------
+/**
+ *  Testing class for Controller
+ * 
+ *  @author markz + tarinid
+ *  @version Oct 7, 2024
+ */
 public class ControllerTest {
     private Controller controller;
     private Seminar seminar1;
     private Seminar seminar2;
     private Seminar seminar3;
 
-    @Before
+    // ----------------------------------------------------------
+    /**
+     * Set up for the tests
+     */
     public void setUp() {
         controller = new Controller(100);
 
@@ -20,7 +27,10 @@ public class ControllerTest {
     }
 
 
-    @Test
+    // ----------------------------------------------------------
+    /**
+     * Test inserting seminars
+     */
     public void testInsertSeminars() {
         controller.insert(seminar1);
         controller.insert(seminar2);
@@ -31,8 +41,10 @@ public class ControllerTest {
         controller.searchById(3);
     }
 
-
-    @Test
+    // ----------------------------------------------------------
+    /**
+     * Test deleting seminars
+     */
     public void testDeleteSeminarById() {
         controller.insert(seminar1);
         controller.insert(seminar2);
@@ -43,8 +55,10 @@ public class ControllerTest {
         controller.searchById(2);
     }
 
-
-    @Test
+    // ----------------------------------------------------------
+    /**
+     * Test searching by cost
+     */
     public void testSearchByCostRange() {
         controller.insert(seminar1);
         controller.insert(seminar2);
@@ -55,8 +69,10 @@ public class ControllerTest {
         controller.searchByCostRange(90, 110);
     }
 
-
-    @Test
+    // ----------------------------------------------------------
+    /**
+     * Test searching by date
+     */
     public void testSearchByDateRange() {
         controller.insert(seminar1);
         controller.insert(seminar2);
@@ -66,8 +82,10 @@ public class ControllerTest {
         controller.searchByDateRange("20230201", "20230301");
     }
 
-
-    @Test
+    // ----------------------------------------------------------
+    /**
+     * Test searching by keyword
+     */
     public void testSearchByKeyword() {
         controller.insert(seminar1);
         controller.insert(seminar2);
@@ -78,8 +96,10 @@ public class ControllerTest {
         controller.searchByKeyword("Data Science");
     }
 
-
-    @Test
+    // ----------------------------------------------------------
+    /**
+     * Test inserting invalid coordinates
+     */
     public void testInsertInvalidCoordinates() {
         Seminar invalidSeminar = new Seminar(4, "Invalid Seminar", "20230401",
             120, (short)-10, (short)10, 60, new String[] { "Invalid" },

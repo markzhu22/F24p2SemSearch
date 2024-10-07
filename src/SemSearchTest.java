@@ -214,6 +214,7 @@ public class SemSearchTest extends TestCase {
             + "Date: 0610051600, Length: 90, X: 10, Y: 10, Cost: 45\r\n"
             + "Description: This seminar will present an overview of HCI research at VT\r\n"
             + "Keywords: HCI, Computer_Science, VT, Virginia_Tech\r\n"
+            + "4 nodes visited in this search\r\n"
             + "Invalid keyword\r\n"
             + "Invalid keyword\r\n"
             + "Invalid keyword\r\n"
@@ -232,6 +233,7 @@ public class SemSearchTest extends TestCase {
             + "Date: 0701250830, Length: 30, X: 30, Y: 10, Cost: 17\r\n"
             + "Description: Seminar about the      Computing systems research at      VT\r\n"
             + "Keywords: high_performance_computing, grids, VT, computer, science\r\n"
+            + "4 nodes visited in this search\r\n"
             + "Record with ID 1 successfully deleted from the database\r\n"
             + "ID Tree:\r\n"
             + "        (null)\r\n"
@@ -247,10 +249,9 @@ public class SemSearchTest extends TestCase {
             + "        (10)\r\n"
             + "        /\r\n"
             + "    (null)\r\n"
-            + "Number of records: 4\r\n"
+            + "Number of records: 3\r\n"
             + "Location Tree:\r\n"
             + "E\r\n"
-            + "Usage: java SemSearch <worldSize> <commandFile>\r\n"
-            + "", systemOut().getHistory());
+            + "Usage: java SemSearch <worldSize> <commandFile>", systemOut().getHistory());
     }
 }

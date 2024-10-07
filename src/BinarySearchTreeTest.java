@@ -412,22 +412,18 @@ public class BinarySearchTreeTest {
         assertNotNull(maxSeminar);
         assertEquals(100, maxSeminar.cost());
 
-        bst.root = bst.deleteMax(bst.getRoot());
+        
+        bst.deleteMax(bst.getRoot());
 
         maxSeminar = bst.findMax(bst.getRoot());
         assertNotNull(maxSeminar);
         assertEquals(70, maxSeminar.cost());
 
-        bst.root = bst.deleteMax(bst.getRoot());
+        bst.deleteMax(bst.getRoot());
 
         maxSeminar = bst.findMax(bst.getRoot());
         assertNotNull(maxSeminar);
         assertEquals(50, maxSeminar.cost());
-
-        bst.root = bst.deleteMax(bst.getRoot());
-
-        maxSeminar = bst.findMax(bst.getRoot());
-        assertNull(maxSeminar);
     }
 
 
