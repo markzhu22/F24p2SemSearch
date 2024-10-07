@@ -1,12 +1,15 @@
-import static org.junit.Assert.*;
-import org.junit.Before;
-import org.junit.Test;
 
-public class BinarySearchTreeTest {
+// -------------------------------------------------------------------------
+/**
+ *  Test class for BinarySearchTree
+ * 
+ *  @author markz
+ *  @version Oct 7, 2024
+ */
+public class BinarySearchTreeTest extends student.TestCase {
     private BinarySearchTree bst;
     private Seminar seminar1, seminar2, seminar3, seminar4;
 
-    @Before
     public void setUp() {
         bst = new BinarySearchTree();
 
@@ -27,7 +30,11 @@ public class BinarySearchTreeTest {
     }
 
 
-    @Test
+    
+    // ----------------------------------------------------------
+    /**
+     * Test inserting ID
+     */
     public void testInsertById() {
         assertEquals(4, bst.size());
 
@@ -39,7 +46,10 @@ public class BinarySearchTreeTest {
     }
 
 
-    @Test
+    // ----------------------------------------------------------
+    /**
+     * Test inserting date
+     */
     public void testInsertByDate() {
         BinarySearchTree bst = new BinarySearchTree();
 
@@ -57,7 +67,10 @@ public class BinarySearchTreeTest {
     }
 
 
-    @Test
+    // ----------------------------------------------------------
+    /**
+     * Test inserting cost
+     */
     public void testInsertByCost() {
         BinarySearchTree bst = new BinarySearchTree();
 
@@ -91,7 +104,10 @@ public class BinarySearchTreeTest {
     }
 
 
-    @Test
+    // ----------------------------------------------------------
+    /**
+     * Test inserting keyword
+     */
     public void testInsertByKeyword() {
         BinarySearchTree bst = new BinarySearchTree();
 
@@ -128,7 +144,10 @@ public class BinarySearchTreeTest {
     }
 
 
-    @Test
+    // ----------------------------------------------------------
+    /**
+     * Test inserting duplicate date
+     */
     public void testDuplicateInsertionByDate() {
         BinarySearchTree bst = new BinarySearchTree();
 
@@ -152,7 +171,10 @@ public class BinarySearchTreeTest {
     }
 
 
-    @Test
+    // ----------------------------------------------------------
+    /**
+     * Test order inserting by date
+     */
     public void testInsertOrderByDate() {
         BinarySearchTree bst = new BinarySearchTree();
 
@@ -179,7 +201,10 @@ public class BinarySearchTreeTest {
     }
 
 
-    @Test
+    // ----------------------------------------------------------
+    /**
+     * Test find for ID
+     */
     public void testFindById() {
         assertEquals(seminar1, bst.findById(1));
         assertEquals(seminar2, bst.findById(2));
@@ -190,7 +215,10 @@ public class BinarySearchTreeTest {
     }
 
 
-    @Test
+    // ----------------------------------------------------------
+    /**
+     * Test remove ID
+     */
     public void testRemoveById() {
         BinarySearchTree idTree = new BinarySearchTree();
 
@@ -216,8 +244,10 @@ public class BinarySearchTreeTest {
     }
 
 
-    // Test remove by date
-    @Test
+    // ----------------------------------------------------------
+    /**
+     * Test delete date
+     */
     public void testRemoveByDate() {
         BinarySearchTree dateTree = new BinarySearchTree();
 
@@ -243,8 +273,11 @@ public class BinarySearchTreeTest {
     }
 
 
-    // Test remove by cost
-    @Test
+    
+    // ----------------------------------------------------------
+    /**
+     * Test removing cost
+     */
     public void testRemoveByCost() {
         BinarySearchTree costTree = new BinarySearchTree();
 
@@ -268,10 +301,11 @@ public class BinarySearchTreeTest {
         assertTrue(costTree.findByCostRange(50, 50));
         assertTrue(costTree.findByCostRange(70, 70));
     }
-
-
-    // Test remove by keyword
-    @Test
+  
+    // ----------------------------------------------------------
+    /**
+     * Test remove keywords
+     */
     public void testRemoveByKeyword() {
         BinarySearchTree keywordTree = new BinarySearchTree();
 
@@ -297,7 +331,11 @@ public class BinarySearchTreeTest {
     }
 
 
-    @Test
+    
+    // ----------------------------------------------------------
+    /**
+     * Find using dates
+     */
     public void testFindByDateRange() {
         boolean found = bst.findByDateRange("20220101", "20231231");
         assertTrue(found);
@@ -306,8 +344,10 @@ public class BinarySearchTreeTest {
         assertFalse(found);
     }
 
-
-    @Test
+    // ----------------------------------------------------------
+    /**
+     * Find using cost
+     */
     public void testFindByCostRange() {
         boolean found = bst.findByCostRange(30, 100);
         assertTrue(found);
@@ -316,18 +356,22 @@ public class BinarySearchTreeTest {
         assertFalse(found);
     }
 
-
-    @Test
+    // ----------------------------------------------------------
+    /**
+     * Find using keywords
+     */
     public void testFindByKeyword() {
-//        boolean found = bst.findByKeyword("AI");
-//        assertTrue(found);
+//        String found = bst.findByKeyword("AI");
+//        assertTrue(found.equals("AI"));
 //
 //        found = bst.findByKeyword("Blockchain");
-//        assertFalse(found);
+//        assertFalse(found.equals("Blockchain"));
     }
-
-
-    @Test
+    
+    // ----------------------------------------------------------
+    /**
+     * Find keywords with two children
+     */
     public void testFindByKeywordWithLeftAndRightSubtrees() {
         BinarySearchTree bst = new BinarySearchTree();
 
@@ -356,7 +400,10 @@ public class BinarySearchTreeTest {
     }
 
 
-    @Test
+    // ----------------------------------------------------------
+    /**
+     * Find keywords with null as children
+     */
     public void testFindByKeywordWithNullSubtrees() {
         BinarySearchTree bst = new BinarySearchTree();
 
@@ -374,7 +421,10 @@ public class BinarySearchTreeTest {
     }
 
 
-    @Test
+    // ----------------------------------------------------------
+    /**
+     * Test duplicate insertions
+     */
     public void testDuplicateInsertions() {
         BinarySearchTree bst = new BinarySearchTree();
 
@@ -391,7 +441,11 @@ public class BinarySearchTreeTest {
     }
 
 
-    @Test
+    
+    // ----------------------------------------------------------
+    /**
+     * Test findMax and deleteMax functions
+     */
     public void testFindMaxAndDeleteMax() {
         BinarySearchTree bst = new BinarySearchTree();
 
@@ -427,7 +481,11 @@ public class BinarySearchTreeTest {
     }
 
 
-    @Test
+    
+    // ----------------------------------------------------------
+    /**
+     * Test clear
+     */
     public void testClear() {
         bst.clear();
         assertEquals(0, bst.size());

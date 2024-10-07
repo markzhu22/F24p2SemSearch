@@ -1,11 +1,12 @@
 // -------------------------------------------------------------------------
 /**
- *  Testing class for Controller
+ * Testing class for Controller
  * 
- *  @author markz + tarinid
- *  @version Oct 7, 2024
+ * @author markz + tarinid
+ * @version Oct 7, 2024
  */
-public class ControllerTest {
+public class ControllerTest
+{
     private Controller controller;
     private Seminar seminar1;
     private Seminar seminar2;
@@ -15,15 +16,40 @@ public class ControllerTest {
     /**
      * Set up for the tests
      */
-    public void setUp() {
+    public void setUp()
+    {
         controller = new Controller(100);
 
-        seminar1 = new Seminar(1, "Seminar 1", "20230101", 90, (short)10,
-            (short)10, 50, new String[] { "AI" }, "Description 1");
-        seminar2 = new Seminar(2, "Seminar 2", "20230201", 60, (short)20,
-            (short)20, 100, new String[] { "ML" }, "Description 2");
-        seminar3 = new Seminar(3, "Seminar 3", "20230301", 120, (short)30,
-            (short)30, 75, new String[] { "Data Science" }, "Description 3");
+        seminar1 = new Seminar(
+            1,
+            "Seminar 1",
+            "20230101",
+            90,
+            (short)10,
+            (short)10,
+            50,
+            new String[] { "AI" },
+            "Description 1");
+        seminar2 = new Seminar(
+            2,
+            "Seminar 2",
+            "20230201",
+            60,
+            (short)20,
+            (short)20,
+            100,
+            new String[] { "ML" },
+            "Description 2");
+        seminar3 = new Seminar(
+            3,
+            "Seminar 3",
+            "20230301",
+            120,
+            (short)30,
+            (short)30,
+            75,
+            new String[] { "Data Science" },
+            "Description 3");
     }
 
 
@@ -31,7 +57,8 @@ public class ControllerTest {
     /**
      * Test inserting seminars
      */
-    public void testInsertSeminars() {
+    public void testInsertSeminars()
+    {
         controller.insert(seminar1);
         controller.insert(seminar2);
         controller.insert(seminar3);
@@ -41,11 +68,13 @@ public class ControllerTest {
         controller.searchById(3);
     }
 
+
     // ----------------------------------------------------------
     /**
      * Test deleting seminars
      */
-    public void testDeleteSeminarById() {
+    public void testDeleteSeminarById()
+    {
         controller.insert(seminar1);
         controller.insert(seminar2);
 
@@ -55,11 +84,13 @@ public class ControllerTest {
         controller.searchById(2);
     }
 
+
     // ----------------------------------------------------------
     /**
      * Test searching by cost
      */
-    public void testSearchByCostRange() {
+    public void testSearchByCostRange()
+    {
         controller.insert(seminar1);
         controller.insert(seminar2);
         controller.insert(seminar3);
@@ -69,11 +100,13 @@ public class ControllerTest {
         controller.searchByCostRange(90, 110);
     }
 
+
     // ----------------------------------------------------------
     /**
      * Test searching by date
      */
-    public void testSearchByDateRange() {
+    public void testSearchByDateRange()
+    {
         controller.insert(seminar1);
         controller.insert(seminar2);
         controller.insert(seminar3);
@@ -82,11 +115,13 @@ public class ControllerTest {
         controller.searchByDateRange("20230201", "20230301");
     }
 
+
     // ----------------------------------------------------------
     /**
      * Test searching by keyword
      */
-    public void testSearchByKeyword() {
+    public void testSearchByKeyword()
+    {
         controller.insert(seminar1);
         controller.insert(seminar2);
         controller.insert(seminar3);
@@ -96,13 +131,22 @@ public class ControllerTest {
         controller.searchByKeyword("Data Science");
     }
 
+
     // ----------------------------------------------------------
     /**
      * Test inserting invalid coordinates
      */
-    public void testInsertInvalidCoordinates() {
-        Seminar invalidSeminar = new Seminar(4, "Invalid Seminar", "20230401",
-            120, (short)-10, (short)10, 60, new String[] { "Invalid" },
+    public void testInsertInvalidCoordinates()
+    {
+        Seminar invalidSeminar = new Seminar(
+            4,
+            "Invalid Seminar",
+            "20230401",
+            120,
+            (short)-10,
+            (short)10,
+            60,
+            new String[] { "Invalid" },
             "Description 4");
 
         controller.insert(invalidSeminar);
