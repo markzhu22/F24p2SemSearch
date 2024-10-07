@@ -30,31 +30,44 @@ public class EmptyNode implements BinNode {
         return false;
     }
 
+    @Override
+    public BinNode insert(Seminar seminar) {
+        return new LeafNode(seminar);
+    }
 
     @Override
-    public Seminar getSeminar() {
-        // TODO Auto-generated method stub
+    public Seminar search(double x, double y) {
         return null;
     }
 
+    @Override
+    public BinNode delete(double x, double y) {
+        return this;
+    }
+
+    @Override
+    public Seminar getSeminar() {
+        return null;
+    }
 
     @Override
     public double getMinX() {
-        // TODO Auto-generated method stub
-        return 0;
+        return Double.POSITIVE_INFINITY;
     }
 
+    @Override
+    public double getMinY() {
+        return Double.POSITIVE_INFINITY;
+    }
 
     @Override
     public double getMaxY() {
-        // TODO Auto-generated method stub
-        return 0;
+        return Double.NEGATIVE_INFINITY;
     }
 
 
     @Override
     public double getMaxX() {
-        // TODO Auto-generated method stub
-        return 0;
+        return Double.NEGATIVE_INFINITY;
     }
 }

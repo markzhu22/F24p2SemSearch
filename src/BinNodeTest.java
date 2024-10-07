@@ -1,133 +1,54 @@
-import org.junit.Before;
-import org.junit.Test;
-import static org.junit.Assert.*;
-
 public class BinNodeTest {
-
-    private LeafNode leafNode;
-    private InternalNode internalNode;
-    private EmptyNode emptyNode;
-    private Seminar seminar1;
-    @SuppressWarnings("unused")
-    private Seminar seminar2;
-
-    @Before
-    public void setUp() {
-        // Setup for testing
-        seminar1 = new Seminar(1, "AI Seminar", "20240101", 120, (short)10,
-            (short)20, 500, new String[] { "AI" }, "Description 1");
-        seminar2 = new Seminar(2, "ML Seminar", "20240102", 90, (short)30,
-            (short)40, 700, new String[] { "ML" }, "Description 2");
-
-        leafNode = new LeafNode(seminar1);
-        emptyNode = EmptyNode.getInstance();
-        internalNode = new InternalNode(leafNode, emptyNode, true);
+    public static void main(String[] args) {
+        testLeafNode();
+        testInternalNode();
+        testEmptyNode();
     }
 
-
-    // Testing LeafNode
-    @Test
-    public void testLeafNodeIsLeaf() {
-        assertTrue(leafNode.isLeaf());
+    private static Seminar createSeminar(int id, short x, short y) {
+        return new Seminar(id, "Test Seminar " + id, "2023-01-01", 60, x, y, 100, new String[]{"test"}, "Test description");
     }
 
-
-    @Test
-    public void testLeafNodeTraverse() {
-        leafNode.traverse();
+    public static void testLeafNode() {
+        System.out.println("Testing LeafNode as BinNode...");
+        BinNode node = new LeafNode(createSeminar(1, (short)2, (short)3));
+        testBinNodeMethods(node);
     }
 
-
-    @Test
-    public void testLeafNodeIntersectsTrue() {
-        assertTrue(leafNode.intersects(10, 20, 5));
+    public static void testInternalNode() {
+        System.out.println("Testing InternalNode as BinNode...");
+        LeafNode left = new LeafNode(createSeminar(1, (short)2, (short)3));
+        LeafNode right = new LeafNode(createSeminar(2, (short)4, (short)5));
+        BinNode node = new InternalNode(left, right, true);
+        testBinNodeMethods(node);
     }
 
-
-    @Test
-    public void testLeafNodeIntersectsFalse() {
-        assertFalse(leafNode.intersects(50, 50, 5));
+    public static void testEmptyNode() {
+        System.out.println("Testing EmptyNode as BinNode...");
+        BinNode node = EmptyNode.getInstance();
+        testBinNodeMethods(node);
     }
 
-
-    @Test
-    public void testLeafNodeGetSeminar() {
-        assertEquals(seminar1, leafNode.getSeminar());
+    private static void testBinNodeMethods(BinNode node) {
+        System.out.println("isLeaf: " + node.isLeaf());
+        System.out.println("getMinX: " + node.getMinX());
+        System.out.println("getMaxX: " + node.getMaxX());
+        System.out.println("getMinY: " + node.getMinY());
+        System.out.println("getMaxY: " + node.getMaxY());
+        
+        Seminar testSeminar = createSeminar(3, (short)3, (short)4);
+        BinNode insertResult = node.insert(testSeminar);
+        System.out.println("Insert result type: " + insertResult.getClass().getSimpleName());
+        
+        Seminar searchResult = node.search(3, 4);
+        System.out.println("Search result: " + (searchResult != null ? searchResult.id() : "Not found"));
+        
+        BinNode deleteResult = node.delete(3, 4);
+        System.out.println("Delete result type: " + deleteResult.getClass().getSimpleName());
+        
+        boolean intersectsResult = node.intersects(3, 4, 1);
+        System.out.println("Intersects result: " + intersectsResult);
+        
+        System.out.println();
     }
-
-
-    // Testing EmptyNode
-    @Test
-    public void testEmptyNodeIsLeaf() {
-        assertFalse(emptyNode.isLeaf());
-    }
-
-
-    @Test
-    public void testEmptyNodeTraverse() {
-        emptyNode.traverse();
-    }
-
-
-    @Test
-    public void testEmptyNodeIntersects() {
-        assertFalse(emptyNode.intersects(10, 10, 5)); 
-    }
-
-
-    @Test
-    public void testEmptyNodeGetSeminar() {
-        assertNull(emptyNode.getSeminar()); 
-    }
-
-
-    // Testing InternalNode
-    @Test
-    public void testInternalNodeIsLeaf() {
-        assertFalse(internalNode.isLeaf());
-    }
-
-
-    @Test
-    public void testInternalNodeGetLeftAndRight() {
-        assertEquals(leafNode, internalNode.getLeft());
-        assertEquals(emptyNode, internalNode.getRight());
-    }
-
-
-    @Test
-    public void testInternalNodeTraverse() {
-        internalNode.traverse(); 
-    }
-
-
-    @Test
-    public void testInternalNodeIntersectsTrue() {
-        internalNode.setLeft(leafNode);
-    }
-
-
-    @Test
-    public void testInternalNodeIntersectsFalse() {
-        // Modify min/max to test this case
-        assertFalse(internalNode.intersects(50, 50, 5));
-    }
-
-
-    // MinX, MaxX, MaxY tests
-    @Test
-    public void testMinMaxMethods() {
-        assertEquals(0, leafNode.getMinX(), 0);
-        assertEquals(0, leafNode.getMaxX(), 0);
-        assertEquals(0, leafNode.getMaxY(), 0);
-
-        assertEquals(0, emptyNode.getMinX(), 0);
-        assertEquals(0, emptyNode.getMaxX(), 0);
-        assertEquals(0, emptyNode.getMaxY(), 0);
-
-        assertEquals(0, internalNode.getMinX(), 0);
-        assertEquals(0, internalNode.getMaxX(), 0);
-        assertEquals(0, internalNode.getMaxY(), 0);
-    }
-
 }

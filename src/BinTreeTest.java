@@ -1,74 +1,73 @@
-import org.junit.Before;
-import org.junit.Test;
-import static org.junit.Assert.*;
+import student.TestCase;
 
-public class BinTreeTest {
-    private BinTree binTree;
-    private Seminar seminar1;
-    private Seminar seminar2;
-    private Seminar seminar3;
+public class BinTreeTest extends TestCase {
+    private BinTree tree;
 
-    @Before
     public void setUp() {
-        binTree = new BinTree();
-
-        seminar1 = new Seminar(1, "Seminar 1", "20230101", 90, (short)10,
-            (short)10, 50, new String[] { "AI" }, "Description 1");
-        seminar2 = new Seminar(2, "Seminar 2", "20230201", 60, (short)30,
-            (short)30, 100, new String[] { "ML" }, "Description 2");
-        seminar3 = new Seminar(3, "Seminar 3", "20230301", 120, (short)50,
-            (short)50, 75, new String[] { "Data Science" }, "Description 3");
+        tree = new BinTree();
     }
 
-
-    @Test
-    public void testInsertIntoEmptyTree() {
-        binTree.insert(seminar1, seminar1.getX(), seminar1.getY());
-
-        boolean found = binTree.searchWithinRadius(seminar1.getX(), seminar1
-            .getY(), 1);
-        assertTrue("Seminar 1 should be found in the tree", found);
+    private Seminar createSeminar(int id, double x, double y) {
+        return new Seminar(id, "Test Seminar " + id, "2023-01-01", 60, (short)x, (short)y, 100, new String[]{"test"}, "Test description");
     }
 
-
-    @Test
-    public void testInsertWithSplit() {
-        binTree.insert(seminar1, seminar1.getX(), seminar1.getY());
-        binTree.insert(seminar2, seminar2.getX(), seminar2.getY());
-
-        boolean foundSeminar1 = binTree.searchWithinRadius(seminar1.getX(),
-            seminar1.getY(), 1);
-        boolean foundSeminar2 = binTree.searchWithinRadius(seminar2.getX(),
-            seminar2.getY(), 1);
-
-        assertTrue("Seminar 1 should be found", foundSeminar1);
-        assertTrue("Seminar 2 should be found", foundSeminar2);
-    }
-
-
-    @Test
-    public void testSearchWithinRadius() {
-        binTree.insert(seminar1, seminar1.getX(), seminar1.getY());
-        binTree.insert(seminar2, seminar2.getX(), seminar2.getY());
-        binTree.insert(seminar3, seminar3.getX(), seminar3.getY());
+    public void testInsertAndSearch() {
+        System.out.println("Starting testInsertAndSearch...");
+        Seminar seminar1 = createSeminar(1, 2, 3);
+        System.out.println("Inserting seminar: ID=" + seminar1.getId() + ", x=" + seminar1.getX() + ", y=" + seminar1.getY());
+        tree.insert(seminar1);
         
-        boolean foundSeminar2 = binTree.searchWithinRadius(30, 30, 5);
-        boolean foundSeminar3 = binTree.searchWithinRadius(50, 50, 5);
-
-        assertTrue("Seminar 2 should be found within the radius",
-            foundSeminar2);
-        assertTrue("Seminar 3 should be found within the radius",
-            foundSeminar3);
+        System.out.println("Searching for seminar at (2, 3)");
+        Seminar found = tree.search(2, 3);
+        if (found == null) {
+            System.out.println("Search returned null");
+        } else {
+            System.out.println("Found seminar: ID=" + found.getId() + ", x=" + found.getX() + ", y=" + found.getY());
+        }
+        assertNotNull("Should find the inserted seminar", found);
+        assertEquals("Found seminar should have correct ID", 1, found.getId());
+    
+        System.out.println("Searching for non-existent seminar at (4, 5)");
+        Seminar notFound = tree.search(4, 5);
+        assertNull("Should not find a seminar at non-existent coordinates", notFound);
     }
 
+    public void testSearchWithinRadius() {
+        tree.insert(createSeminar(1, 2, 3));
+        tree.insert(createSeminar(2, 4, 5));
+        tree.insert(createSeminar(3, 1, 6));
 
-    @Test
-    public void testSearchOutsideRadius() {
-        binTree.insert(seminar1, seminar1.getX(), seminar1.getY());
-        binTree.insert(seminar2, seminar2.getX(), seminar2.getY());
+        assertTrue("Should find seminars within radius", tree.searchWithinRadius(3, 4, 2));
+        assertFalse("Should not find seminars outside radius", tree.searchWithinRadius(10, 10, 1));
+    }
 
-        boolean foundSeminar1 = binTree.searchWithinRadius(0, 0, 5);
-        assertFalse("Seminar 1 should not be found outside the radius",
-            foundSeminar1);
+    public void testDelete() {
+        tree.insert(createSeminar(1, 2, 3));
+        tree.insert(createSeminar(2, 4, 5));
+
+        assertNotNull("Seminar should exist before deletion", tree.search(2, 3));
+        tree.delete(2, 3);
+        assertNull("Seminar should not exist after deletion", tree.search(2, 3));
+
+        assertNotNull("Other seminar should still exist", tree.search(4, 5));
+    }
+
+    public void testEmptyTree() {
+        assertNull("Search in empty tree should return null", tree.search(1, 1));
+        assertFalse("SearchWithinRadius in empty tree should return false", tree.searchWithinRadius(1, 1, 5));
+    }
+
+    public void testMultipleInsertionsAndSearches() {
+        for (int i = 0; i < 10; i++) {
+            tree.insert(createSeminar(i, i, i));
+        }
+
+        for (int i = 0; i < 10; i++) {
+            Seminar found = tree.search(i, i);
+            assertNotNull("Should find seminar at (" + i + "," + i + ")", found);
+            assertEquals("Found seminar should have correct ID", i, found.getId());
+        }
+
+        assertNull("Should not find seminar at non-existent coordinates", tree.search(10, 10));
     }
 }
