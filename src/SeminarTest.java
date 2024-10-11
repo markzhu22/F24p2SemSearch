@@ -68,37 +68,59 @@ public class SeminarTest extends TestCase {
     }
 
 
+    // ----------------------------------------------------------
+    /**
+     * Testing seminar title
+     */
     public void testTitle() {
         assertEquals("AI Seminar", seminar.title());
     }
 
-
+    // ----------------------------------------------------------
+    /**
+     * Testing seminar length
+     */
     public void testLength() {
         assertEquals(120, seminar.length());
     }
 
-
+    // ----------------------------------------------------------
+    /**
+     * Testing seminar description
+     */
     public void testDesc() {
         assertEquals("An AI Seminar", seminar.desc());
     }
 
-
+    // ----------------------------------------------------------
+    /**
+     * Testing seminar x
+     */
     public void testGetX() {
         assertEquals(10, seminar.getX());
     }
 
-
+    // ----------------------------------------------------------
+    /**
+     * Testing seminar y
+     */
     public void testGetY() {
         assertEquals(20, seminar.getY());
     }
 
-
+    // ----------------------------------------------------------
+    /**
+     * Testing seminar bintree
+     */
     public void testGetBinTree() {
         assertNotNull(seminar.getBinTree());
         assertTrue(seminar.getBinTree() instanceof BinTree);
     }
 
-
+    // ----------------------------------------------------------
+    /**
+     * Testing seminar id
+     */
     public void testGetId() {
         assertNull(seminar.getId());
     }

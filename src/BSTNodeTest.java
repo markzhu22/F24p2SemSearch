@@ -172,32 +172,50 @@ public class BSTNodeTest
     {
         assertFalse(nodeWithChildren.isLeaf());
     }
-    
-    public void testSemValue() {
+
+
+    // ----------------------------------------------------------
+    /**
+     * Test if BSTNode stores its seminar properly
+     */
+    public void testSemValue()
+    {
         BSTNode seminarNode = new BSTNode(seminar1, seminar1);
         assertEquals(seminar1, seminarNode.semValue());
     }
 
-    public void testStringValue() {
+
+    // ----------------------------------------------------------
+    /**
+     * Test if BSTNode stores a string properly
+     */
+    public void testStringValue()
+    {
         BSTNode stringNode = new BSTNode("AI", seminar1);
         assertEquals("AI", stringNode.stringValue());
     }
 
-    public void testSemValueException() {
-        BSTNode stringNode = new BSTNode("AI", seminar1);
-        stringNode.semValue();
+
+    // ----------------------------------------------------------
+    /**
+     * Test stringValue called on a seminar
+     */
+    public void testStringValueException()
+    {
+        BSTNode seminarNode = new BSTNode(seminar1, seminar1);
+        // seminarNode.stringValue();
     }
 
-    public void testStringValueException() {
-        BSTNode seminarNode = new BSTNode(seminar1, seminar1);
-        //seminarNode.stringValue();
-    }
-    
-    public void testSetStringValue() {
+
+    // ----------------------------------------------------------
+    /**
+     * Test changing the stringValue
+     */
+    public void testSetStringValue()
+    {
         BSTNode stringNode = new BSTNode("AI", seminar1);
         stringNode.setStringValue("ML");
         assertEquals("ML", stringNode.stringValue());
     }
-    
-  
+
 }

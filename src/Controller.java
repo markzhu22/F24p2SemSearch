@@ -96,11 +96,13 @@ public class Controller
         {
             idTree.removeById(id);
 
-            dateTree.removeByDate(seminar.date());
+            dateTree.removeByDate(seminar);
 
-            costTree.removeByCost(seminar.cost());
+            costTree.removeByCost(seminar);
 
-            keywordTree.removeByKeyword(seminar.keywords()[0]);
+            for (String kywd: seminar.keywords()) {
+                keywordTree.removeByKeyword(kywd, seminar);
+            }
 
             System.out.println(
                 "Record with ID " + id
@@ -108,7 +110,7 @@ public class Controller
         }
         else
         {
-            System.out.println("Delete FAILED -- There is no record with ID" + id);
+            System.out.println("Delete FAILED -- There is no record with ID " + id);
         }
     }
 

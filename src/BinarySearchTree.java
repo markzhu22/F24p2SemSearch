@@ -34,7 +34,7 @@ public class BinarySearchTree {
      * Find using the ID
      * @param id
      *          ID to be searched
-     * @return
+     * @return the seminar the id correlate to. Return null if did not find anything
      *          
      */
     public Seminar findById(int id) {
@@ -67,19 +67,28 @@ public class BinarySearchTree {
         }
 
         boolean found = false;
-
-        if (rt.semValue().date().compareTo(low) >= 0) {
+        
+        if (low.equals(high) && rt.semValue().date().compareTo(low) == 0) {
             found |= findByDateRangeHelper(rt.left(), low, high);
+            if (rt.semValue().date().compareTo(low) >= 0 && rt.semValue().date()
+                .compareTo(high) <= 0) {
+                System.out.println(rt.semValue());
+                found = true;
+            }
         }
-
-        if (rt.semValue().date().compareTo(low) >= 0 && rt.semValue().date()
-            .compareTo(high) <= 0) {
-            System.out.println(rt.semValue());
-            found = true;
-        }
-
-        if (rt.semValue().date().compareTo(high) <= 0) {
-            found |= findByDateRangeHelper(rt.right(), low, high);
+        else {
+            if (rt.semValue().date().compareTo(low) >= 0) {
+                found |= findByDateRangeHelper(rt.left(), low, high);
+            }
+            
+            if (rt.semValue().date().compareTo(low) >= 0 && rt.semValue().date()
+                .compareTo(high) <= 0) {
+                System.out.println(rt.semValue());
+                found = true;
+            }
+            if (rt.semValue().date().compareTo(high) <= 0) {
+                found |= findByDateRangeHelper(rt.right(), low, high);
+            }
         }
 
         return found;
@@ -97,19 +106,28 @@ public class BinarySearchTree {
 
         boolean found = false;
 
-        if (rt.semValue().cost() >= low) {
+        if (low == high && rt.semValue().cost() == low) {
             found |= findByCostRangeHelper(rt.left(), low, high);
+            if (rt.semValue().cost() >= low && rt.semValue().cost() <= high) {
+                System.out.println(rt.semValue());
+                found = true;
+            }
         }
-
-        if (rt.semValue().cost() >= low && rt.semValue().cost() <= high) {
-            System.out.println(rt.semValue());
-            found = true;
+        else {
+            if (rt.semValue().cost() >= low) {
+                found |= findByCostRangeHelper(rt.left(), low, high);
+            }
+            
+            if (rt.semValue().cost() >= low && rt.semValue().cost() <= high) {
+                System.out.println(rt.semValue());
+                found = true;
+            }
+            
+            if (rt.semValue().cost() <= high) {
+                found |= findByCostRangeHelper(rt.right(), low, high);
+            }
         }
-
-        if (rt.semValue().cost() <= high) {
-            found |= findByCostRangeHelper(rt.right(), low, high);
-        }
-
+        
         return found;
     }
 
@@ -210,7 +228,7 @@ public class BinarySearchTree {
             return new BSTNode(seminar, seminar);
         }
 
-        if (seminar.date().compareTo(rt.semValue().date()) < 0) {
+        if (seminar.date().compareTo(rt.semValue().date()) <= 0) {
             rt.setLeft(insertByDateHelp(rt.left(), seminar));
         }
         else {
@@ -303,6 +321,11 @@ public class BinarySearchTree {
     }
 
 
+    public void removeById(int id) {
+        root = removeByIdHelp(root, id);
+        nodecount = decrement(nodecount);
+    }
+    
     private BSTNode removeByIdHelp(BSTNode rt, int id) {
         if (isNull(rt))
             return null;
@@ -326,78 +349,86 @@ public class BinarySearchTree {
         return rt;
     }
 
-
-    public void removeById(int id) {
-        root = removeByIdHelp(root, id);
-        nodecount = decrement(nodecount);
-    }
-
-
-    private BSTNode removeByDateHelp(BSTNode rt, String date) {
-        if (isNull(rt))
-            return null;
-        if (date.compareTo(rt.semValue().date()) < 0) {
-            rt.setLeft(removeByDateHelp(rt.left(), date));
-        }
-        else if (date.compareTo(rt.semValue().date()) > 0) {
-            rt.setRight(removeByDateHelp(rt.right(), date));
-        }
-        else {
-            if (isNull(rt.left()))
-                return rt.right();
-            else if (isNull(rt.right()))
-                return rt.left();
-            else {
-                rt.setValue(findMax(rt.left()));
-                rt.setLeft(deleteMax(rt.left()));
-            }
-        }
-        return rt;
-    }
-
-
-    public void removeByDate(String date) {
+    public void removeByDate(Seminar date) {
         root = removeByDateHelp(root, date);
         nodecount = decrement(nodecount);
     }
-
-
-    private BSTNode removeByCostHelp(BSTNode rt, int cost) {
+    
+    private BSTNode removeByDateHelp(BSTNode rt, Seminar date) {
         if (isNull(rt))
             return null;
-        if (cost < rt.semValue().cost()) {
-            rt.setLeft(removeByCostHelp(rt.left(), cost));
+        if (date.date().compareTo(rt.semValue().date()) < 0) {
+            rt.setLeft(removeByDateHelp(rt.left(), date));
         }
-        else if (cost > rt.semValue().cost()) {
-            rt.setRight(removeByCostHelp(rt.right(), cost));
+        else if (date.date().compareTo(rt.semValue().date()) > 0) {
+            rt.setRight(removeByDateHelp(rt.right(), date));
         }
         else {
-            if (isNull(rt.left()))
-                return rt.right();
-            else if (isNull(rt.right()))
-                return rt.left();
+            if (rt.semValue().id() != date.id()) {
+                rt.setLeft(removeByDateHelp(rt.left(), date));
+            }
             else {
-                rt.setValue(findMax(rt.left()));
-                rt.setLeft(deleteMax(rt.left()));
+                if (isNull(rt.left()))
+                    return rt.right();
+                else if (isNull(rt.right()))
+                    return rt.left();
+                else {
+                    rt.setValue(findMax(rt.left()));
+                    rt.setLeft(deleteMax(rt.left()));
+                }
             }
         }
         return rt;
     }
 
 
-    public void removeByCost(int cost) {
+    private BSTNode removeByCostHelp(BSTNode rt, Seminar cost) {
+        if (isNull(rt))
+            return null;
+        if (cost.cost() < rt.semValue().cost()) {
+            rt.setLeft(removeByCostHelp(rt.left(), cost));
+        }
+        else if (cost.cost() > rt.semValue().cost()) {
+            rt.setRight(removeByCostHelp(rt.right(), cost));
+        }
+        else {
+            if (rt.semValue().id() != cost.id()) {
+                rt.setLeft(removeByCostHelp(rt.left(), cost));
+            }
+            else {
+                if (isNull(rt.left()))
+                    return rt.right();
+                else if (isNull(rt.right()))
+                    return rt.left();
+                else {
+                    rt.setValue(findMax(rt.left()));
+                    rt.setLeft(deleteMax(rt.left()));
+                }
+            }
+        }
+        return rt;
+    }
+
+
+    public void removeByCost(Seminar cost) {
         root = removeByCostHelp(root, cost);
         nodecount = decrement(nodecount);
     }
 
 
-    private BSTNode removeByKeywordHelp(BSTNode rt, String keyword) {
+    private BSTNode removeByKeywordHelp(BSTNode rt, String keyword, Seminar sem) {
         if (rt == null)
             return null;
         if (rt.stringValue().compareTo(keyword) > 0) {
-            rt.setLeft(removeByKeywordHelp(rt.left(), keyword));
+            rt.setLeft(removeByKeywordHelp(rt.left(), keyword, sem));
         }
-        else if (rt.stringValue().equals(keyword)) {
+        else if (rt.stringValue().compareTo(keyword) < 0) {
+            rt.setRight(removeByKeywordHelp(rt.right(), keyword, sem));
+        }
+        else {
+            if (rt.semValue().id() != sem.id()) {
+                rt.setLeft(removeByKeywordHelp(rt.left(), keyword, sem));
+            }
             if (isNull(rt.left()))
                 return rt.right();
             else if (isNull(rt.right()))
@@ -407,15 +438,12 @@ public class BinarySearchTree {
                 rt.setLeft(deleteMax(rt.left()));
             }
         }
-        else {
-            rt.setRight(removeByKeywordHelp(rt.right(), keyword));
-        }
         return rt;
     }
 
 
-    public void removeByKeyword(String keyword) {
-        root = removeByKeywordHelp(root, keyword);
+    public void removeByKeyword(String keyword, Seminar sem) {
+        root = removeByKeywordHelp(root, keyword, sem);
         nodecount = decrement(nodecount);
     }
     

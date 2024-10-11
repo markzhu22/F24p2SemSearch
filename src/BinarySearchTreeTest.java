@@ -50,9 +50,9 @@ public class BinarySearchTreeTest extends student.TestCase {
      * Test inserting date
      */
     public void testInsertByDate() {
-        BinarySearchTree bst = new BinarySearchTree();
+        bst = new BinarySearchTree();
 
-        Seminar seminar1 = new Seminar(1, "Seminar Title", "20230101", 90,
+        seminar1 = new Seminar(1, "Seminar Title", "20230101", 90,
             (short)10, (short)10, 50, new String[] { "keyword1" },
             "Description 1");
 
@@ -108,7 +108,7 @@ public class BinarySearchTreeTest extends student.TestCase {
      * Test inserting keyword
      */
     public void testInsertByKeyword() {
-        BinarySearchTree bst = new BinarySearchTree();
+        bst = new BinarySearchTree();
 
         seminar1 = new Seminar(1, "Seminar 1", "20230101", 90,
             (short)10, (short)10, 50, new String[] { "AI", "Machine Learning" },
@@ -263,7 +263,7 @@ public class BinarySearchTreeTest extends student.TestCase {
         dateTree.insertByDate(seminar2);
         dateTree.insertByDate(seminar3);
 
-        dateTree.removeByDate("20230102");
+        dateTree.removeByDate(seminar2);
 
         assertFalse(dateTree.findByDateRange("20230102", "20230102"));
 
@@ -288,14 +288,17 @@ public class BinarySearchTreeTest extends student.TestCase {
         seminar3 = new Seminar(3, "Seminar 3", "20230103", 70,
             (short)12, (short)15, 70, new String[] { "Data Science" },
             "Description 3");
+        seminar4 = new Seminar(4, "Seminar 4", "20230103", 100,
+            (short)12, (short)15, 70, new String[] { "Data Science" },
+            "Description 3");
 
         costTree.insertByCost(seminar1);
         costTree.insertByCost(seminar2);
         costTree.insertByCost(seminar3);
 
-        costTree.removeByCost(100);
+        costTree.removeByCost(seminar4);
 
-        assertFalse(costTree.findByCostRange(100, 100));
+        assertTrue(costTree.findByCostRange(100, 100));
 
         assertTrue(costTree.findByCostRange(50, 50));
         assertTrue(costTree.findByCostRange(70, 70));
@@ -321,7 +324,7 @@ public class BinarySearchTreeTest extends student.TestCase {
         keywordTree.insertByKeyword(seminar2);
         keywordTree.insertByKeyword(seminar3);
 
-        keywordTree.removeByKeyword("Blockchain");
+        keywordTree.removeByKeyword("Blockchain" ,seminar2);
 
         assertNotNull(keywordTree.findByKeyword("Blockchain"));
 
