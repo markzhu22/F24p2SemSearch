@@ -79,5 +79,19 @@ public class LeafNode implements BinNode {
         return seminar.getX();
     }
 
+
+    @Override
+    public BinNode getLeft() {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+
+    @Override
+    public BinNode getRight() {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
     
 }

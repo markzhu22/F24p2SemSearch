@@ -15,7 +15,13 @@ public interface BinNode {
 
     double getMaxX();
 
+    BinNode getLeft();
+
+    BinNode getRight();
+
     BinNode insert(Seminar seminar);
+
     Seminar search(double x, double y);
+
     BinNode delete(double x, double y);
 }

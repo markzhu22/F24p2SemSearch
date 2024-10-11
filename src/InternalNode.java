@@ -2,11 +2,13 @@ public class InternalNode implements BinNode {
     private BinNode left; // Left child
     private BinNode right; // Right child
     private boolean splitOnX; // true for x split, false for y split
+    private int leftmostId; 
 
     public InternalNode(BinNode left, BinNode right, boolean splitOnX) {
         this.left = left;
         this.right = right;
         this.splitOnX = splitOnX;
+        this.leftmostId = calculateLeftmostId();
     }
 
 
@@ -35,7 +37,23 @@ public class InternalNode implements BinNode {
         this.right = right;
     }
 
+    public int getLeftmostId() {
+        return leftmostId;
+    }
 
+    @SuppressWarnings("null")
+    private int calculateLeftmostId() {
+        BinNode current = this.left;
+        while (!(current instanceof LeafNode)) {
+            if (current instanceof InternalNode) {
+                current = ((InternalNode) current).getLeft();
+            } else {
+                // This should not happen in a well-formed tree
+                return (Integer)null;
+            }
+        }
+        return ((LeafNode) current).getSeminar().getId();
+    }
    
     public void traverse() {
         if (left != null)

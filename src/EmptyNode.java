@@ -70,4 +70,18 @@ public class EmptyNode implements BinNode {
     public double getMaxX() {
         return Double.NEGATIVE_INFINITY;
     }
+
+
+    @Override
+    public BinNode getLeft() {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+
+    @Override
+    public BinNode getRight() {
+        // TODO Auto-generated method stub
+        return null;
+    }
 }

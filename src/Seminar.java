@@ -185,7 +185,29 @@ public class Seminar {
     }
 
 
-    public String getId() {
-        return null;
+    public void setId(int id) {
+        this.id = id;
     }
+
+    public void setX(double x) {
+        this.x = (short)x;
+    }
+
+    public void setY(double y) {
+        this.y = (short)y;
+    }
+
+    public int getId() {
+        return this.id;
+    }
+
+    public double getX1() {
+        return this.x;
+    }
+
+    public double getY1() {
+        return this.y;
+    }
+
+
 }

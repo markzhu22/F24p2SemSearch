@@ -25,7 +25,7 @@ public class BinTree {
                 System.out.println("Found a record with key value " + seminar.getId() + 
                                    " at " + seminar.getX() + ", " + seminar.getY());
                 return true;
-            } else {
+            } else if (node instanceof InternalNode) {
                 InternalNode internal = (InternalNode) node;
                 boolean leftFound = searchWithinRadius(internal.getLeft(), x, y, radius);
                 boolean rightFound = searchWithinRadius(internal.getRight(), x, y, radius);
@@ -36,8 +36,31 @@ public class BinTree {
         return false;
     }
 
-    public Seminar search(double x, double y) {
-        return root.search(x, y);
+    public Seminar search(int id) {
+        return searchHelper(root, id);
+    }
+
+    private Seminar searchHelper(BinNode node, int id) {
+        if (node instanceof EmptyNode) {
+            return null;
+        }
+        if (node instanceof LeafNode) {
+            LeafNode leaf = (LeafNode) node;
+            Seminar seminar = leaf.getSeminar();
+            if (id == seminar.getId()) {
+                return seminar;
+            }
+            return null;
+        }
+        if (node instanceof InternalNode) {
+            InternalNode internal = (InternalNode) node;
+            if (id <= internal.getLeftmostId()) {
+                return searchHelper(internal.getLeft(), id);
+            } else {
+                return searchHelper(internal.getRight(), id);
+            }
+        }
+        return null;
     }
 
     public void delete(double x, double y) {
