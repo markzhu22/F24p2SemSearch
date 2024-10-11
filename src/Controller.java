@@ -147,11 +147,7 @@ public class Controller
     public void searchByKeyword(String keyword)
     {
         System.out.println("Seminars matching keyword " + keyword + ":");
-        String found = keywordTree.findByKeyword(keyword);
-        if (!found.equals(""))
-        {
-            System.out.println(found.substring(0, found.length() - 1));
-        }
+        keywordTree.findByKeyword(keyword);
     }
 
 

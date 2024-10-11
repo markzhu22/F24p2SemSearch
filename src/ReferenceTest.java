@@ -89,7 +89,7 @@ public class ReferenceTest
             + "(null)\r\n"
             + "Number of records: 2\r\n"
             + "Record with ID 1 successfully deleted from the database\r\n"
-            + "Delete FAILED -- There is no record with ID1\r\n"
+            + "Delete FAILED -- There is no record with ID 1\r\n"
             + "Seminars with costs in range 0 to 1:\r\n"
             + "2 nodes visited in this search\r\n"
             + "Seminars with dates in range 0 to 0:\r\n"
