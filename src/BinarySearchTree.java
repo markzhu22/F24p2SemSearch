@@ -222,16 +222,29 @@ public class BinarySearchTree
     // ----------------------------------------------------------
     /**
      * Find the BSTNode the given seminar is in
-     * @param rt
-     *          the starting BSTNode
+     * 
      * @param seminar
-     *          the seminar we are searching for
-     * @return
-     *          the BSTNode the seminar is in
+     *            the seminar it is searching for
+     * @return if it was found or not
      */
-    public BSTNode findHelp(BSTNode rt, Seminar seminar)
+    public boolean find(Seminar seminar)
     {
-        if (rt == null)
+        if (isNull(root))
+        {
+            return false;
+        }
+
+        if (findHelp(root, seminar) == null)
+        {
+            return false;
+        }
+        return true;
+    }
+
+
+    private BSTNode findHelp(BSTNode rt, Seminar seminar)
+    {
+        if (isNull(rt))
         {
             return null;
         }
@@ -254,21 +267,6 @@ public class BinarySearchTree
         }
 
         return temp;
-    }
-
-
-    public boolean find(Seminar seminar)
-    {
-        if (root == null)
-        {
-            return false;
-        }
-
-        if (findHelp(root, seminar) == null)
-        {
-            return false;
-        }
-        return true;
     }
 
 
@@ -427,7 +425,7 @@ public class BinarySearchTree
     public void removeById(int id)
     {
         root = removeByIdHelp(root, id);
-        nodecount = decrement(nodecount);
+        decrementNodeCount();
     }
 
 
@@ -445,16 +443,7 @@ public class BinarySearchTree
         }
         else
         {
-            // Node found, remove it
-            if (isNull(rt.left()))
-                return rt.right();
-            else if (isNull(rt.right()))
-                return rt.left();
-            else
-            {
-                rt.setValue(findMax(rt.left()));
-                rt.setLeft(deleteMax(rt.left()));
-            }
+            return removeHelper(rt);
         }
         return rt;
     }
@@ -463,7 +452,7 @@ public class BinarySearchTree
     public void removeByDate(Seminar date)
     {
         root = removeByDateHelp(root, date);
-        nodecount = decrement(nodecount);
+        decrementNodeCount();
     }
 
 
@@ -481,27 +470,24 @@ public class BinarySearchTree
         }
         else
         {
-            if (rt.semValue().id() != date.id())
+            if (!isEquals(rt.semValue().id(), date.id()))
             {
                 rt.setLeft(removeByDateHelp(rt.left(), date));
             }
-            else
-            {
-                if (isNull(rt.left()))
-                    return rt.right();
-                else if (isNull(rt.right()))
-                    return rt.left();
-                else
-                {
-                    rt.setValue(findMax(rt.left()));
-                    rt.setLeft(deleteMax(rt.left()));
-                }
+            else {
+                return removeHelper(rt);
             }
+
         }
         return rt;
     }
 
-
+    public void removeByCost(Seminar cost)
+    {
+        root = removeByCostHelp(root, cost);
+        decrementNodeCount();
+    }
+    
     private BSTNode removeByCostHelp(BSTNode rt, Seminar cost)
     {
         if (isNull(rt))
@@ -516,37 +502,26 @@ public class BinarySearchTree
         }
         else
         {
-            if (rt.semValue().id() != cost.id())
+            if (!isEquals(rt.semValue().id(), cost.id()))
             {
                 rt.setLeft(removeByCostHelp(rt.left(), cost));
             }
-            else
-            {
-                if (isNull(rt.left()))
-                    return rt.right();
-                else if (isNull(rt.right()))
-                    return rt.left();
-                else
-                {
-                    rt.setValue(findMax(rt.left()));
-                    rt.setLeft(deleteMax(rt.left()));
-                }
+            else {
+                return removeHelper(rt);
             }
         }
         return rt;
     }
 
-
-    public void removeByCost(Seminar cost)
+    public void removeByKeyword(String keyword, Seminar sem)
     {
-        root = removeByCostHelp(root, cost);
-        nodecount = decrement(nodecount);
+        root = removeByKeywordHelp(root, keyword, sem);
+        decrementNodeCount();
     }
-
-
+    
     private BSTNode removeByKeywordHelp(BSTNode rt, String keyword, Seminar sem)
     {
-        if (rt == null)
+        if (isNull(rt))
             return null;
         if (rt.stringValue().compareTo(keyword) > 0)
         {
@@ -558,30 +533,29 @@ public class BinarySearchTree
         }
         else
         {
-            if (rt.semValue().id() != sem.id())
+            if (!isEquals(rt.semValue().id(), sem.id()))
             {
                 rt.setLeft(removeByKeywordHelp(rt.left(), keyword, sem));
             }
-            if (isNull(rt.left()))
-                return rt.right();
-            else if (isNull(rt.right()))
-                return rt.left();
-            else
-            {
-                rt.setStringValue(findStringMax(rt.left()));
-                rt.setLeft(deleteMax(rt.left()));
+            else {
+                return removeHelper(rt);
             }
         }
         return rt;
     }
 
-
-    public void removeByKeyword(String keyword, Seminar sem)
-    {
-        root = removeByKeywordHelp(root, keyword, sem);
-        nodecount = decrement(nodecount);
+    public BSTNode removeHelper(BSTNode rt) {
+        if (isNull(rt.left()))
+            return rt.right();
+        else if (isNull(rt.right()))
+            return rt.left();
+        else
+        {
+            rt.setStringValue(findStringMax(rt.left()));
+            rt.setLeft(deleteMax(rt.left()));
+            return rt;
+        }
     }
-
 
     // ----------------------------------------------------------
     /**
@@ -637,14 +611,14 @@ public class BinarySearchTree
 
     // ----------------------------------------------------------
     /**
-     * Decreases an integer by one
-     * 
-     * @param i
-     *            the integer to be decremented
-     * @return decremented i
+     * Decreases node count  by one
      */
-    public int decrement(int i)
+    public void decrementNodeCount()
     {
-        return i - 1;
+        nodecount -= 1;
+    }
+    
+    public boolean isEquals(Object i, Object j) {
+        return i.equals(j);
     }
 }

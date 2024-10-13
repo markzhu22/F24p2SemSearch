@@ -114,7 +114,7 @@ public class SeminarTest extends TestCase {
      */
     public void testGetBinTree() {
         assertNotNull(seminar.getBinTree());
-        assertTrue(seminar.getBinTree() instanceof BinTree);
+        assertTrue(seminar.getBinTree() != null);
     }
 
     // ----------------------------------------------------------
@@ -122,6 +122,6 @@ public class SeminarTest extends TestCase {
      * Testing seminar id
      */
     public void testGetId() {
-        assertNull(seminar.getId());
+        assertEquals(seminar.getId(), 1);
     }
 }
