@@ -12,7 +12,12 @@ public class LeafNodeTest {
     }
 
     private static Seminar createSeminar(int id, short x, short y) {
-        return new Seminar(id, "Test Seminar", "2023-01-01", 60, x, y, 100, new String[]{"test"}, "Test description");
+        Seminar seminar = new Seminar();
+        seminar.setId(id);
+        seminar.setX(x);
+        seminar.setY(y);
+        seminar.addKeyword("test");
+        return seminar;
     }
 
     public static void testCreation() {
