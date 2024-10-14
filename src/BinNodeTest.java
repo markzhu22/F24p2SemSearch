@@ -36,7 +36,7 @@ public class BinNodeTest
         System.out.println("Testing InternalNode as BinNode...");
         LeafNode left = new LeafNode(createSeminar(1, (short)2, (short)3));
         LeafNode right = new LeafNode(createSeminar(2, (short)4, (short)5));
-        BinNode node = new InternalNode(left, right, true);
+        BinNode node = new InternalNode(left, right, true, 0);
         testBinNodeMethods(node);
     }
 
@@ -58,7 +58,7 @@ public class BinNodeTest
         System.out.println("getMaxY: " + node.getMaxY());
 
         Seminar testSeminar = createSeminar(3, (short)3, (short)4);
-        BinNode insertResult = node.insert(testSeminar);
+        BinNode insertResult = node.insert(testSeminar, 0);
         System.out.println(
             "Insert result type: " + insertResult.getClass().getSimpleName());
 

@@ -2,17 +2,22 @@ public class InternalNode implements BinNode {
     private BinNode left; // Left child
     private BinNode right; // Right child
     private boolean splitOnX; // true for x split, false for y split
-    private int leftmostId; 
+    private int leftmostId;
+    @SuppressWarnings("unused")
+    private int depth;
 
-    public InternalNode(BinNode left, BinNode right, boolean splitOnX) {
+    public InternalNode(
+        BinNode left,
+        BinNode right,
+        boolean splitOnX,
+        int depth) {
         this.left = left;
         this.right = right;
-        this.splitOnX = splitOnX;
+        this.splitOnX = (depth % 2 == 0);
         this.leftmostId = calculateLeftmostId();
     }
 
 
- 
     public boolean isLeaf() {
         return false;
     }
@@ -37,24 +42,28 @@ public class InternalNode implements BinNode {
         this.right = right;
     }
 
+
     public int getLeftmostId() {
         return leftmostId;
     }
+
 
     @SuppressWarnings("null")
     private int calculateLeftmostId() {
         BinNode current = this.left;
         while (!(current instanceof LeafNode)) {
             if (current instanceof InternalNode) {
-                current = ((InternalNode) current).getLeft();
-            } else {
+                current = ((InternalNode)current).getLeft();
+            }
+            else {
                 // This should not happen in a well-formed tree
                 return (Integer)null;
             }
         }
-        return ((LeafNode) current).getSeminar().getId();
+        return ((LeafNode)current).getSeminar().getId();
     }
-   
+
+
     public void traverse() {
         if (left != null)
             left.traverse();
@@ -63,7 +72,6 @@ public class InternalNode implements BinNode {
     }
 
 
-  
     public boolean intersects(double x, double y, double radius) {
         // Calculate bounding box for this internal node based on child nodes
         double minX = left.getMinX();
@@ -72,8 +80,8 @@ public class InternalNode implements BinNode {
         double maxY = right.getMaxY();
 
         if (!splitOnX) {
-            minY = Math.min(left.getMinY(), right.getMinY()); 
-            maxY = Math.max(left.getMaxY(), right.getMaxY()); 
+            minY = Math.min(left.getMinY(), right.getMinY());
+            maxY = Math.max(left.getMaxY(), right.getMaxY());
         }
 
         // Calculate center of the bounding box
@@ -89,42 +97,27 @@ public class InternalNode implements BinNode {
         double boxHalfWidth = (maxX - minX) / 2;
         double boxHalfHeight = (maxY - minY) / 2;
 
-        // Debug output to trace the values
-        System.out.println("Bounding Box - minX: " + minX + ", maxX: " + maxX);
-        System.out.println("Bounding Box - minY: " + minY + ", maxY: " + maxY);
-        System.out.println("Center of Box - centerX: " + centerX + ", centerY: "
-            + centerY);
-        System.out.println("Circle Center - x: " + x + ", y: " + y
-            + ", radius: " + radius);
-        System.out.println("Distance - xDist: " + xDist + ", yDist: " + yDist);
-        System.out.println("Box Half Width: " + boxHalfWidth
-            + ", Box Half Height: " + boxHalfHeight);
-
-            if (xDist <= boxHalfWidth + radius && yDist <= boxHalfHeight + radius) {
-                return left.intersects(x, y, radius) || right.intersects(x, y, radius);
-            }
-            return false;
-    }
-
-    
-    public BinNode insert(Seminar seminar) {
-        if (splitOnX) {
-            if (seminar.getX() < right.getMinX()) {
-                left = left.insert(seminar);
-            } else {
-                right = right.insert(seminar);
-            }
-        } else {
-            if (seminar.getY() < right.getMinY()) {
-                left = left.insert(seminar);
-            } else {
-                right = right.insert(seminar);
-            }
+        if (xDist <= boxHalfWidth + radius && yDist <= boxHalfHeight + radius) {
+            return left.intersects(x, y, radius) || right.intersects(x, y,
+                radius);
         }
-        return this;
+        return false;
     }
 
-   
+
+    public BinNode insert(Seminar seminar, int depth) {
+        if ((depth % 2 == 0 && seminar.x() < this.getRight().getMinX())
+            || (depth % 2 != 0 && seminar.y() < this.getRight().getMinY())) {
+            return new InternalNode(this.getLeft().insert(seminar, depth + 1),
+                this.getRight(), true, depth);
+        }
+        else {
+            return new InternalNode(this.getLeft(), this.getRight().insert(
+                seminar, depth + 1), false, depth);
+        }
+    }
+
+
     public Seminar search(double x, double y) {
         if (intersects(x, y, 0)) {
             Seminar leftResult = left.search(x, y);
@@ -136,43 +129,46 @@ public class InternalNode implements BinNode {
         return null;
     }
 
-  
+
     @Override
-        public BinNode delete(double x, double y) {
-            if (intersects(x, y, 0)) {
-                left = left.delete(x, y);
-                right = right.delete(x, y);
-                
-                // Case 1: Both children are EmptyNodes
-                if (left instanceof EmptyNode && right instanceof EmptyNode) {
+    public BinNode delete(double x, double y) {
+        if (intersects(x, y, 0)) {
+            left = left.delete(x, y);
+            right = right.delete(x, y);
+
+            // Case 1: Both children are EmptyNodes
+            if (left instanceof EmptyNode && right instanceof EmptyNode) {
+                return EmptyNode.getInstance();
+            }
+
+            // Case 2: Left child is EmptyNode
+            if (left instanceof EmptyNode) {
+                return right;
+            }
+
+            // Case 3: Right child is EmptyNode
+            if (right instanceof EmptyNode) {
+                return left;
+            }
+
+            // Case 4: Both children are LeafNodes
+            if (left instanceof LeafNode && right instanceof LeafNode) {
+                LeafNode leftLeaf = (LeafNode)left;
+                LeafNode rightLeaf = (LeafNode)right;
+                if (leftLeaf.getSeminar() == null && rightLeaf
+                    .getSeminar() == null) {
                     return EmptyNode.getInstance();
                 }
-                
-                // Case 2: Left child is EmptyNode
-                if (left instanceof EmptyNode) {
+                else if (leftLeaf.getSeminar() == null) {
                     return right;
                 }
-                
-                // Case 3: Right child is EmptyNode
-                if (right instanceof EmptyNode) {
+                else if (rightLeaf.getSeminar() == null) {
                     return left;
                 }
-                
-                // Case 4: Both children are LeafNodes
-                if (left instanceof LeafNode && right instanceof LeafNode) {
-                    LeafNode leftLeaf = (LeafNode) left;
-                    LeafNode rightLeaf = (LeafNode) right;
-                    if (leftLeaf.getSeminar() == null && rightLeaf.getSeminar() == null) {
-                        return EmptyNode.getInstance();
-                    } else if (leftLeaf.getSeminar() == null) {
-                        return right;
-                    } else if (rightLeaf.getSeminar() == null) {
-                        return left;
-                    }
-                }
             }
-            return this;
         }
+        return this;
+    }
 
 
     public Seminar getSeminar() {
@@ -189,12 +185,28 @@ public class InternalNode implements BinNode {
         return Math.max(left.getMaxX(), right.getMaxX());
     }
 
+
     public double getMinY() {
         return Math.min(left.getMinY(), right.getMinY());
     }
+
 
     @Override
     public double getMaxY() {
         return Math.max(left.getMaxY(), right.getMaxY());
     }
+
+
+    @Override
+    public String toString(int depth) {
+        return "    ".repeat(depth) + "I\n" + left.toString(depth + 1) + right
+            .toString(depth + 1);
+    }
+
+
+    public BinNode insert(Seminar seminar) {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
 }

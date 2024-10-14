@@ -25,33 +25,37 @@ public class LeafNode implements BinNode {
         return dist <= radius;
     }
 
+
     @Override
-    public BinNode insert(Seminar newSeminar) {
-        return new InternalNode(
-            new LeafNode(this.seminar), 
-            new LeafNode(newSeminar), 
-            this.seminar.getX() != newSeminar.getX()
-        );
+    public BinNode insert(Seminar newSeminar, int depth) {
+        if (this.seminar == null) {
+            this.seminar = newSeminar;
+            return this;
+        }
+        return new InternalNode(new LeafNode(this.seminar), new LeafNode(
+            newSeminar), this.seminar.x() < newSeminar.x(), depth);
     }
+
 
     @Override
     public Seminar search(double x, double y) {
-        if (seminar != null && 
-            Math.abs(seminar.getX() - x) < 1e-6 && 
-            Math.abs(seminar.getY() - y) < 1e-6) {
+        if (seminar != null && Math.abs(seminar.getX() - x) < 1e-6 && Math.abs(
+            seminar.getY() - y) < 1e-6) {
             return seminar;
         }
         return null;
     }
 
+
     @Override
     public BinNode delete(double x, double y) {
-        if (Math.abs(seminar.getX() - x) < 1e-6 && 
-            Math.abs(seminar.getY() - y) < 1e-6) {
+        if (Math.abs(seminar.getX() - x) < 1e-6 && Math.abs(seminar.getY()
+            - y) < 1e-6) {
             return EmptyNode.getInstance();
         }
         return this;
     }
+
 
     public Seminar getSeminar() {
         return seminar;
@@ -63,10 +67,12 @@ public class LeafNode implements BinNode {
         return seminar.getX();
     }
 
+
     @Override
     public double getMinY() {
         return seminar.getY();
     }
+
 
     @Override
     public double getMaxY() {
@@ -93,5 +99,11 @@ public class LeafNode implements BinNode {
         return null;
     }
 
-    
+
+    @Override
+    public String toString(int depth) {
+        return "    ".repeat(depth) + "Leaf with 1 objects: " + seminar.getId()
+            + "\n";
+    }
+
 }

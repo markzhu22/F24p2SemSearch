@@ -31,7 +31,7 @@ public class EmptyNode implements BinNode {
     }
 
     @Override
-    public BinNode insert(Seminar seminar) {
+    public BinNode insert(Seminar seminar, int depth) {
         return new LeafNode(seminar);
     }
 
@@ -84,4 +84,10 @@ public class EmptyNode implements BinNode {
         // TODO Auto-generated method stub
         return null;
     }
+
+
+       public String toString(int depth) {
+        return String.format("%sE\n", "    ".repeat(depth));
+    }
 }
+

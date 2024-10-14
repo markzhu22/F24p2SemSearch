@@ -26,7 +26,7 @@ public class LeafNodeTest {
     public static void testInsert() {
         System.out.println("Testing LeafNode insert...");
         LeafNode node = new LeafNode(createSeminar(1, (short)2, (short)3));
-        BinNode result = node.insert(createSeminar(2, (short)4, (short)5));
+        BinNode result = node.insert(createSeminar(2, (short)4, (short)5), 0);
         System.out.println("Insert result: " + (result instanceof InternalNode));
         System.out.println();
     }
@@ -59,7 +59,7 @@ public class LeafNodeTest {
         System.out.println("Testing InternalNode isLeaf...");
         LeafNode left = new LeafNode(createSeminar(1, (short)2, (short)3));
         LeafNode right = new LeafNode(createSeminar(2, (short)4, (short)5));
-        InternalNode node = new InternalNode(left, right, true);
+        InternalNode node = new InternalNode(left, right, true, 0);
         boolean result = node.isLeaf();
         System.out.println("IsLeaf result: " + result);
         System.out.println();
@@ -69,7 +69,7 @@ public class LeafNodeTest {
         System.out.println("Testing InternalNode getLeft and setLeft...");
         LeafNode left1 = new LeafNode(createSeminar(1, (short)2, (short)3));
         LeafNode right = new LeafNode(createSeminar(2, (short)4, (short)5));
-        InternalNode node = new InternalNode(left1, right, true);
+        InternalNode node = new InternalNode(left1, right, true, 0);
         
         BinNode originalLeft = node.getLeft();
         System.out.println("Original left node: " + (originalLeft instanceof LeafNode));
@@ -86,7 +86,7 @@ public class LeafNodeTest {
         System.out.println("Testing InternalNode getRight and setRight...");
         LeafNode left = new LeafNode(createSeminar(1, (short)2, (short)3));
         LeafNode right1 = new LeafNode(createSeminar(2, (short)4, (short)5));
-        InternalNode node = new InternalNode(left, right1, true);
+        InternalNode node = new InternalNode(left, right1, true, 0);
         
         BinNode originalRight = node.getRight();
         System.out.println("Original right node: " + (originalRight instanceof LeafNode));
@@ -103,7 +103,7 @@ public class LeafNodeTest {
         System.out.println("Testing InternalNode traverse...");
         LeafNode left = new LeafNode(createSeminar(1, (short)2, (short)3));
         LeafNode right = new LeafNode(createSeminar(2, (short)4, (short)5));
-        InternalNode node = new InternalNode(left, right, true);
+        InternalNode node = new InternalNode(left, right, true, 0);
         
         System.out.println("Calling traverse method:");
         node.traverse();

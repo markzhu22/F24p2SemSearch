@@ -1,3 +1,4 @@
+import java.util.Scanner;
 /**
  * Seminar class with getter methods for key fields. There is probably no
  * good reason why you would want to modify this class for your project.
@@ -7,16 +8,17 @@
  */
 
 public class Seminar {
-    private String title; // Semianar title
+    private String title; // Seminar title
     private String date; // Seminar date
     private int length; // Seminar length
-    private String[] keywords; // Seminar keywords
     private short x; // Seminar x coord
     private short y; // Seminar y coord
     private String desc; // Seminar description
     private int cost; // Seminar cost
     private int id; // Seminar ID
     private BinTree binTree;
+    private String[] keywords;
+    private ArrayList<String> keywordList;
 
     // ----------------------------------------------------------
     /**
@@ -57,8 +59,9 @@ public class Seminar {
         short xin,
         short yin,
         int cin,
-        String[] kin,
+        Scanner scanner,
         String descin) {
+        
         id = idin;
         title = tin;
         date = datein;
@@ -66,9 +69,25 @@ public class Seminar {
         x = xin;
         y = yin;
         cost = cin;
-        keywords = kin;
         desc = descin;
         this.binTree = new BinTree();
+        this.keywordList = new ArrayList<>();
+
+        // Read keywords from scanner
+        while (scanner.hasNext()) {
+            String keyword = scanner.next();
+            if (keyword.equals("ENDKEYWORDS")) {
+                break;
+            }
+            keywordList.add(keyword);
+        }
+
+        // Convert ArrayList to array
+        this.keywords = new String[keywordList.size()];
+        Object[] tempArray = keywordList.toArray();
+        for (int i = 0; i < tempArray.length; i++) {
+            this.keywords[i] = (String) tempArray[i];
+        }
     }
 
 
@@ -115,15 +134,40 @@ public class Seminar {
     }
 
 
-    // ----------------------------------------------------------
     /**
      * Return the seminar keywords
      * 
      * @return the keywords field for the seminar
      */
-    public String[] keywords() {
-        return keywords;
+    public void setKeywords(List<String> keywords) {
+        this.keywordList = new ArrayList<String>();
+        updateKeywordsArray();
     }
+
+public String[] Keywords() {
+        return this.keywords;
+    }
+
+    public void addKeyword(String keyword) {
+        if (this.keywordList == null) {
+            this.keywordList = new ArrayList<>();
+        }
+        this.keywordList.add(keyword);
+        updateKeywordsArray();
+    }
+
+    public boolean hasKeyword(String keyword) {
+        return keywordList != null && keywordList.contains(keyword);
+    }
+
+    private void updateKeywordsArray() {
+        this.keywords = new String[keywordList.size()];
+        Object[] tempArray = keywordList.toArray();
+        for (int i = 0; i < tempArray.length; i++) {
+            this.keywords[i] = (String) tempArray[i];
+        }
+    }
+
 
 
     // ----------------------------------------------------------
@@ -171,17 +215,19 @@ public class Seminar {
     /**
      * @return a string representation of the object.
      */
+    @Override
     public String toString() {
-        int i;
-        String mykeys = "";
-        for (i = 0; i < keywords.length; i++) {
-            mykeys += keywords[i];
-            if (i != keywords.length - 1)
-                mykeys += ", ";
+        StringBuilder mykeys = new StringBuilder();
+        for (int i = 0; i < keywords.length; i++) {
+            mykeys.append(keywords[i]);
+            if (i < keywords.length - 1) {
+                mykeys.append(", ");
+            }
         }
-        return "ID: " + id + ", Title: " + title + "\nDate: " + date
-            + ", Length: " + length + ", X: " + x + ", Y: " + y + ", Cost: "
-            + cost + "\nDescription: " + desc + "\nKeywords: " + mykeys;
+        
+        return String.format("ID: %d, Title: %s\nDate: %s, Length: %d, X: %d, Y: %d, Cost: %d\n" +
+                             "Description: %s\nKeywords: %s",
+                             id, title, date, length, x, y, cost, desc, mykeys.toString());
     }
 
 
@@ -189,25 +235,29 @@ public class Seminar {
         this.id = id;
     }
 
-    public void setX(double x) {
+
+    public void setX(int x) {
         this.x = (short)x;
     }
 
-    public void setY(double y) {
+
+    public void setY(int y) {
         this.y = (short)y;
     }
+
 
     public int getId() {
         return this.id;
     }
 
+
     public double getX1() {
         return this.x;
     }
 
+
     public double getY1() {
         return this.y;
     }
-
 
 }

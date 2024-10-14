@@ -19,9 +19,11 @@ public interface BinNode {
 
     BinNode getRight();
 
-    BinNode insert(Seminar seminar);
+    BinNode insert(Seminar seminar, int depth);
 
     Seminar search(double x, double y);
 
     BinNode delete(double x, double y);
+
+    String toString(int depth);
 }
