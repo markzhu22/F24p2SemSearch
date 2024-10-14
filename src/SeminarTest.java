@@ -42,7 +42,7 @@ public class SeminarTest extends TestCase {
         assertTrue(mysem.x() == 15);
         assertTrue(mysem.y() == 33);
         assertTrue(mysem.date().equals("2405231000"));
-        String[] tempKeywords = mysem.Keywords();
+        String[] tempKeywords = mysem.keywords();
         for (int i = 0; i < keywords.length; i++) {
             assertTrue(tempKeywords[i].equals(keywords[i]));
         }

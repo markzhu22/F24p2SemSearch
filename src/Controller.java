@@ -1,7 +1,4 @@
 // -------------------------------------------------------------------------
-import java.util.List;
-import java.util.ArrayList;
-import java.util.Arrays;
 /**
  * Controller object class for Graph project (CS3114/CS5040 Fall 2023 Project
  * 2). Runs the commands from the commandProcessor.
@@ -15,7 +12,6 @@ public class Controller
     private BinarySearchTree dateTree; // BST for dates
     private BinarySearchTree costTree; // BST for costs
     private BinarySearchTree keywordTree; // BST for keywords
-    private BinTree locationTree;
 
     /**
      * Constructor to initialize all BSTs.
@@ -29,7 +25,6 @@ public class Controller
         dateTree = new BinarySearchTree();
         costTree = new BinarySearchTree();
         keywordTree = new BinarySearchTree();
-        locationTree = new BinTree();
     }
 
 
@@ -39,43 +34,51 @@ public class Controller
      * @param seminar
      *            The seminar to insert.
      */
-    public void insert(Seminar seminar) {
+    public void insert(Seminar seminar)
+    {
         // Check for invalid coordinates
-        if (seminar.x() < 0 || seminar.y() < 0 || seminar.x() > 100 || seminar.y() > 100) {
-            System.out.println("Insert FAILED - Bad x, y coordinates: " + seminar.x() + ", " + seminar.y());
+        if (seminar.x() < 0 || seminar.y() < 0 || seminar.x() > 100
+            || seminar.y() > 100)
+        {
+            System.out.println(
+                "Insert FAILED - Bad x, y coordinates: " + seminar.x() + ", "
+                    + seminar.y());
             return;
         }
 
-        if (idTree.find(seminar)) {
-            System.out.println("Insert FAILED - There is already a record with ID " + seminar.id());
+        if (idTree.find(seminar))
+        {
+            System.out.println(
+                "Insert FAILED - There is already a record with ID "
+                    + seminar.id());
             return;
         }
-
-        // Convert keywords to List if it's not already
-        List<String> keywordList;
-        if (seminar.keywords() instanceof List) {
-            keywordList = (List<String>) seminar.keywords();
-        } else if (seminar.keywords() instanceof String[]) {
-            keywordList = new ArrayList<>(Arrays.asList((String[]) seminar.keywords()));
-        } else {
-            keywordList = new ArrayList<>();
-        }
-
-        // Update the seminar with the List of keywords
-        seminar.setKeywords(keywordList);
 
         idTree.insertById(seminar);
         dateTree.insertByDate(seminar);
         costTree.insertByCost(seminar);
         keywordTree.insertByKeyword(seminar);
-        locationTree.insert(seminar);
 
-        System.out.print("Successfully inserted record with ID " + seminar.id() + "\n");
-        System.out.print("ID: " + seminar.id() + ", Title: " + seminar.title() + "\r\n"
-            + "Date: " + seminar.date() + ", Length: " + seminar.length()
-            + ", X: " + seminar.x() + ", Y: " + seminar.y() + ", Cost: "
-            + seminar.cost() + "\r\n" + "Description: " + seminar.desc()
-            + "\r\n" + "Keywords: " + String.join(", ", keywordList) + "\n");
+        System.out.print(
+            "Successfully inserted record with ID " + seminar.id() + "\n");
+        System.out.print(
+            "ID: " + seminar.id() + ", Title: " + seminar.title() + "\r\n"
+                + "Date: " + seminar.date() + ", Length: " + seminar.length()
+                + ", X: " + seminar.x() + ", Y: " + seminar.y() + ", Cost: "
+                + seminar.cost() + "\r\n" + "Description: " + seminar.desc()
+                + "\r\n" + "Keywords: ");
+        for (String kywd : seminar.keywords())
+        {
+            if (kywd.equals(seminar.keywords()[0]))
+            {
+                System.out.print(kywd);
+            }
+            else
+            {
+                System.out.print(", " + kywd);
+            }
+        }
+        System.out.print("\n");
     }
 
 
@@ -86,20 +89,27 @@ public class Controller
      * @param id
      *            The ID of the seminar to delete.
      */
-    public void delete(int id) {
+    public void delete(int id)
+    {
         Seminar seminar = idTree.findById(id);
-        if (seminar != null) {
+        if (seminar != null)
+        {
             idTree.removeById(id);
+
             dateTree.removeByDate(seminar);
+
             costTree.removeByCost(seminar);
 
-            for (String kywd : seminar.keywords()) {
+            for (String kywd: seminar.keywords()) {
                 keywordTree.removeByKeyword(kywd, seminar);
             }
-            locationTree.delete(seminar.x(), seminar.y()); 
 
-            System.out.println("Record with ID " + id + " successfully deleted from the database");
-        } else {
+            System.out.println(
+                "Record with ID " + id
+                    + " successfully deleted from the database");
+        }
+        else
+        {
             System.out.println("Delete FAILED -- There is no record with ID " + id);
         }
     }
@@ -153,7 +163,6 @@ public class Controller
     {
         System.out.println(
             "Seminars with costs in range " + low + " to " + high + ":");
-        @SuppressWarnings("unused")
         boolean found = costTree.findByCostRange(low, high);
 
         System.out.println(
@@ -174,7 +183,6 @@ public class Controller
     {
         System.out.println(
             "Seminars with dates in range " + low + " to " + high + ":");
-        @SuppressWarnings("unused")
         boolean found = dateTree.findByDateRange(low, high);
 
         System.out.println(
@@ -182,26 +190,7 @@ public class Controller
         dateTree.resetTraversalCount();
     }
 
-    public void searchByLocation(double x, double y, double radius) {
-        System.out.println("Seminars within " + radius + " units of " + x + ", " + y + ":");
-        Object result = locationTree.searchWithinRadius(x, y, radius);
-        
-        if (result instanceof Seminar) {
-            System.out.println((Seminar) result);
-        } else if (result instanceof Iterable<?>) {
-            for (Object obj : (Iterable<?>) result) {
-                if (obj instanceof Seminar) {
-                    System.out.println((Seminar) obj);
-                }
-            }
-        } else {
-            System.out.println("No seminars found within the specified radius.");
-        }
-        
-        System.out.println(locationTree.getNodesVisited() + " nodes visited in this search");
-        locationTree.resetNodesVisited();
-    }
-    
+
     /**
      * Prints all the seminars based on a specific tree (id, date, cost,
      * keyword, location).
@@ -266,9 +255,7 @@ public class Controller
 
                 break;
             case "location":
-                System.out.println("Location Tree:");
-                System.out.println(locationTree.toString());
-                System.out.println("Number of records: " + locationTree.size());
+                System.out.println("Location Tree:\nE");
                 break;
             default:
                 System.out.println("Invalid field: " + field);

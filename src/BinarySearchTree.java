@@ -207,32 +207,12 @@ public class BinarySearchTree
             return found;
         }
 
-<<<<<<< Updated upstream
         findByKeywordHelper(rt.left(), keyword);
         findByKeywordHelper(rt.right(), keyword);
 
         if (rt.stringValue().equals(keyword))
         {
             System.out.println(rt.semValue());
-=======
-        if (rt.stringValue().equals(keyword)) {
-            result = "ID: " + rt.semValue().id() + ", Title: " + rt.semValue().title() + "\r\n"
-                    + "Date: " + rt.semValue().date() + ", Length: " + rt.semValue().length()
-                    + ", X: " + rt.semValue().x() + ", Y: " + rt.semValue().y() + ", Cost: "
-                    + rt.semValue().cost() + "\r\n" + "Description: " + rt.semValue().desc()
-                    + "\r\n" + "Keywords: ";  
-            for (String kywd : rt.semValue().Keywords())
-            {
-                if (kywd.equals(rt.semValue().Keywords()[0]))
-                {
-                    result = result + (kywd);
-                }
-                else {
-                    result = result + ", " + kywd;
-                }
-            }
-            result = result + "\n";
->>>>>>> Stashed changes
         }
 
         return found;
@@ -392,15 +372,10 @@ public class BinarySearchTree
     }
 
 
-<<<<<<< Updated upstream
     public void insertByKeyword(Seminar seminar)
     {
         for (String keyword : seminar.keywords())
         {
-=======
-    public void insertByKeyword(Seminar seminar) {
-        for (String keyword : seminar.Keywords()) {
->>>>>>> Stashed changes
             root = insertByKeywordHelp(root, keyword, seminar);
         }
     }
