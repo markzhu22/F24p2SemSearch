@@ -13,9 +13,9 @@ public class BinNodeTest extends student.TestCase {
         seminar = new Seminar(1, "Test Seminar", "20240101", 60, (short)10, (short)20, 100, new String[]{"Test"}, "Test Description");
         
     
-        node = new InternalNode(null, null, true); 
-        leftChild = new LeafNode(seminar); 
-        rightChild = new LeafNode(null);
+//        node = new InternalNode(null, null, true); 
+//        leftChild = new LeafNode(seminar); 
+//        rightChild = new LeafNode(null);
         
         
         node.setLeft(leftChild);

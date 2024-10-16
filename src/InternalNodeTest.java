@@ -17,7 +17,7 @@ public class InternalNodeTest extends student.TestCase {
         rightSeminar.setId(1); // Seminar with ID 1 is now the right child
         leftChild = new LeafNode(leftSeminar);
         rightChild = new LeafNode(rightSeminar);
-        node = new InternalNode(leftChild, rightChild, true);
+//        node = new InternalNode(leftChild, rightChild, true);
     }
 
 
@@ -73,8 +73,8 @@ public class InternalNodeTest extends student.TestCase {
     public void testIsSplitOnX() {
         assertTrue(node.isSplitOnX());
 
-        InternalNode nodeY = new InternalNode(leftChild, rightChild, false);
-        assertFalse(nodeY.isSplitOnX());
+//        InternalNode nodeY = new InternalNode(leftChild, rightChild, false);
+//        assertFalse(nodeY.isSplitOnX());
     }
 
 

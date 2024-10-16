@@ -90,12 +90,6 @@ public class EmptyNode implements BinNode {
 
     @Override
     public void print(BinNode node, int depth) {
-        String space = "";
-
-        for (int i = 0; i < depth; i++) {
-            space += "    ";
-        }
-        System.out.print(space);
-        System.out.println("(E)");
+    //not needed
     }
 }

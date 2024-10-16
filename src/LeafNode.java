@@ -13,9 +13,14 @@ public class LeafNode implements BinNode {
 
 
     public void addSeminar(Seminar seminar) {
-        this.seminars.add(seminar);
+        if (seminars.size() < 3) {
+            seminars.add(seminar);
+        }
     }
 
+    public LeafNode(LinkedList<Seminar> seminars) {
+        this.seminars = seminars;
+    }
 
     @Override
     public boolean isLeaf() {
@@ -64,16 +69,26 @@ public class LeafNode implements BinNode {
     @Override
     public void print(BinNode node, int depth) {
         String space = "";
-
         for (int i = 0; i < depth; i++) {
-            space += "    ";
+            space += "  ";
         }
-        System.out.print(space);
-        System.out.print("(Leaf with " + seminars.size() + " objects:");
+        System.out.print(space + "L");
         for (int i = 0; i < seminars.size(); i++) {
             System.out.print(" " + seminars.get(i).getId());
         }
-        System.out.println(")");
+        System.out.println();
+    }
+
+    public void print(int depth) {
+        String space = "";
+        for (int i = 0; i < depth; i++) {
+            space += "  ";
+        }
+        System.out.print(space + "L");
+        for (int i = 0; i < seminars.size(); i++) {
+            System.out.print(" " + seminars.get(i).getId());
+        }
+        System.out.println();
     }
 
 }

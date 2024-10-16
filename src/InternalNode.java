@@ -2,11 +2,13 @@ public class InternalNode implements BinNode {
     private BinNode left;
     private BinNode right;
     private boolean splitOnX;
+    private int splitValue;
 
-    public InternalNode(BinNode left, BinNode right, boolean splitOnX) {
+    public InternalNode(BinNode left, BinNode right, boolean splitOnX, int splitValue) {
         this.left = left;
         this.right = right;
         this.splitOnX = splitOnX;
+        this.splitValue = splitValue;
     }
 
 
@@ -51,19 +53,17 @@ public class InternalNode implements BinNode {
         return splitOnX;
     }
 
+    public int getSplitValue() {
+        return splitValue;
+    }
+
+    public void setSplitValue(int splitValue) {
+        this.splitValue = splitValue;
+    }
 
     @Override
     public void print(BinNode node, int depth) {
-        String space = "";
-
-        for (int i = 0; i < depth; i++) {
-            space += "    ";
-        }
-        System.out.print(space);
-        System.out.println("(I)");
-        int newDepth = depth-1;
-        node.getLeft().print(left, newDepth);
-        node.getRight().print(right, newDepth);
+        //not needed
     }
 
 

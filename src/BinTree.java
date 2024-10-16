@@ -24,21 +24,10 @@ public class BinTree {
 
 
     public void insert(Seminar seminar) {
-        if (seminar == null) {
-            System.out.println("Attempted to insert null seminar");
-            return;
-        }
-        if (seminar.getX() < 0 || seminar.getX() >= worldSize || seminar
-            .getY() < 0 || seminar.getY() >= worldSize) {
-            System.out.println("Insert FAILED - Bad x, y coordinates: "
-                + seminar.getX() + ", " + seminar.getY());
-            return;
-        }
-        BinNode newRoot = insertHelper(root, seminar, 0, 0, 0, worldSize - 1,
-            worldSize - 1);
-        if (newRoot != root) {
-            root = newRoot;
-            size++;
+        root = insertHelper(root, seminar, true, 0);
+        size++;
+        if (size % 10 == 0) { // Rebalance every 10 insertions, for example
+            rebalanceTree();
         }
     }
 
@@ -46,120 +35,152 @@ public class BinTree {
     private BinNode insertHelper(
         BinNode node,
         Seminar seminar,
-        int depth,
-        int xMin,
-        int yMin,
-        int xMax,
-        int yMax) {
-
-        // If the node is empty, create a new leaf node
-        if (node instanceof EmptyNode  || node == null) {
+        boolean splitOnX,
+        int depth) {
+        if (node == flyweight) {
             return new LeafNode(seminar);
         }
 
-        // If the node is a leaf node, handle it
         if (node instanceof LeafNode) {
-            LeafNode leaf = (LeafNode)node;
-            Seminar existingSeminar = leaf.getSeminars().get(0);
-
-            // If the coordinates are the same, add the seminar to the existing
-            // leaf
-            if (existingSeminar.getX() == seminar.getX() && existingSeminar
-                .getY() == seminar.getY()) {
+            LeafNode leaf = (LeafNode) node;
+            if (leaf.getSeminars().size() < 3) {
                 leaf.addSeminar(seminar);
                 return leaf;
-            }
-            else {
-                // To ensure splitting only happens at internal nodes, create a
-                // new internal node
-                // and redistribute both the existing and new seminar between
-                // the children
-                return createInternalNodeWithSeminars(leaf, seminar, depth,
-                    xMin, yMin, xMax, yMax);
+            } else {
+                return createInternalNodeWithSeminars(leaf.getSeminars(), seminar, splitOnX, depth);
             }
         }
 
-        // If the node is an internal node, recurse into the correct child
-        if (node instanceof InternalNode) {
-            InternalNode internal = (InternalNode)node;
-
-            if (depth % 2 == 0) {
-                internal.setLeft(insertHelper(internal.getLeft(), seminar, depth
-                    + 1, xMin, yMin, (xMin + xMax) / 2, yMax));
+        InternalNode internal = (InternalNode) node;
+        if (splitOnX) {
+            if (seminar.getX() < internal.getSplitValue()) {
+                internal.setLeft(insertHelper(internal.getLeft(), seminar, !splitOnX, depth + 1));
+            } else {
+                internal.setRight(insertHelper(internal.getRight(), seminar, !splitOnX, depth + 1));
             }
-            else {
-                internal.setRight(insertHelper(internal.getRight(), seminar,
-                    depth + 1, (xMin + xMax) / 2, yMin, xMax, yMax));
+        } else {
+            if (seminar.getY() < internal.getSplitValue()) {
+                internal.setLeft(insertHelper(internal.getLeft(), seminar, !splitOnX, depth + 1));
+            } else {
+                internal.setRight(insertHelper(internal.getRight(), seminar, !splitOnX, depth + 1));
             }
-
-            return internal;
         }
-
-        // Fallback (this shouldn't happen)
-        return node;
+        return internal;
     }
 
 
 // Helper function to create an internal node and split the seminars into
 // children
-    private InternalNode createInternalNodeWithSeminars(
-        LeafNode leaf,
+    private BinNode createInternalNodeWithSeminars(
+        LinkedList<Seminar> seminars,
         Seminar newSeminar,
-        int depth,
-        int xMin,
-        int yMin,
-        int xMax,
-        int yMax) {
-        int n = depth + 1;
-        InternalNode newInternal;
-        Seminar existingSeminar = leaf.getSeminars().get(0);
+        boolean splitOnX,
+        int depth) {
+        if (newSeminar != null) {
+            seminars.add(newSeminar);
+        }
+        int splitValue = calculateSplitValue(seminars, splitOnX);
 
-        int midPoint;
+        InternalNode newNode = new InternalNode(flyweight, flyweight, splitOnX, splitValue);
+        LinkedList<Seminar> leftSeminars = new LinkedList<>();
+        LinkedList<Seminar> rightSeminars = new LinkedList<>();
 
-        if (depth % 2 == 0) {
-            newInternal = new InternalNode(flyweight, flyweight, true);
-            midPoint = (xMin + xMax) / 2;
+        // First pass: distribute seminars based on split value
+        for (int i = 0; i < seminars.size(); i++) {
+            Seminar seminar = seminars.get(i);
+            if (splitOnX) {
+                if (seminar.getX() < splitValue) {
+                    leftSeminars.add(seminar);
+                } else {
+                    rightSeminars.add(seminar);
+                }
+            } else {
+                if (seminar.getY() < splitValue) {
+                    leftSeminars.add(seminar);
+                } else {
+                    rightSeminars.add(seminar);
+                }
+            }
+        }
+
+        // Handle edge case: all seminars on one side
+        if (leftSeminars.isEmpty() || rightSeminars.isEmpty()) {
+            // Adjust split value to force a more even split
+            int medianIndex = seminars.size() / 2;
+            Seminar medianSeminar = seminars.get(medianIndex);
+            splitValue = splitOnX ? medianSeminar.getX() : medianSeminar.getY();
+            newNode.setSplitValue(splitValue);
+            // Redistribute seminars based on new split value
+            leftSeminars = new LinkedList<>();
+            rightSeminars = new LinkedList<>();
+            for (int i = 0; i < seminars.size(); i++) {
+                Seminar seminar = seminars.get(i);
+                if (splitOnX) {
+                    if (seminar.getX() <= splitValue) {
+                        leftSeminars.add(seminar);
+                    } else {
+                        rightSeminars.add(seminar);
+                    }
+                } else {
+                    if (seminar.getY() <= splitValue) {
+                        leftSeminars.add(seminar);
+                    } else {
+                        rightSeminars.add(seminar);
+                    }
+                }
+            }
+        }
+
+        // Ensure a more balanced split
+        while (Math.abs(leftSeminars.size() - rightSeminars.size()) > 1) {
+            if (leftSeminars.size() > rightSeminars.size()) {
+                rightSeminars.add(leftSeminars.removeLast());
+            } else {
+                leftSeminars.add(rightSeminars.removeLast());
+            }
+        }
+
+        newNode.setLeft(createNodeFromSeminars(leftSeminars, !splitOnX, depth + 1));
+        newNode.setRight(createNodeFromSeminars(rightSeminars, !splitOnX, depth + 1));
+
+        return newNode;
+    }
+
+
+    private BinNode createNodeFromSeminars(
+        LinkedList<Seminar> seminars,
+        boolean splitOnX,
+        int depth) {
+        if (seminars.isEmpty()) {
+            return flyweight;
+        }
+        else if (seminars.size() <= 3) {
+            return new LeafNode(seminars);
         }
         else {
-            newInternal = new InternalNode(flyweight, flyweight, false);
-            midPoint = (yMin + yMax) / 2;
+            return createInternalNodeWithSeminars(seminars, null, splitOnX,
+                depth);
+        }
+    }
+
+
+    private int calculateSplitValue(
+        LinkedList<Seminar> seminars,
+        boolean splitOnX) {
+        if (seminars.isEmpty()) {
+            return 0;
         }
 
-        // Split the seminars between left and right based on the dimension
-        if (depth % 2 == 0) {
-            if (existingSeminar.getX() <= midPoint) {
-                newInternal.setLeft(leaf);
-            }
-            else {
-                newInternal.setRight(leaf);
-            }
-            if (newSeminar.getX() <= midPoint) {
-                newInternal.setLeft(insertHelper(root.getLeft(),
-                    newSeminar, n, xMin, yMin, midPoint, yMax));
-            }
-            else {
-                newInternal.setRight(insertHelper(root.getRight(),
-                    newSeminar, n, midPoint, yMin, xMax, yMax));
-            }
-        }
-        else {
-            if (existingSeminar.getY() <= midPoint) {
-                newInternal.setRight(leaf);
-            }
-            else {
-                newInternal.setLeft(leaf);
-            }
-            if (newSeminar.getY() <= midPoint) {
-                newInternal.setLeft(insertHelper(root.getLeft(),
-                    newSeminar, n, xMin, yMin, xMax, midPoint));
-            }
-            else {
-                newInternal.setRight(insertHelper(root.getRight(),
-                    newSeminar, n, xMin, midPoint, xMax, yMax));
-            }
+        int min = Integer.MAX_VALUE;
+        int max = Integer.MIN_VALUE;
+        for (int i = 0; i < seminars.size(); i++) {
+            Seminar seminar = seminars.get(i);
+            int value = splitOnX ? seminar.getX() : seminar.getY();
+            min = Math.min(min, value);
+            max = Math.max(max, value);
         }
 
-        return newInternal;
+        return (min + max) / 2;
     }
 
 
@@ -518,23 +539,6 @@ public class BinTree {
     }
 
 
-    /**
-     * Helper method to calculate the height of a tree.
-     * 
-     * @param node
-     *            The current node.
-     * @return The height of the tree.
-     */
-    private int calculateHeight(BinNode node) {
-        if (node == null || node.isLeaf()) {
-            return 0;
-        }
-
-        return increment(Math.max(calculateHeight(node.getLeft()),
-            calculateHeight(node.getRight())));
-    }
-
-
     // ----------------------------------------------------------
     /**
      * Increments an integer by one
@@ -554,7 +558,55 @@ public class BinTree {
             System.out.println("E");
             return;
         }
-        root.print(this.root, calculateHeight(root));
+        printHelper(root, 0);
     }
 
-}
+
+    private void printHelper(BinNode node, int depth) {
+        if (node == flyweight) {
+            printIndent(depth);
+            System.out.println("E");
+        }
+        else if (node instanceof LeafNode) {
+            LeafNode leaf = (LeafNode) node;
+            leaf.print(depth);
+        }
+        else if (node instanceof InternalNode) {
+            InternalNode internal = (InternalNode) node;
+            printIndent(depth);
+            System.out.println("I");
+            printHelper(internal.getRight(), depth + 1);
+            printHelper(internal.getLeft(), depth + 1);
+        }
+    }
+
+
+    private void printIndent(int depth) {
+        for (int i = 0; i < depth; i++) {
+            System.out.print("  ");
+        }
+    }
+
+    private void rebalanceTree() {
+        LinkedList<Seminar> allSeminars = new LinkedList<>();
+        collectAllSeminars(root, allSeminars);
+        root = createNodeFromSeminars(allSeminars, true, 0);
+    }
+
+    private void collectAllSeminars(BinNode node, LinkedList<Seminar> seminars) {
+        if (node instanceof LeafNode) {
+            LeafNode leaf = (LeafNode) node;
+            LinkedList<Seminar> leafSeminars = leaf.getSeminars();
+            for (int i = 0; i < leafSeminars.size(); i++) {
+                seminars.add(leafSeminars.get(i));
+            }
+        } else if (node instanceof InternalNode) {
+            InternalNode internal = (InternalNode) node;
+            collectAllSeminars(internal.getLeft(), seminars);
+            collectAllSeminars(internal.getRight(), seminars);
+        }
+    }
+    }
+
+
+

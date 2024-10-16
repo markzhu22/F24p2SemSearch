@@ -1,3 +1,5 @@
+import java.util.NoSuchElementException;
+
 public class LinkedList<T> {
     private Node<T> head;
     private int size;
@@ -64,5 +66,36 @@ public class LinkedList<T> {
         }
         size--;
         
+    }
+
+    public T removeLast() {
+        if (isEmpty()) {
+            throw new NoSuchElementException("Cannot remove from an empty list");
+        }
+        
+        T lastElement;
+        if (size == 1) {
+            lastElement = head.data;
+            head = null;
+        } else {
+            Node<T> current = head;
+            Node<T> previous = null;
+            while (current.next != null) {
+                previous = current;
+                current = current.next;
+            }
+            lastElement = current.data;
+            previous.next = null;
+        }
+        size--;
+        return lastElement;
+    }
+
+    public void addAll(LinkedList<T> otherList) {
+        Node<T> current = otherList.head;
+        while (current != null) {
+            this.add(current.data);
+            current = current.next;
+        }
     }
 }
