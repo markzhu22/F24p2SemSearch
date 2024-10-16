@@ -1,10 +1,3 @@
-// -------------------------------------------------------------------------
-
-import java.util.ArrayList;
-import java.util.List;
-import java.io.ByteArrayOutputStream;
-import java.io.PrintStream;
-
 /**
  * Controller object class for Graph project (CS3114/CS5040 Fall 2023 Project
  * 2). Runs the commands from the commandProcessor.
@@ -12,7 +5,8 @@ import java.io.PrintStream;
  * @author markz + tarinid
  * @version Oct 7, 2024
  */
-public class Controller {
+public class Controller
+{
     private BinarySearchTree idTree; // BST for IDs
     private BinarySearchTree dateTree; // BST for dates
     private BinarySearchTree costTree; // BST for costs
@@ -25,7 +19,8 @@ public class Controller {
      * @param worldSize
      *            This is a placeholder for the world size, if needed.
      */
-    public Controller(int worldSize) {
+    public Controller(int worldSize)
+    {
         idTree = new BinarySearchTree();
         dateTree = new BinarySearchTree();
         costTree = new BinarySearchTree();
@@ -40,19 +35,23 @@ public class Controller {
      * @param seminar
      *            The seminar to insert.
      */
-    public void insert(Seminar seminar) {
+    public void insert(Seminar seminar)
+    {
         // Check for invalid coordinates
-        if (seminar.x() < 0 || seminar.y() < 0 || seminar.x() > 100 || seminar
-            .y() > 100) {
-            System.out.println("Insert FAILED - Bad x, y coordinates: "
-                + seminar.x() + ", " + seminar.y());
+        if (seminar.x() < 0 || seminar.y() < 0 || seminar.x() > 100
+            || seminar.y() > 100)
+        {
+            System.out.println(
+                "Insert FAILED - Bad x, y coordinates: " + seminar.x() + ", "
+                    + seminar.y());
             return;
         }
 
-        if (idTree.find(seminar)) {
+        if (idTree.find(seminar))
+        {
             System.out.println(
-                "Insert FAILED - There is already a record with ID " + seminar
-                    .id());
+                "Insert FAILED - There is already a record with ID "
+                    + seminar.id());
             return;
         }
 
@@ -65,18 +64,22 @@ public class Controller {
         locationTree.insert(seminar);
 
         // Print success message immediately after insertion
-        System.out.print("Successfully inserted record with ID " + seminar.id()
-            + "\n");
-        System.out.print("ID: " + seminar.id() + ", Title: " + seminar.title()
-            + "\r\n" + "Date: " + seminar.date() + ", Length: " + seminar
-                .length() + ", X: " + seminar.x() + ", Y: " + seminar.y()
-            + ", Cost: " + seminar.cost() + "\r\n" + "Description: " + seminar
-                .description() + "\r\n" + "Keywords: ");
-        for (String kywd : seminar.keywords()) {
-            if (kywd.equals(seminar.keywords()[0])) {
+        System.out.print(
+            "Successfully inserted record with ID " + seminar.id() + "\n");
+        System.out.print(
+            "ID: " + seminar.id() + ", Title: " + seminar.title() + "\r\n"
+                + "Date: " + seminar.date() + ", Length: " + seminar.length()
+                + ", X: " + seminar.x() + ", Y: " + seminar.y() + ", Cost: "
+                + seminar.cost() + "\r\n" + "Description: " + seminar.desc()
+                + "\r\n" + "Keywords: ");
+        for (String kywd : seminar.keywords())
+        {
+            if (kywd.equals(seminar.keywords()[0]))
+            {
                 System.out.print(kywd);
             }
-            else {
+            else
+            {
                 System.out.print(", " + kywd);
             }
         }
@@ -91,9 +94,11 @@ public class Controller {
      * @param id
      *            The ID of the seminar to delete.
      */
-    public void delete(int id) {
+    public void delete(int id)
+    {
         Seminar seminar = idTree.findById(id);
-        if (seminar != null) {
+        if (seminar != null)
+        {
             idTree.removeById(id);
 
             dateTree.removeByDate(seminar);
@@ -102,16 +107,21 @@ public class Controller {
 
             locationTree.delete(seminar.getX(), seminar.getY());
 
-            for (String kywd : seminar.keywords()) {
+            for (String kywd : seminar.keywords())
+            {
+
                 keywordTree.removeByKeyword(kywd, seminar);
             }
 
-            System.out.println("Record with ID " + id
-                + " successfully deleted from the database");
+            System.out.println(
+                "Record with ID " + id
+                    + " successfully deleted from the database");
         }
-        else {
-            System.out.println("Delete FAILED -- There is no record with ID "
-                + id);
+
+        else
+        {
+            System.out
+                .println("Delete FAILED -- There is no record with ID " + id);
         }
     }
 
@@ -123,15 +133,18 @@ public class Controller {
      * @param id
      *            The ID of the seminar to search for.
      */
-    public void searchById(int id) {
+    public void searchById(int id)
+    {
         Seminar seminar = idTree.findById(id);
-        if (seminar != null) {
+        if (seminar != null)
+        {
             System.out.println("Found record with ID " + id + ":");
             System.out.println(seminar);
         }
-        else {
-            System.out.println("Search FAILED -- There is no record with ID "
-                + id);
+        else
+        {
+            System.out
+                .println("Search FAILED -- There is no record with ID " + id);
         }
     }
 
@@ -142,9 +155,14 @@ public class Controller {
      * @param keyword
      *            The keyword to search for.
      */
-    public void searchByKeyword(String keyword) {
+    public void searchByKeyword(String keyword)
+    {
         System.out.println("Seminars matching keyword " + keyword + ":");
-        keywordTree.findByKeyword(keyword);
+        String found = keywordTree.findByKeyword(keyword);
+        if (!found.equals(""))
+        {
+            System.out.println(found.substring(0, found.length() - 1));
+        }
     }
 
 
@@ -156,13 +174,14 @@ public class Controller {
      * @param high
      *            The upper bound of the cost range.
      */
-    public void searchByCostRange(int low, int high) {
-        System.out.println("Seminars with costs in range " + low + " to " + high
-            + ":");
+    public void searchByCostRange(int low, int high)
+    {
+        System.out.println(
+            "Seminars with costs in range " + low + " to " + high + ":");
         boolean found = costTree.findByCostRange(low, high);
 
-        System.out.println(costTree.getTraversalCount()
-            + " nodes visited in this search");
+        System.out.println(
+            costTree.getTraversalCount() + " nodes visited in this search");
         costTree.resetTraversalCount();
     }
 
@@ -175,28 +194,32 @@ public class Controller {
      * @param high
      *            The upper bound of the date range.
      */
-    public void searchByDateRange(String low, String high) {
-        System.out.println("Seminars with dates in range " + low + " to " + high
-            + ":");
+    public void searchByDateRange(String low, String high)
+    {
+        System.out.println(
+            "Seminars with dates in range " + low + " to " + high + ":");
         boolean found = dateTree.findByDateRange(low, high);
 
-        System.out.println(dateTree.getTraversalCount()
-            + " nodes visited in this search");
+        System.out.println(
+            dateTree.getTraversalCount() + " nodes visited in this search");
         dateTree.resetTraversalCount();
     }
 
 
-    public void searchByLocation(int x, int y) {
+    public void searchByLocation(int x, int y)
+    {
         System.out.println("Searching for seminar at " + x + ", " + y + ":");
         Seminar result = locationTree.search(x, y);
-        if (result != null) {
+        if (result != null)
+        {
             System.out.println(result);
         }
-        else {
+        else
+        {
             System.out.println("No seminar found at the specified location.");
         }
-        System.out.println(locationTree.getNodesVisited()
-            + " nodes visited in this search");
+        System.out.println(
+            locationTree.getNodesVisited() + " nodes visited in this search");
         locationTree.resetNodesVisited();
     }
 
@@ -209,12 +232,15 @@ public class Controller {
      *            The field to print by ("id", "date", "cost", "keyword", or
      *            "location").
      */
-    public void print(String field) {
+    public void print(String field)
+    {
         int height;
-        switch (field) {
+        switch (field)
+        {
             case "ID":
                 System.out.println("ID Tree:");
-                if (idTree.getRoot() == null) {
+                if (idTree.getRoot() == null)
+                {
                     System.out.println("This tree is empty");
                     break;
                 }
@@ -225,7 +251,8 @@ public class Controller {
             case "date":
                 System.out.println("Date Tree:");
                 height = calculateHeight(dateTree.getRoot());
-                if (dateTree.getRoot() == null) {
+                if (dateTree.getRoot() == null)
+                {
                     System.out.println("This tree is empty");
                     break;
                 }
@@ -235,7 +262,8 @@ public class Controller {
             case "cost":
                 System.out.println("Cost Tree:");
                 height = calculateHeight(costTree.getRoot());
-                if (costTree.getRoot() == null) {
+                if (costTree.getRoot() == null)
+                {
                     System.out.println("This tree is empty");
                     break;
                 }
@@ -244,22 +272,27 @@ public class Controller {
                 break;
             case "keyword":
                 System.out.println("Keyword Tree:");
-                if (keywordTree.getRoot() == null) {
+                if (keywordTree.getRoot() == null)
+                {
                     System.out.println("This tree is empty");
                     break;
                 }
                 height = calculateHeight(keywordTree.getRoot());
-                printIndented(keywordTree, keywordTree.getRoot(), 0, height,
+                printIndented(
+                    keywordTree,
+                    keywordTree.getRoot(),
+                    0,
+                    height,
                     field);
                 System.out.println("Number of records: " + keywordTree.size());
 
                 break;
             case "location":
                 locationTree.printTree();
-                break;
             default:
                 System.out.println("Invalid field: " + field);
         }
+
     }
 
 
@@ -280,16 +313,19 @@ public class Controller {
         BSTNode node,
         int level,
         int height,
-        String field) {
+        String field)
+    {
 
         int spacesCount = Math.max(0, height - level);
         String space = "";
 
-        for (int i = 0; i < spacesCount; i++) {
+        for (int i = 0; i < spacesCount; i++)
+        {
             space += "    ";
         }
 
-        if (node == null) {
+        if (node == null)
+        {
             System.out.println(space + "(null)");
             return;
         }
@@ -314,9 +350,11 @@ public class Controller {
      *            The field being printed.
      * @return The value of the node for the given field.
      */
-    private String getNodeValue(BSTNode node, String field) {
+    private String getNodeValue(BSTNode node, String field)
+    {
         String nodeValue = "";
-        switch (field) {
+        switch (field)
+        {
             case "ID":
                 nodeValue = String.valueOf(node.semValue().id());
                 break;
@@ -343,13 +381,17 @@ public class Controller {
      *            The current node.
      * @return The height of the tree.
      */
-    private int calculateHeight(BSTNode node) {
-        if (node == null) {
+    private int calculateHeight(BSTNode node)
+    {
+        if (node == null)
+        {
             return 0;
         }
 
-        return increment(Math.max(calculateHeight(node.left()), calculateHeight(
-            node.right())));
+        return increment(
+            Math.max(
+                calculateHeight(node.left()),
+                calculateHeight(node.right())));
     }
 
     // ----------------------------------------------------------
@@ -365,7 +407,10 @@ public class Controller {
      *            the integer to be incremented
      * @return incremented i
      */
-    public int increment(int i) {
-        return i += 1;
+    public int increment(int i)
+    {
+        int result = i + 1;
+        return result;
+
     }
 }

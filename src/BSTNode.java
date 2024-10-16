@@ -5,7 +5,8 @@
  * @author markz + tarinid
  * @version Oct 7, 2024
  */
-public class BSTNode {
+public class BSTNode
+{
     private Object element; // Element for this node
     private BSTNode left; // Pointer to left child
     private BSTNode right; // Pointer to right child
@@ -15,8 +16,10 @@ public class BSTNode {
     /**
      * Create a new BSTNode object.
      */
-    public BSTNode() {
-        left = right = null;
+    public BSTNode()
+    {
+        left = null;
+        right = null;
     }
 
 
@@ -29,8 +32,11 @@ public class BSTNode {
      * @param sem
      *            The seminar object the object is coming from
      */
-    public BSTNode(Object val, Seminar sem) {
-        left = right = null;
+    public BSTNode(Object val, Seminar sem)
+    {
+        left = null;
+        right = null;
+
         element = val;
         seminar = sem;
     }
@@ -49,7 +55,8 @@ public class BSTNode {
      * @param sem
      *            The seminar object the object is coming from
      */
-    public BSTNode(Object val, BSTNode l, BSTNode r, Seminar sem) {
+    public BSTNode(Object val, BSTNode l, BSTNode r, Seminar sem)
+    {
         left = l;
         right = r;
         element = val;
@@ -62,7 +69,8 @@ public class BSTNode {
      * 
      * @return the seminar
      */
-    public Seminar semValue() {
+    public Seminar semValue()
+    {
         return seminar;
     }
 
@@ -72,8 +80,10 @@ public class BSTNode {
      * Setter for the seminar
      * 
      * @param v
+     *            seminar to be set
      */
-    public void setValue(Seminar v) {
+    public void setValue(Seminar v)
+    {
         seminar = v;
     }
 
@@ -84,7 +94,8 @@ public class BSTNode {
      * 
      * @return the string for keywords
      */
-    public String stringValue() {
+    public String stringValue()
+    {
         return (String)element;
     }
 
@@ -94,8 +105,10 @@ public class BSTNode {
      * Setter for string for keywords
      * 
      * @param v
+     *            string to be set
      */
-    public void setStringValue(String v) {
+    public void setStringValue(String v)
+    {
         element = v;
     }
 
@@ -106,7 +119,8 @@ public class BSTNode {
      * 
      * @return the child
      */
-    public BSTNode left() {
+    public BSTNode left()
+    {
         return left;
     }
 
@@ -118,7 +132,8 @@ public class BSTNode {
      * @param p
      *            Node to set
      */
-    public void setLeft(BSTNode p) {
+    public void setLeft(BSTNode p)
+    {
         left = p;
     }
 
@@ -129,7 +144,8 @@ public class BSTNode {
      * 
      * @return the child
      */
-    public BSTNode right() {
+    public BSTNode right()
+    {
         return right;
     }
 
@@ -141,7 +157,8 @@ public class BSTNode {
      * @param p
      *            Node to set
      */
-    public void setRight(BSTNode p) {
+    public void setRight(BSTNode p)
+    {
         right = p;
     }
 
@@ -152,7 +169,8 @@ public class BSTNode {
      * 
      * @return true or false
      */
-    public boolean isLeaf() {
+    public boolean isLeaf()
+    {
         return (left == null) && (right == null);
     }
 }

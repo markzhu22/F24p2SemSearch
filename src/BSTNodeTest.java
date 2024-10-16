@@ -4,7 +4,9 @@
  * @author markz + tarinid
  * @version Oct 4, 2024
  */
-public class BSTNodeTest extends student.TestCase {
+public class BSTNodeTest
+    extends student.TestCase
+{
     private Seminar seminar1;
     private Seminar seminar2;
     private BSTNode node1;
@@ -15,11 +17,28 @@ public class BSTNodeTest extends student.TestCase {
     /**
      * Set Up
      */
-    public void setUp() {
-        seminar1 = new Seminar(1, "Seminar 1", "20230101", 90, (short)10,
-            (short)10, 50, new String[] { "AI" }, "Description 1");
-        seminar2 = new Seminar(2, "Seminar 2", "20230201", 60, (short)20,
-            (short)20, 100, new String[] { "ML" }, "Description 2");
+    public void setUp()
+    {
+        seminar1 = new Seminar(
+            1,
+            "Seminar 1",
+            "20230101",
+            90,
+            (short)10,
+            (short)10,
+            50,
+            new String[] { "AI" },
+            "Description 1");
+        seminar2 = new Seminar(
+            2,
+            "Seminar 2",
+            "20230201",
+            60,
+            (short)20,
+            (short)20,
+            100,
+            new String[] { "ML" },
+            "Description 2");
 
         node1 = new BSTNode(seminar1, seminar1);
         node2 = new BSTNode(seminar2, seminar2);
@@ -31,7 +50,8 @@ public class BSTNodeTest extends student.TestCase {
     /**
      * Test constructor
      */
-    public void testDefaultConstructor() {
+    public void testDefaultConstructor()
+    {
         BSTNode emptyNode = new BSTNode();
         // assertNull(emptyNode.value());
         assertNull(emptyNode.left());
@@ -44,7 +64,8 @@ public class BSTNodeTest extends student.TestCase {
     /**
      * Tests loaded nodes
      */
-    public void testConstructorWithValue() {
+    public void testConstructorWithValue()
+    {
         // assertEquals(seminar1, node1.value());
         assertNull(node1.left());
         assertNull(node1.right());
@@ -56,7 +77,8 @@ public class BSTNodeTest extends student.TestCase {
     /**
      * Tests nodes with children
      */
-    public void testConstructorWithChildren() {
+    public void testConstructorWithChildren()
+    {
         // assertEquals(seminar1, nodeWithChildren.value());
         assertEquals(node1, nodeWithChildren.left());
         assertEquals(node2, nodeWithChildren.right());
@@ -68,7 +90,8 @@ public class BSTNodeTest extends student.TestCase {
     /**
      * Tests getter and setter for value
      */
-    public void testSetAndGetValue() {
+    public void testSetAndGetValue()
+    {
         node1.setValue(seminar2);
         // assertEquals(seminar2, node1.value());
     }
@@ -78,7 +101,8 @@ public class BSTNodeTest extends student.TestCase {
     /**
      * Tests getter and setter for left child
      */
-    public void testSetAndGetLeftChild() {
+    public void testSetAndGetLeftChild()
+    {
         node1.setLeft(node2);
         assertEquals(node2, node1.left());
     }
@@ -88,7 +112,8 @@ public class BSTNodeTest extends student.TestCase {
     /**
      * Tests getter and setter for right child
      */
-    public void testSetAndGetRightChild() {
+    public void testSetAndGetRightChild()
+    {
         node1.setRight(node2);
         assertEquals(node2, node1.right());
     }
@@ -98,7 +123,8 @@ public class BSTNodeTest extends student.TestCase {
     /**
      * Tests checker for leaf
      */
-    public void testIsLeaf() {
+    public void testIsLeaf()
+    {
         assertTrue(node1.isLeaf());
         assertFalse(nodeWithChildren.isLeaf());
     }
@@ -108,7 +134,8 @@ public class BSTNodeTest extends student.TestCase {
     /**
      * Tests if leaf when it has no children
      */
-    public void testIsLeafWhenNoChildren() {
+    public void testIsLeafWhenNoChildren()
+    {
         assertTrue(node1.isLeaf());
     }
 
@@ -117,7 +144,8 @@ public class BSTNodeTest extends student.TestCase {
     /**
      * Tests if leaf when it has only right child
      */
-    public void testIsLeafWhenOnlyRightChild() {
+    public void testIsLeafWhenOnlyRightChild()
+    {
         BSTNode nodeWithRightChild = new BSTNode(seminar1, seminar1);
         nodeWithRightChild.setRight(node2);
         assertFalse(nodeWithRightChild.isLeaf());
@@ -128,7 +156,8 @@ public class BSTNodeTest extends student.TestCase {
     /**
      * Tests if leaf when it has only left child
      */
-    public void testIsLeafWhenOnlyLeftChild() {
+    public void testIsLeafWhenOnlyLeftChild()
+    {
         BSTNode nodeWithLeftChild = new BSTNode(seminar1, seminar1);
         nodeWithLeftChild.setLeft(node2);
         assertFalse(nodeWithLeftChild.isLeaf());
@@ -139,7 +168,8 @@ public class BSTNodeTest extends student.TestCase {
     /**
      * Tests if leaf when it has both children
      */
-    public void testIsLeafWhenBothChildren() {
+    public void testIsLeafWhenBothChildren()
+    {
         assertFalse(nodeWithChildren.isLeaf());
     }
 
@@ -148,7 +178,8 @@ public class BSTNodeTest extends student.TestCase {
     /**
      * Test if BSTNode stores its seminar properly
      */
-    public void testSemValue() {
+    public void testSemValue()
+    {
         BSTNode seminarNode = new BSTNode(seminar1, seminar1);
         assertEquals(seminar1, seminarNode.semValue());
     }
@@ -158,7 +189,8 @@ public class BSTNodeTest extends student.TestCase {
     /**
      * Test if BSTNode stores a string properly
      */
-    public void testStringValue() {
+    public void testStringValue()
+    {
         BSTNode stringNode = new BSTNode("AI", seminar1);
         assertEquals("AI", stringNode.stringValue());
     }
@@ -168,7 +200,8 @@ public class BSTNodeTest extends student.TestCase {
     /**
      * Test stringValue called on a seminar
      */
-    public void testStringValueException() {
+    public void testStringValueException()
+    {
         @SuppressWarnings("unused")
         BSTNode seminarNode = new BSTNode(seminar1, seminar1);
         // seminarNode.stringValue();
@@ -179,7 +212,8 @@ public class BSTNodeTest extends student.TestCase {
     /**
      * Test changing the stringValue
      */
-    public void testSetStringValue() {
+    public void testSetStringValue()
+    {
         BSTNode stringNode = new BSTNode("AI", seminar1);
         stringNode.setStringValue("ML");
         assertEquals("ML", stringNode.stringValue());

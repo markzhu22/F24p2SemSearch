@@ -1,12 +1,13 @@
 /**
- * Seminar class with getter methods for key fields. There is probably no
- * good reason why you would want to modify this class for your project.
+ * Seminar class with getter methods for key fields. There is probably no good
+ * reason why you would want to modify this class for your project.
  *
  * @author CS3114/CS5040 staff
  * @version July 2023, last updated September 2023
  */
 
-public class Seminar {
+public class Seminar
+{
     private String title; // Semianar title
     private String date; // Seminar date
     private int length; // Seminar length
@@ -16,13 +17,14 @@ public class Seminar {
     private String desc; // Seminar description
     private int cost; // Seminar cost
     private int id; // Seminar ID
-    private BinTree binTree;
+// private BinTree binTree;
 
     // ----------------------------------------------------------
     /**
      * Dummy seminar constructor
      */
-    public Seminar() {
+    public Seminar()
+    {
         // Nothing here
     }
 
@@ -58,7 +60,8 @@ public class Seminar {
         short yin,
         int cin,
         String[] kin,
-        String descin) {
+        String descin)
+    {
         id = idin;
         title = tin;
         date = datein;
@@ -68,17 +71,18 @@ public class Seminar {
         cost = cin;
         keywords = kin;
         desc = descin;
-        // this.binTree = new BinTree(id);
     }
 
 
-    public String title() {
+    // ----------------------------------------------------------
+    /**
+     * Return the seminar title
+     * 
+     * @return the title field for the seminar
+     */
+    public String title()
+    {
         return title;
-    }
-
-
-    public void setBinTree(BinTree tree) {
-        this.binTree = tree;
     }
 
 
@@ -88,7 +92,8 @@ public class Seminar {
      * 
      * @return the ID field for the seminar
      */
-    public int id() {
+    public int id()
+    {
         return id;
     }
 
@@ -99,12 +104,20 @@ public class Seminar {
      * 
      * @return the date field for the seminar
      */
-    public String date() {
+    public String date()
+    {
         return date;
     }
 
 
-    public int length() {
+    // ----------------------------------------------------------
+    /**
+     * Returns the length
+     * 
+     * @return length
+     */
+    public int length()
+    {
         return length;
     }
 
@@ -115,7 +128,8 @@ public class Seminar {
      * 
      * @return the date field for the seminar
      */
-    public int cost() {
+    public int cost()
+    {
         return cost;
     }
 
@@ -126,7 +140,8 @@ public class Seminar {
      * 
      * @return the keywords field for the seminar
      */
-    public String[] keywords() {
+    public String[] keywords()
+    {
         return keywords;
     }
 
@@ -137,7 +152,8 @@ public class Seminar {
      * 
      * @return the x coordinate field for the seminar
      */
-    public int x() {
+    public int x()
+    {
         return x;
     }
 
@@ -148,132 +164,145 @@ public class Seminar {
      * 
      * @return the y coordinate field for the seminar
      */
-    public int y() {
+    public int y()
+    {
         return y;
     }
 
 
-    public String description() {
+    // ----------------------------------------------------------
+    /**
+     * Return the seminar description
+     * 
+     * @return the description field for the seminar
+     */
+    public String desc()
+    {
         return desc;
     }
 
 
-    public short getX() {
+    // ----------------------------------------------------------
+    /**
+     * Return the seminar x
+     * 
+     * @return the x field for the seminar
+     */
+    public short getX()
+    {
         return x;
     }
 
 
-    public short getY() {
+    // ----------------------------------------------------------
+    /**
+     * Return the seminar y
+     * 
+     * @return the title field for the seminar
+     */
+    public short getY()
+    {
         return y;
     }
 
-
-    public BinTree getBinTree() {
-        return binTree;
-    }
+// public BinTree getBinTree() {
+// return binTree;
+// }
 
 
     /**
+     * Creates a string representation of the seminar
+     * 
      * @return a string representation of the object.
      */
-    @Override
-    public String toString() {
-        StringBuilder sb = new StringBuilder();
-        sb.append("ID: ").append(id).append(", ");
-        sb.append("Title: ").append(title).append("\n");
-        sb.append("Date: ").append(date).append(", ");
-        sb.append("Length: ").append(length).append(", ");
-        sb.append("X: ").append(x).append(", ");
-        sb.append("Y: ").append(y).append(", ");
-        sb.append("Cost: ").append(cost).append("\n");
-        sb.append("Description: ").append(description()).append("\n");
-        sb.append("Keywords: ");
-        if (keywords != null) {
-            sb.append(String.join(", ", keywords));
+    public String toString()
+    {
+        int i;
+        String mykeys = "";
+        for (i = 0; i < keywords.length; i++)
+        {
+            mykeys += keywords[i];
+            if (i != keywords.length - 1)
+                mykeys += ", ";
         }
-        else {
-            sb.append("None");
-        }
-        return sb.toString();
+
+        return "ID: " + id + ", Title: " + title + "\nDate: " + date
+            + ", Length: " + length + ", X: " + x + ", Y: " + y + ", Cost: "
+            + cost + "\nDescription: " + desc + "\nKeywords: " + mykeys;
     }
 
 
-    public void setId(int id) {
+    // ----------------------------------------------------------
+    /**
+     * Change id to the given id
+     * 
+     * @param id
+     *            id to change to
+     */
+    public void setId(int id)
+    {
         this.id = id;
     }
 
 
-    public void setX(double x) {
+    // ----------------------------------------------------------
+    /**
+     * Change x to the given x
+     * 
+     * @param x
+     *            x to change to
+     */
+    public void setX(double x)
+    {
         this.x = (short)x;
     }
 
 
-    public void setY(double y) {
+    // ----------------------------------------------------------
+    /**
+     * Change y to the given y
+     * 
+     * @param y
+     *            y to change to
+     */
+    public void setY(double y)
+    {
         this.y = (short)y;
     }
 
 
-    public int getId() {
+    // ----------------------------------------------------------
+    /**
+     * Get id of the seminar
+     * 
+     * @return the id
+     */
+    public int getId()
+    {
         return this.id;
     }
 
 
-    public void setTitle(String title) {
-        this.title = title;
+    // ----------------------------------------------------------
+    /**
+     * Get x of the seminar
+     * 
+     * @return the x
+     */
+    public double getX1()
+    {
+        return this.x;
     }
 
 
-    public void setDate(String date) {
-        this.date = date;
+    // ----------------------------------------------------------
+    /**
+     * Get y of the seminar
+     * 
+     * @return the y
+     */
+    public double getY1()
+    {
+        return this.y;
     }
-
-
-    public void setLength(int length) {
-        this.length = length;
-    }
-
-
-    public void setKeywords(String[] keywords) {
-        this.keywords = (keywords != null) ? keywords : new String[0];
-    }
-
-
-    public void setCost(int cost) {
-        this.cost = cost;
-    }
-
-
-    // Update the existing setX and setY methods to use short instead of double
-    public void setX(short x) {
-        this.x = x;
-    }
-
-
-    public void setY(short y) {
-        this.y = y;
-    }
-
-
-    public void setDescription(String description) {
-        this.desc = description;
-    }
-
-
-    public void add(Seminar seminar) {
-        if (seminar == null) {
-            System.out.println("Cannot add null seminar");
-            return;
-        }
-
-    }
-
-
-    public String size() {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
-
-    
-
 }
