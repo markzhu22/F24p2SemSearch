@@ -1,151 +1,59 @@
-public class EmptyNodeTest {
-    public static void main(String[] args) {
-        testCreation();
-        testInsert();
-        testSearch();
-        testDelete();
-        testIntersects();
-        testGetSeminar();
-        testGetMinX();
-        testGetMinY();
-        testGetMaxX();
-        testGetMaxY();
-        testIsLeaf();
-        testTraverse();
+import org.junit.Test;
+
+public class EmptyNodeTest extends student.TestCase{
+
+    @Test
+    public void testSingleton() {
+        EmptyNode node1 = EmptyNode.getInstance();
+        EmptyNode node2 = EmptyNode.getInstance();
+        assertSame("getInstance should always return the same instance", node1, node2);
     }
 
-
-    private static Seminar createSeminar(int id, short x, short y) {
-        Seminar seminar = new Seminar();
-        seminar.setId(id);
-        seminar.setX(x);
-        seminar.setY(y);
-        seminar.addKeyword("test");
-        return seminar;
-    }
-
-
-    public static void testCreation() {
-        System.out.println("Testing EmptyNode creation...");
-        @SuppressWarnings("unused")
+    @Test
+    public void testIsLeaf() {
         EmptyNode node = EmptyNode.getInstance();
-        System.out.println("EmptyNode created successfully.");
-        System.out.println();
+        assertFalse("EmptyNode should not be considered a leaf", node.isLeaf());
     }
 
-
-    public static void testInsert() {
-        System.out.println("Testing EmptyNode insert...");
+    @Test
+    public void testGetSeminar() {
         EmptyNode node = EmptyNode.getInstance();
-        BinNode result = node.insert(createSeminar(1, (short)2, (short)3), 0);
-        System.out.println("Insert result: " + (result instanceof LeafNode));
-        System.out.println();
+        assertNull("getSeminar should return null for EmptyNode", node.getSeminar());
     }
 
-
-    public static void testSearch() {
-        System.out.println("Testing EmptyNode search...");
+    @Test
+    public void testGetLeft() {
         EmptyNode node = EmptyNode.getInstance();
-        Seminar result = node.search(2, 3);
-        System.out.println("Search result: " + (result == null
-            ? "Not found"
-            : result.id()));
-        System.out.println();
+        assertNull("getLeft should return null for EmptyNode", node.getLeft());
     }
 
-
-    public static void testDelete() {
-        System.out.println("Testing EmptyNode delete...");
+    @Test
+    public void testGetRight() {
         EmptyNode node = EmptyNode.getInstance();
-        BinNode result = node.delete(2, 3);
-        System.out.println("Delete result: " + (result instanceof EmptyNode));
-        System.out.println();
+        assertNull("getRight should return null for EmptyNode", node.getRight());
     }
 
-
-    public static void testIntersects() {
-        System.out.println("Testing EmptyNode intersects...");
+    @Test
+    public void testSetLeft() {
         EmptyNode node = EmptyNode.getInstance();
-        boolean result = node.intersects(2, 3, 1);
-        System.out.println("Intersects result: " + result);
-        System.out.println();
+        BinNode dummyNode = new LeafNode(new Seminar()); // Assuming LeafNode exists
+        node.setLeft(dummyNode);
+        // No assertion needed, just making sure it doesn't throw an exception
     }
 
-
-    public static void testGetSeminar() {
-        System.out.println("Testing EmptyNode getSeminar...");
+    @Test
+    public void testSetRight() {
         EmptyNode node = EmptyNode.getInstance();
-        Seminar result = node.getSeminar();
-        System.out.println("GetSeminar result: " + (result == null
-            ? "null"
-            : "not null"));
-        System.out.println();
+        BinNode dummyNode = new LeafNode(new Seminar()); // Assuming LeafNode exists
+        node.setRight(dummyNode);
+        // No assertion needed, just making sure it doesn't throw an exception
     }
 
-
-    public static void testGetMinX() {
-        System.out.println("Testing EmptyNode getMinX...");
+    @Test
+    public void testIsSplitOnX() {
         EmptyNode node = EmptyNode.getInstance();
-        double result = node.getMinX();
-        System.out.println("GetMinX result: "
-            + (result == Double.POSITIVE_INFINITY
-                ? "POSITIVE_INFINITY"
-                : result));
-        System.out.println();
+        assertFalse("isSplitOnX should always return false for EmptyNode", node.isSplitOnX());
     }
 
-
-    public static void testGetMinY() {
-        System.out.println("Testing EmptyNode getMinY...");
-        EmptyNode node = EmptyNode.getInstance();
-        double result = node.getMinY();
-        System.out.println("GetMinY result: "
-            + (result == Double.POSITIVE_INFINITY
-                ? "POSITIVE_INFINITY"
-                : result));
-        System.out.println();
-    }
-
-
-    public static void testGetMaxX() {
-        System.out.println("Testing EmptyNode getMaxX...");
-        EmptyNode node = EmptyNode.getInstance();
-        double result = node.getMaxX();
-        System.out.println("GetMaxX result: "
-            + (result == Double.NEGATIVE_INFINITY
-                ? "NEGATIVE_INFINITY"
-                : result));
-        System.out.println();
-    }
-
-
-    public static void testGetMaxY() {
-        System.out.println("Testing EmptyNode getMaxY...");
-        EmptyNode node = EmptyNode.getInstance();
-        double result = node.getMaxY();
-        System.out.println("GetMaxY result: "
-            + (result == Double.NEGATIVE_INFINITY
-                ? "NEGATIVE_INFINITY"
-                : result));
-        System.out.println();
-    }
-
-
-    public static void testIsLeaf() {
-        System.out.println("Testing EmptyNode isLeaf...");
-        EmptyNode node = EmptyNode.getInstance();
-        boolean result = node.isLeaf();
-        System.out.println("IsLeaf result: " + result);
-        System.out.println();
-    }
-
-
-    public static void testTraverse() {
-        System.out.println("Testing EmptyNode traverse...");
-        EmptyNode node = EmptyNode.getInstance();
-        System.out.println("Calling traverse method (should do nothing):");
-        node.traverse();
-        System.out.println("Traverse method called.");
-        System.out.println();
-    }
+   
 }

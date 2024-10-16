@@ -51,8 +51,7 @@ public class SemSearch {
             // Parse world size
             int worldSize = Integer.parseInt(args[0]);
             if (worldSize <= 0 || (worldSize & (worldSize - 1)) != 0) {
-                System.out.println(
-                    "World size must be a positive power of two.");
+                System.out.println("World size must be a positive power of two.");
                 return;
             }
 

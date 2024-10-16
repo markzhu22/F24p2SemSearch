@@ -69,7 +69,7 @@ public class ProblemSpecTest
         // Compare the two outputs
         // TODO: uncomment the following line
         // once you have implemented your project
-        // assertFuzzyEquals(expectedOutput, actualOutput);
+         assertFuzzyEquals(expectedOutput, actualOutput);
     }
 
 

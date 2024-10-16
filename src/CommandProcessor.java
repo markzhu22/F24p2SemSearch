@@ -98,6 +98,11 @@ public class CommandProcessor
                         case "keyword":
                             control.searchByKeyword(cmd.split("\\s+")[2]);
                             break;
+                        case "location":
+                            int x = Integer.parseInt(cmd.split("\\s+")[2]);
+                            int y = Integer.parseInt(cmd.split("\\s+")[3]);
+                            control.searchByLocation(x, y);
+                            break;
                         default:
                             System.out.println("Invalid keyword");
                     }

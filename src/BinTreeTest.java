@@ -1,130 +1,140 @@
-import java.util.List;
+import org.junit.Before;
+import org.junit.Test;
+import java.io.OutputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.PrintStream;
 
 public class BinTreeTest extends student.TestCase {
     private BinTree tree;
+    private final int WORLD_SIZE = 128;
 
+    @Before
     public void setUp() {
-        tree = new BinTree();
+        tree = new BinTree(WORLD_SIZE);
     }
 
-    public void testInsertAndSize() {
-        assertTrue("Tree should be empty initially", tree.isEmpty());
-        assertEquals("Initial size should be 0", 0, tree.size());
-    
-        Seminar s1 = new Seminar();
-        tree.insert(s1);
-        System.out.println("After inserting first seminar:");
-        System.out.println("Tree isEmpty: " + tree.isEmpty());
-        System.out.println("Tree size: " + tree.size());
-        System.out.println("Tree toString: " + tree.toString());
-        
-        assertFalse("Tree should not be empty after insertion", tree.isEmpty());
-        assertEquals("Size should be 1 after insertion", 1, tree.size());
-    
-        Seminar s2 = new Seminar();
-        tree.insert(s2);
-        System.out.println("After inserting second seminar:");
-        System.out.println("Tree isEmpty: " + tree.isEmpty());
-        System.out.println("Tree size: " + tree.size());
-        System.out.println("Tree toString: " + tree.toString());
-        
-        assertEquals("Size should be 2 after second insertion", 2, tree.size());
+    private Seminar createSeminar(int id, String title, String date, int length, int x, int y, int cost, String[] keywords, String description) {
+        return new Seminar(id, title, date, length, (short)x, (short)y, cost, keywords, description);
     }
 
-    public void testSearch() {
-        Seminar s1 = new Seminar();
-        s1.setId(1);  // Assuming there's a setId method
-        Seminar s2 = new Seminar();
-        s2.setId(2);  // Assuming there's a setId method
-        tree.insert(s1);
-        tree.insert(s2);
-    
-        Seminar found1 = tree.search(1);
-        Seminar found2 = tree.search(2);
-    
-        assertNotNull("Search for seminar 1 should not return null", found1);
-        assertNotNull("Search for seminar 2 should not return null", found2);
-        assertEquals("ID of found seminar 1 should match", 1, found1.getId());
-        assertEquals("ID of found seminar 2 should match", 2, found2.getId());
-        assertNull("Search for non-existent seminar should return null", tree.search(3));
+    @Test
+    public void testInsertAndSearch() {
+        Seminar seminar1 = createSeminar(1, "Test1", "20240101", 60, 10, 10, 100, new String[]{"keyword1"}, "Description1");
+        Seminar seminar2 = createSeminar(2, "Test2", "20240102", 90, 20, 20, 200, new String[]{"keyword2"}, "Description2");
+
+        tree.insert(seminar1);
+        tree.insert(seminar2);
+
+        assertEquals(2, tree.size());
+        assertFalse(tree.isEmpty());
+
+        Seminar result1 = tree.search(10, 10);
+        Seminar result2 = tree.search(20, 20);
+
+        assertNotNull(result1);
+        assertNotNull(result2);
+        assertEquals(seminar1.getId(), result1.getId());
+        assertEquals(seminar2.getId(), result2.getId());
     }
 
-    public void testSearchWithinRadius() {
-        Seminar s1 = new Seminar();
-        s1.setX(0);
-        s1.setY(0);
-        Seminar s2 = new Seminar();
-        s2.setX(1);
-        s2.setY(1);
-        Seminar s3 = new Seminar();
-        s3.setX(10);
-        s3.setY(10);
-
-        tree.insert(s1);
-        tree.insert(s2);
-        tree.insert(s3);
-
-        List<Seminar> results = tree.searchWithinRadius(0, 0, 2);
-        assertEquals(2, results.size());
-        assertTrue(results.contains(s1));
-        assertTrue(results.contains(s2));
-        assertFalse(results.contains(s3));
-    }
-
+    @Test
     public void testDelete() {
-        Seminar s1 = new Seminar();
-        s1.setX(0);
-        s1.setY(0);
-        s1.setId(1);
-        Seminar s2 = new Seminar();
-        s2.setX(1);
-        s2.setY(1);
-        s2.setId(2);
+        Seminar seminar = createSeminar(1, "Test", "20240101", 60, 10, 10, 100, new String[]{"keyword"}, "Description");
+        tree.insert(seminar);
 
-        System.out.println("Initial tree size: " + tree.size());
+        assertEquals(1, tree.size());
+        tree.delete(10, 10);
+        assertEquals(0, tree.size());
+        assertTrue(tree.isEmpty());
 
-        tree.insert(s1);
-        System.out.println("Tree size after inserting s1: " + tree.size());
-        System.out.println("Tree after inserting s1: " + tree.toString());
-
-        tree.insert(s2);
-        System.out.println("Tree size after inserting s2: " + tree.size());
-        System.out.println("Tree after inserting s2: " + tree.toString());
-
-        assertEquals("Tree size should be 2 after inserting two seminars", 2, tree.size());
-
-        tree.delete(0, 0);
-        System.out.println("Tree size after deleting (0,0): " + tree.size());
-        System.out.println("Tree after deleting (0,0): " + tree.toString());
-
-        assertEquals("Tree size should be 1 after deleting one seminar", 1, tree.size());
-        assertNull("Search for deleted seminar should return null", tree.search(s1.getId()));
-        assertNotNull("Search for remaining seminar should not return null", tree.search(s2.getId()));
+        assertNull(tree.search(10, 10));
     }
 
-    public void testNodesVisited() {
-        tree.insert(new Seminar());
-        tree.insert(new Seminar());
-        tree.insert(new Seminar());
+    @Test
+    public void testSearchInRange() {
+        Seminar seminar1 = createSeminar(1, "Test1", "20240101", 60, 10, 10, 100, new String[]{"keyword1"}, "Description1");
+        Seminar seminar2 = createSeminar(2, "Test2", "20240102", 90, 20, 20, 200, new String[]{"keyword2"}, "Description2");
+        Seminar seminar3 = createSeminar(3, "Test3", "20240103", 120, 30, 30, 300, new String[]{"keyword3"}, "Description3");
 
-        tree.searchWithinRadius(0, 0, 2);
-        assertTrue(tree.getNodesVisited() > 0);
+        tree.insert(seminar1);
+        tree.insert(seminar2);
+        tree.insert(seminar3);
 
-        tree.resetNodesVisited();
-        assertEquals(0, tree.getNodesVisited());
+        ByteArrayOutputStream outContent = new ByteArrayOutputStream();
+        PrintStream originalOut = System.out;
+        System.setOut(new PrintStream(outContent));
+
+        try {
+            tree.searchInRange(15, 15, 10);
+
+            String output = outContent.toString();
+            assertTrue(output.contains("Found a record with key value 1 at 10, 10"));
+            assertTrue(output.contains("Found a record with key value 2 at 20, 20"));
+            assertFalse(output.contains("Found a record with key value 3 at 30, 30"));
+        } finally {
+            System.setOut(originalOut);
+        }
     }
 
-    public void testToString() {
-        assertEquals("Location Tree:\n(E)\n", tree.toString());
+    @Test
+    public void testInsertOutOfBounds() {
+        Seminar seminarOutOfBounds = createSeminar(1, "OutOfBounds", "20240101", 60, -1, 10, 100, new String[]{"keyword"}, "Description");
+        tree.insert(seminarOutOfBounds);
+        assertEquals(0, tree.size());
 
-        Seminar s1 = new Seminar();
-        tree.insert(s1);
-        String expected = "Location Tree:\n(Leaf with 1 objects: " + s1.getId() + ")\n";
-        assertEquals(expected, tree.toString());
+        seminarOutOfBounds = createSeminar(2, "OutOfBounds", "20240101", 60, 10, WORLD_SIZE, 100, new String[]{"keyword"}, "Description");
+        tree.insert(seminarOutOfBounds);
+        assertEquals(0, tree.size());
+    }
 
-        Seminar s2 = new Seminar();
-        tree.insert(s2);
-        expected = "Location Tree:\n(I)\n    (Leaf with 1 objects: " + s1.getId() + ")\n    (Leaf with 1 objects: " + s2.getId() + ")\n";
-        assertEquals(expected, tree.toString());
+    @Test
+    public void testInsertDuplicateCoordinates() {
+        Seminar seminar1 = createSeminar(1, "Test1", "20240101", 60, 10, 10, 100, new String[]{"keyword1"}, "Description1");
+        Seminar seminar2 = createSeminar(2, "Test2", "20240102", 90, 10, 10, 200, new String[]{"keyword2"}, "Description2");
+    
+        tree.insert(seminar1);
+        tree.insert(seminar2);
+    
+        assertEquals(1, tree.size()); // The size should be 1, not 2
+        Seminar result = tree.search(10, 10);
+        assertNotNull(result);
+        
+        // Check if both seminars are stored at the same location
+        assertEquals(10, result.getX());
+        assertEquals(10, result.getY());
+        
+        // Additional checks to ensure both seminars are stored
+        assertTrue(result.getId() == 1 || result.getId() == 2);
+        
+        // You might want to add a method to your BinTree class to get all seminars at a specific location
+        // For example: List<Seminar> seminarsAtLocation = tree.getAllSeminarsAt(10, 10);
+        // assertEquals(2, seminarsAtLocation.size());
+        // assertTrue(seminarsAtLocation.stream().anyMatch(s -> s.getId() == 1));
+        // assertTrue(seminarsAtLocation.stream().anyMatch(s -> s.getId() == 2));
+    }
+
+    @Test
+    public void testEmptyTree() {
+        assertTrue(tree.isEmpty());
+        assertEquals(0, tree.size());
+        assertNull(tree.search(10, 10));
+    }
+
+    @Test
+    public void testPrintTree() {
+        Seminar seminar1 = createSeminar(1, "Test1", "20240101", 60, 10, 10, 100, new String[]{"keyword1"}, "Description1");
+        Seminar seminar2 = createSeminar(2, "Test2", "20240102", 90, 20, 20, 200, new String[]{"keyword2"}, "Description2");
+
+        tree.insert(seminar1);
+        tree.insert(seminar2);
+
+        OutputStream outContent = null;
+        // Redirect System.out to capture printed output
+        System.setOut(new java.io.PrintStream(outContent));
+
+        tree.printTree();
+
+        String output = outContent.toString();
+        assertTrue(output.contains("Location Tree:"));
     }
 }

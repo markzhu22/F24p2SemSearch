@@ -1,29 +1,60 @@
+/**
+ * Interface for nodes in a binary tree structure.
+ * 
+ * @author markz + tarinid
+ * @version Oct 14, 2024
+ */
 public interface BinNode {
+
+    /**
+     * Checks if this node is a leaf node.
+     *
+     * @return true if this is a leaf node, false otherwise
+     */
     boolean isLeaf();
 
-    void traverse();
-
-    boolean intersects(double x, double y, double radius);
-
+    /**
+     * Gets the seminar associated with this node.
+     *
+     * @return the Seminar object, or null if not applicable
+     */
     Seminar getSeminar();
 
-    double getMinX();
-
-    double getMinY();
-
-    double getMaxY();
-
-    double getMaxX();
-
+    /**
+     * Gets the left child of this node.
+     *
+     * @return the left child BinNode
+     */
     BinNode getLeft();
 
+    /**
+     * Gets the right child of this node.
+     *
+     * @return the right child BinNode
+     */
     BinNode getRight();
 
-    BinNode insert(Seminar seminar, int depth);
+    /**
+     * Sets the left child of this node.
+     *
+     * @param left the left child BinNode to set
+     */
+    void setLeft(BinNode left);
 
-    Seminar search(double x, double y);
+    /**
+     * Sets the right child of this node.
+     *
+     * @param right the right child BinNode to set
+     */
+    void setRight(BinNode right);
 
-    BinNode delete(double x, double y);
+    /**
+     * Checks if this node is split on the X-axis.
+     *
+     * @return true if split on X-axis, false if split on Y-axis
+     */
+    boolean isSplitOnX();
 
-    String toString(int depth);
+  void print(BinNode node, int depth);
+    
 }

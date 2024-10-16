@@ -68,12 +68,17 @@ public class Seminar {
         cost = cin;
         keywords = kin;
         desc = descin;
-        this.binTree = new BinTree();
+        // this.binTree = new BinTree(id);
     }
 
 
     public String title() {
         return title;
+    }
+
+
+    public void setBinTree(BinTree tree) {
+        this.binTree = tree;
     }
 
 
@@ -148,7 +153,7 @@ public class Seminar {
     }
 
 
-    public String desc() {
+    public String description() {
         return desc;
     }
 
@@ -171,17 +176,25 @@ public class Seminar {
     /**
      * @return a string representation of the object.
      */
+    @Override
     public String toString() {
-        int i;
-        String mykeys = "";
-        for (i = 0; i < keywords.length; i++) {
-            mykeys += keywords[i];
-            if (i != keywords.length - 1)
-                mykeys += ", ";
+        StringBuilder sb = new StringBuilder();
+        sb.append("ID: ").append(id).append(", ");
+        sb.append("Title: ").append(title).append("\n");
+        sb.append("Date: ").append(date).append(", ");
+        sb.append("Length: ").append(length).append(", ");
+        sb.append("X: ").append(x).append(", ");
+        sb.append("Y: ").append(y).append(", ");
+        sb.append("Cost: ").append(cost).append("\n");
+        sb.append("Description: ").append(description()).append("\n");
+        sb.append("Keywords: ");
+        if (keywords != null) {
+            sb.append(String.join(", ", keywords));
         }
-        return "ID: " + id + ", Title: " + title + "\nDate: " + date
-            + ", Length: " + length + ", X: " + x + ", Y: " + y + ", Cost: "
-            + cost + "\nDescription: " + desc + "\nKeywords: " + mykeys;
+        else {
+            sb.append("None");
+        }
+        return sb.toString();
     }
 
 
@@ -189,25 +202,78 @@ public class Seminar {
         this.id = id;
     }
 
+
     public void setX(double x) {
         this.x = (short)x;
     }
+
 
     public void setY(double y) {
         this.y = (short)y;
     }
 
+
     public int getId() {
         return this.id;
     }
 
-    public double getX1() {
-        return this.x;
+
+    public void setTitle(String title) {
+        this.title = title;
     }
 
-    public double getY1() {
-        return this.y;
+
+    public void setDate(String date) {
+        this.date = date;
     }
 
+
+    public void setLength(int length) {
+        this.length = length;
+    }
+
+
+    public void setKeywords(String[] keywords) {
+        this.keywords = (keywords != null) ? keywords : new String[0];
+    }
+
+
+    public void setCost(int cost) {
+        this.cost = cost;
+    }
+
+
+    // Update the existing setX and setY methods to use short instead of double
+    public void setX(short x) {
+        this.x = x;
+    }
+
+
+    public void setY(short y) {
+        this.y = y;
+    }
+
+
+    public void setDescription(String description) {
+        this.desc = description;
+    }
+
+
+    public void add(Seminar seminar) {
+        if (seminar == null) {
+            System.out.println("Cannot add null seminar");
+            return;
+        }
+
+    }
+
+
+    public String size() {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+
+    
 
 }

@@ -1,72 +1,92 @@
-public class InternalNodeTest {
-    public static void main(String[] args) {
-        testCreation();
-        testInsert();
-        testSearch();
-        testDelete();
-        testIntersects();
+import org.junit.Before;
+import org.junit.Test;
+
+public class InternalNodeTest extends student.TestCase {
+
+    private InternalNode node;
+    private BinNode leftChild;
+    private BinNode rightChild;
+    private Seminar leftSeminar;
+    private Seminar rightSeminar;
+
+    @Before
+    public void setUp() {
+        leftSeminar = new Seminar();
+        leftSeminar.setId(2); // Seminar with ID 2 is now the left child
+        rightSeminar = new Seminar();
+        rightSeminar.setId(1); // Seminar with ID 1 is now the right child
+        leftChild = new LeafNode(leftSeminar);
+        rightChild = new LeafNode(rightSeminar);
+        node = new InternalNode(leftChild, rightChild, true);
     }
 
-    private static Seminar createSeminar(int id, short x, short y) {
-        Seminar seminar = new Seminar();
-        seminar.setId(id);
-        seminar.setX(x);
-        seminar.setY(y);
-        seminar.addKeyword("test");
-        return seminar;
+
+    @Test
+    public void testConstructor() {
+        assertEquals(leftChild, node.getLeft());
+        assertEquals(rightChild, node.getRight());
+        assertTrue(node.isSplitOnX());
     }
 
-    public static void testCreation() {
-        System.out.println("Testing InternalNode creation...");
-        LeafNode left = new LeafNode(createSeminar(1, (short)2, (short)3));
-        LeafNode right = new LeafNode(createSeminar(2, (short)4, (short)5));
-        @SuppressWarnings("unused")
-        InternalNode node = new InternalNode(left, right, true, 0);
-        System.out.println("InternalNode created successfully.");
-        System.out.println();
+
+    @Test
+    public void testIsLeaf() {
+        assertFalse(node.isLeaf());
     }
 
-    public static void testInsert() {
-        System.out.println("Testing InternalNode insert...");
-        LeafNode left = new LeafNode(createSeminar(1, (short)2, (short)3));
-        LeafNode right = new LeafNode(createSeminar(2, (short)4, (short)5));
-        InternalNode node = new InternalNode(left, right, true, 0);
-        
-        BinNode result = node.insert(createSeminar(3, (short)3, (short)4));
-        System.out.println("Insert result: " + (result instanceof InternalNode));
-        System.out.println();
+
+    @Test
+    public void testGetSeminar() {
+        assertNull(node.getSeminar());
     }
 
-    public static void testSearch() {
-        System.out.println("Testing InternalNode search...");
-        LeafNode left = new LeafNode(createSeminar(1, (short)2, (short)3));
-        LeafNode right = new LeafNode(createSeminar(2, (short)4, (short)5));
-        InternalNode node = new InternalNode(left, right, true, 0);
-        
-        Seminar result = node.search(2, 3);
-        System.out.println("Search result: " + (result != null ? result.id() : "Not found"));
-        System.out.println();
+
+    @Test
+    public void testGetLeft() {
+        assertEquals(leftChild, node.getLeft());
     }
 
-    public static void testDelete() {
-        System.out.println("Testing InternalNode delete...");
-        LeafNode left = new LeafNode(createSeminar(1, (short)2, (short)3));
-        LeafNode right = new LeafNode(createSeminar(2, (short)4, (short)5));
-        InternalNode node = new InternalNode(left, right, true, 0);
-        
-        BinNode result = node.delete(2, 3);
-        System.out.println("Delete result: " + (result instanceof LeafNode));
-        System.out.println();
+
+    @Test
+    public void testSetLeft() {
+        BinNode newLeft = new LeafNode(new Seminar());
+        node.setLeft(newLeft);
+        assertEquals(newLeft, node.getLeft());
     }
 
-    public static void testIntersects() {
-        System.out.println("Testing InternalNode intersects...");
-        LeafNode left = new LeafNode(createSeminar(1, (short)2, (short)3));
-        LeafNode right = new LeafNode(createSeminar(2, (short)4, (short)5));
-        InternalNode node = new InternalNode(left, right, true, 0);
-        
-        boolean result = node.intersects(3, 4, 2);
-        System.out.println("Intersects result: " + result);
-        System.out.println();
+
+    @Test
+    public void testGetRight() {
+        assertEquals(rightChild, node.getRight());
     }
+
+
+    @Test
+    public void testSetRight() {
+        BinNode newRight = new LeafNode(new Seminar());
+        node.setRight(newRight);
+        assertEquals(newRight, node.getRight());
+    }
+
+
+    @Test
+    public void testIsSplitOnX() {
+        assertTrue(node.isSplitOnX());
+
+        InternalNode nodeY = new InternalNode(leftChild, rightChild, false);
+        assertFalse(nodeY.isSplitOnX());
+    }
+
+
+//    @Test
+//    public void testToString() {
+//        String expected =
+//            "I\n    Leaf with 1 object(s): 1\n    Leaf with 1 object(s): 2\n";
+//        assertEquals(expected, node.toString(0));
+//
+//        String expectedWithDepth =
+//            "    I\n        Leaf with 1 object(s): 1\n        Leaf with 1 object(s): 2\n";
+//        assertEquals(expectedWithDepth, node.toString(1));
+//    }
+
 }

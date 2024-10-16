@@ -1,10 +1,24 @@
+/**
+ * Represents an empty node in a binary tree structure.
+ * This class implements the Singleton pattern.
+ * 
+ * @author markz + tarinid
+ * @version Oct 14, 2024
+ */
 public class EmptyNode implements BinNode {
     private static EmptyNode instance = null;
 
+    /**
+     * Private constructor to prevent direct instantiation.
+     */
     private EmptyNode() {
     }
 
-
+    /**
+     * Returns the singleton instance of EmptyNode.
+     *
+     * @return the EmptyNode instance
+     */
     public static EmptyNode getInstance() {
         if (instance == null) {
             instance = new EmptyNode();
@@ -12,82 +26,76 @@ public class EmptyNode implements BinNode {
         return instance;
     }
 
-
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public boolean isLeaf() {
         return false;
     }
 
-
-    @Override
-    public void traverse() {
-        // Do nothing, it’s an empty node
-    }
-
-
-    @Override
-    public boolean intersects(double x, double y, double radius) {
-        return false;
-    }
-
-    @Override
-    public BinNode insert(Seminar seminar, int depth) {
-        return new LeafNode(seminar);
-    }
-
-    @Override
-    public Seminar search(double x, double y) {
-        return null;
-    }
-
-    @Override
-    public BinNode delete(double x, double y) {
-        return this;
-    }
-
+    /**
+     * {@inheritDoc}
+     * Always returns null for an empty node.
+     */
     @Override
     public Seminar getSeminar() {
         return null;
     }
 
-    @Override
-    public double getMinX() {
-        return Double.POSITIVE_INFINITY;
-    }
-
-    @Override
-    public double getMinY() {
-        return Double.POSITIVE_INFINITY;
-    }
-
-    @Override
-    public double getMaxY() {
-        return Double.NEGATIVE_INFINITY;
-    }
-
-
-    @Override
-    public double getMaxX() {
-        return Double.NEGATIVE_INFINITY;
-    }
-
-
+    /**
+     * {@inheritDoc}
+     * Always returns null for an empty node.
+     */
     @Override
     public BinNode getLeft() {
-        // TODO Auto-generated method stub
         return null;
     }
 
-
+    /**
+     * {@inheritDoc}
+     * Always returns null for an empty node.
+     */
     @Override
     public BinNode getRight() {
-        // TODO Auto-generated method stub
         return null;
     }
 
+    /**
+     * {@inheritDoc}
+     * Does nothing for an empty node.
+     */
+    @Override
+    public void setLeft(BinNode left) {
+        // Do nothing, empty nodes don't have children
+    }
 
-       public String toString(int depth) {
-        return String.format("%sE\n", "    ".repeat(depth));
+    /**
+     * {@inheritDoc}
+     * Does nothing for an empty node.
+     */
+    @Override
+    public void setRight(BinNode right) {
+        // Do nothing, empty nodes don't have children
+    }
+
+    /**
+     * {@inheritDoc}
+     * Always returns false for an empty node.
+     */
+    @Override
+    public boolean isSplitOnX() {
+        return false;
+    }
+
+    @Override
+    public void print(BinNode node, int depth) {
+        String space = "";
+
+        for (int i = 0; i < depth; i++) {
+            space += "    ";
+        }
+        System.out.print(space);
+        System.out.println("(E)");
     }
 }
-

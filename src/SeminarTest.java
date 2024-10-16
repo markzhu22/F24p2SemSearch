@@ -90,7 +90,7 @@ public class SeminarTest extends TestCase {
      * Testing seminar description
      */
     public void testDesc() {
-        assertEquals("An AI Seminar", seminar.desc());
+        assertEquals("An AI Seminar", seminar.description());
     }
 
     // ----------------------------------------------------------
@@ -114,8 +114,12 @@ public class SeminarTest extends TestCase {
      * Testing seminar bintree
      */
     public void testGetBinTree() {
+        assertNull(seminar.getBinTree());
+        
+        // Optionally, set a BinTree and then test
+        BinTree tree = new BinTree(0);
+        seminar.setBinTree(tree);
         assertNotNull(seminar.getBinTree());
-        assertTrue(seminar.getBinTree() != null);
     }
 
     // ----------------------------------------------------------

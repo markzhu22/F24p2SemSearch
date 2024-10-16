@@ -1,8 +1,19 @@
 public class LeafNode implements BinNode {
-    private Seminar seminar;
+    private LinkedList<Seminar> seminars;
 
     public LeafNode(Seminar seminar) {
-        this.seminar = seminar;
+        this.seminars = new LinkedList<>();
+        this.seminars.add(seminar);
+    }
+
+
+    public LinkedList<Seminar> getSeminars() {
+        return seminars;
+    }
+
+
+    public void addSeminar(Seminar seminar) {
+        this.seminars.add(seminar);
     }
 
 
@@ -13,97 +24,56 @@ public class LeafNode implements BinNode {
 
 
     @Override
-    public void traverse() {
-        System.out.println("Leaf node: " + seminar);
-    }
-
-
-    @Override
-    public boolean intersects(double x, double y, double radius) {
-        double dist = Math.sqrt(Math.pow(seminar.getX() - x, 2) + Math.pow(
-            seminar.getY() - y, 2));
-        return dist <= radius;
-    }
-
-
-    @Override
-    public BinNode insert(Seminar newSeminar, int depth) {
-        if (this.seminar == null) {
-            this.seminar = newSeminar;
-            return this;
-        }
-        return new InternalNode(new LeafNode(this.seminar), new LeafNode(
-            newSeminar), this.seminar.x() < newSeminar.x(), depth);
-    }
-
-
-    @Override
-    public Seminar search(double x, double y) {
-        if (seminar != null && Math.abs(seminar.getX() - x) < 1e-6 && Math.abs(
-            seminar.getY() - y) < 1e-6) {
-            return seminar;
-        }
-        return null;
-    }
-
-
-    @Override
-    public BinNode delete(double x, double y) {
-        if (Math.abs(seminar.getX() - x) < 1e-6 && Math.abs(seminar.getY()
-            - y) < 1e-6) {
-            return EmptyNode.getInstance();
-        }
-        return this;
-    }
-
-
-    public Seminar getSeminar() {
-        return seminar;
-    }
-
-
-    @Override
-    public double getMinX() {
-        return seminar.getX();
-    }
-
-
-    @Override
-    public double getMinY() {
-        return seminar.getY();
-    }
-
-
-    @Override
-    public double getMaxY() {
-        return seminar.getY();
-    }
-
-
-    @Override
-    public double getMaxX() {
-        return seminar.getX();
-    }
-
-
-    @Override
     public BinNode getLeft() {
-        // TODO Auto-generated method stub
         return null;
     }
 
 
     @Override
     public BinNode getRight() {
-        // TODO Auto-generated method stub
         return null;
     }
 
 
     @Override
-    public String toString(int depth) {
-        return "    ".repeat(depth) + "Leaf with 1 objects: " + seminar.getId()
-            + "\n";
+    public void setLeft(BinNode left) {
+        // Do nothing, leaf nodes don't have children
+    }
+
+
+    @Override
+    public void setRight(BinNode right) {
+        // Do nothing, leaf nodes don't have children
+    }
+
+
+    @Override
+    public boolean isSplitOnX() {
+        // Leaf nodes are not split
+        return false;
+    }
+
+
+   
+
+    public Seminar getSeminar() {
+        return seminars.isEmpty() ? null : seminars.get(0);
+    }
+
+
+    @Override
+    public void print(BinNode node, int depth) {
+        String space = "";
+
+        for (int i = 0; i < depth; i++) {
+            space += "    ";
+        }
+        System.out.print(space);
+        System.out.print("(Leaf with " + seminars.size() + "objects:");
+        for (int i = 0; i < seminars.size(); i++) {
+            System.out.print(" " + seminars.get(i).getId());
+        }
+        System.out.println(")");
     }
 
 }
