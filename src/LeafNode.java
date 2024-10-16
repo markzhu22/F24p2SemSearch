@@ -66,29 +66,25 @@ public class LeafNode implements BinNode {
     }
 
 
+    public void print(int depth) {
+        printIndent(depth);
+        System.out.print("Leaf with " + seminars.size() + " objects:");
+        for (int i = 0; i < seminars.size(); i++) {
+            System.out.print(" " + seminars.get(i).getId());
+        }
+        System.out.println();
+    }
+
+    private void printIndent(int depth) {
+        for (int i = 0; i < depth; i++) {
+            System.out.print("  ");
+        }
+    }
+
+
     @Override
     public void print(BinNode node, int depth) {
-        String space = "";
-        for (int i = 0; i < depth; i++) {
-            space += "  ";
-        }
-        System.out.print(space + "L");
-        for (int i = 0; i < seminars.size(); i++) {
-            System.out.print(" " + seminars.get(i).getId());
-        }
-        System.out.println();
+        // TODO Auto-generated method stub
+        
     }
-
-    public void print(int depth) {
-        String space = "";
-        for (int i = 0; i < depth; i++) {
-            space += "  ";
-        }
-        System.out.print(space + "L");
-        for (int i = 0; i < seminars.size(); i++) {
-            System.out.print(" " + seminars.get(i).getId());
-        }
-        System.out.println();
-    }
-
 }

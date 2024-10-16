@@ -568,8 +568,7 @@ public class BinTree {
             System.out.println("E");
         }
         else if (node instanceof LeafNode) {
-            LeafNode leaf = (LeafNode) node;
-            leaf.print(depth);
+            ((LeafNode) node).print(depth);
         }
         else if (node instanceof InternalNode) {
             InternalNode internal = (InternalNode) node;
@@ -607,6 +606,8 @@ public class BinTree {
         }
     }
     }
+
+
 
 
 
