@@ -69,7 +69,7 @@ public class LeafNode implements BinNode {
             space += "    ";
         }
         System.out.print(space);
-        System.out.print("(Leaf with " + seminars.size() + "objects:");
+        System.out.print("(Leaf with " + seminars.size() + " objects:");
         for (int i = 0; i < seminars.size(); i++) {
             System.out.print(" " + seminars.get(i).getId());
         }

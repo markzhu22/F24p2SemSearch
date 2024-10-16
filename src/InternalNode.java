@@ -61,9 +61,9 @@ public class InternalNode implements BinNode {
         }
         System.out.print(space);
         System.out.println("(I)");
-        depth--;
-        print(node.getLeft(), depth);
-        print(node.getRight(), depth);
+        int newDepth = depth-1;
+        node.getLeft().print(left, newDepth);
+        node.getRight().print(right, newDepth);
     }
 
 

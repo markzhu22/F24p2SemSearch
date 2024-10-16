@@ -25,7 +25,7 @@ public class ReferenceTest
     public void testSemSearch()
     {
         String[] args = new String[2];
-        args[0] = "16";
+        args[0] = "128";
         args[1] = "TestInput.txt";
 
         SemSearch.main(args);

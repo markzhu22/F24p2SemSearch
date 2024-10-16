@@ -53,7 +53,7 @@ public class BinTree {
         int yMax) {
 
         // If the node is empty, create a new leaf node
-        if (node instanceof EmptyNode) {
+        if (node instanceof EmptyNode  || node == null) {
             return new LeafNode(seminar);
         }
 
@@ -135,11 +135,11 @@ public class BinTree {
             }
             if (newSeminar.getX() <= midPoint) {
                 newInternal.setLeft(insertHelper(root.getLeft(),
-                    existingSeminar, n, xMin, yMin, midPoint, yMax));
+                    newSeminar, n, xMin, yMin, midPoint, yMax));
             }
             else {
                 newInternal.setRight(insertHelper(root.getRight(),
-                    existingSeminar, n, midPoint, yMin, xMax, yMax));
+                    newSeminar, n, midPoint, yMin, xMax, yMax));
             }
         }
         else {
@@ -151,11 +151,11 @@ public class BinTree {
             }
             if (newSeminar.getY() <= midPoint) {
                 newInternal.setLeft(insertHelper(root.getLeft(),
-                    existingSeminar, n, xMin, yMin, xMax, midPoint));
+                    newSeminar, n, xMin, yMin, xMax, midPoint));
             }
             else {
                 newInternal.setRight(insertHelper(root.getRight(),
-                    existingSeminar, n, xMin, midPoint, xMax, yMax));
+                    newSeminar, n, xMin, midPoint, xMax, yMax));
             }
         }
 
@@ -526,7 +526,7 @@ public class BinTree {
      * @return The height of the tree.
      */
     private int calculateHeight(BinNode node) {
-        if (node == null) {
+        if (node == null || node.isLeaf()) {
             return 0;
         }
 
