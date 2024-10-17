@@ -227,123 +227,45 @@ public class BinTree
         int xMin,
         int yMin,
         int xMax,
-        int yMax)
-    {
+        int yMax) {
 
         nodesVisited++;
 
-        // Base case: node is an empty node
-        if (node instanceof EmptyNode)
-        {
-            return; // Nothing found
+        if (node instanceof EmptyNode) {
+            return;
         }
 
-        // Base case: node is a leaf node
-        if (node instanceof LeafNode)
-        {
+        if (node instanceof LeafNode) {
             LeafNode leaf = (LeafNode)node;
             LinkedList<Seminar> seminars = leaf.getSeminars();
-            // Loop through seminars to find a matching one
-            for (int i = 0; i < seminars.size(); i++)
-            {
+            for (int i = 0; i < seminars.size(); i++) {
                 Seminar seminar = seminars.get(i);
-                if (inRange(
-                    seminar.getX(),
-                    seminar.getY(),
-                    targetX,
-                    targetY,
-                    radius))
-                {
-                    System.out.println(
-                        "Found a record with key value " + seminar.id() + " at "
-                            + seminar.x() + ", " + seminar.y());
+                if (inRange(seminar.getX(), seminar.getY(), targetX, targetY, radius)) {
+                    System.out.println("Found a record with key value " + seminar.id() + 
+                        " at " + seminar.x() + ", " + seminar.y());
                 }
             }
             return;
         }
 
-        // Recursive case: node is an internal node
-        if (node instanceof InternalNode)
-        {
+        if (node instanceof InternalNode) {
             InternalNode internal = (InternalNode)node;
-            int midPoint;
+            boolean splitOnX = (depth % 2 == 0);
+            int midPoint = splitOnX ? (xMin + xMax) / 2 : (yMin + yMax) / 2;
 
-            // Determine if we are splitting on X or Y
-            if (depth % 2 == 0)
-            {
-                // Split on X, calculate X midpoint
-                midPoint = xMin + xMax / 2;
+            // Always check both subtrees if the search area overlaps the split line
+            boolean checkLeft = splitOnX ? (targetX - radius <= midPoint) : (targetY - radius <= midPoint);
+            boolean checkRight = splitOnX ? (targetX + radius > midPoint) : (targetY + radius > midPoint);
 
-                // Go left if the target X is less than the midpoint
-                if (targetX + radius < midPoint || targetX - radius < midPoint)
-                {
-                    searchHelper(
-                        internal.getLeft(),
-                        targetX,
-                        targetY,
-                        radius,
-                        depth + 1,
-                        xMin,
-                        yMin,
-                        midPoint,
-                        yMax);
-                }
-                // Go right if the target X is greater than or equal to the
-                // midpoint
-                if (targetX + radius >= midPoint
-                    || minus(targetX,radius) >= midPoint)
-                {
-                    searchHelper(
-                        internal.getRight(),
-                        targetX,
-                        targetY,
-                        radius,
-                        depth + 1,
-                        midPoint,
-                        yMin,
-                        xMax,
-                        yMax);
-                }
+            if (checkLeft) {
+                searchHelper(internal.getLeft(), targetX, targetY, radius, depth + 1,
+                             xMin, yMin, splitOnX ? midPoint : xMax, splitOnX ? yMax : midPoint);
             }
-            else
-            {
-                // Split on Y, calculate Y midpoint
-                midPoint = yMin + yMax / 2;
-
-                // Go left if the target Y is less than the midpoint
-                if (plus(targetY, radius) < midPoint || minus(targetY, radius) < midPoint)
-                {
-                    searchHelper(
-                        internal.getLeft(),
-                        targetX,
-                        targetY,
-                        radius,
-                        depth + 1,
-                        xMin,
-                        yMin,
-                        xMax,
-                        midPoint);
-                }
-                // Go right if the target Y is greater than or equal to the
-                // midpoint
-                if (targetY + radius >= midPoint
-                    || minus(targetY, radius) >= midPoint)
-                {
-                    searchHelper(
-                        internal.getRight(),
-                        targetX,
-                        targetY,
-                        radius,
-                        plus(depth, 1),
-                        xMin,
-                        midPoint,
-                        xMax,
-                        yMax);
-                }
+            if (checkRight) {
+                searchHelper(internal.getRight(), targetX, targetY, radius, depth + 1,
+                             splitOnX ? midPoint + 1 : xMin, splitOnX ? yMin : midPoint + 1, xMax, yMax);
             }
         }
-
-        return;
     }
 
 
@@ -379,7 +301,6 @@ public class BinTree
         int yMax,
         int depth)
     {
-
         // If node is empty, return as is
         if (node instanceof EmptyNode)
         {
@@ -481,7 +402,7 @@ public class BinTree
     {
         nodesVisited = 0;
     }
-
+   
 
     // ----------------------------------------------------------
     /**
