@@ -101,7 +101,7 @@ public class BinarySearchTree
             if (rt.semValue().date().compareTo(low) >= 0
                 && rt.semValue().date().compareTo(high) <= 0)
             {
-                System.out.println(rt.semValue());
+                System.out.println(rt.semValue().toString());
                 found = true;
             }
         }
@@ -115,7 +115,7 @@ public class BinarySearchTree
             if (rt.semValue().date().compareTo(low) >= 0
                 && rt.semValue().date().compareTo(high) <= 0)
             {
-                System.out.println(rt.semValue());
+                System.out.println(rt.semValue().toString());
                 found = true;
             }
             if (rt.semValue().date().compareTo(high) <= 0)
@@ -160,7 +160,7 @@ public class BinarySearchTree
             found |= findByCostRangeHelper(rt.left(), low, high);
             if (rt.semValue().cost() >= low && rt.semValue().cost() <= high)
             {
-                System.out.println(rt.semValue());
+                System.out.println(rt.semValue().toString());
                 found = true;
             }
         }
@@ -172,7 +172,7 @@ public class BinarySearchTree
             }
             if (rt.semValue().cost() >= low && rt.semValue().cost() <= high)
             {
-                System.out.println(rt.semValue());
+                System.out.println(rt.semValue().toString());
                 found = true;
             }
             if (rt.semValue().cost() <= high)

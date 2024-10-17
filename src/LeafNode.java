@@ -84,12 +84,12 @@ public class LeafNode implements BinNode {
 
     @Override
     public int incrementDepth(int depth) {
-        return depth + 1;
+        return depth - 1;
     }
 
     private void printIndent(int depth) {
-        for (int i = 0; i < depth; i++) {
-            System.out.print("  ");
+        for (int i = 0; i < depth-1; i++) {
+            System.out.print("    ");
         }
     }
 }

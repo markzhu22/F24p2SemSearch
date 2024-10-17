@@ -65,7 +65,7 @@ public class Controller
 
         // Print success message immediately after insertion
         System.out.println("Successfully inserted record with ID " + seminar.id());
-        printSeminar(seminar);
+        System.out.println(seminar.toString());
     }
             
 
@@ -122,7 +122,7 @@ public class Controller
         if (seminar != null)
         {
             System.out.println("Found record with ID " + id + ":");
-            printSeminar(seminar);
+            System.out.println((seminar.toString()));
         }
         else
         {
@@ -141,14 +141,8 @@ public class Controller
     public void searchByKeyword(String keyword) {
         System.out.println("Seminars matching keyword " + keyword + ":");
         String found = keywordTree.findByKeyword(keyword);
-        if (found != null && !found.isEmpty()) {
-            String[] seminarIds = found.split(",");
-            for (String id : seminarIds) {
-                Seminar seminar = idTree.findById(Integer.parseInt(id.trim()));
-                if (seminar != null) {
-                    printSeminar(seminar);
-                }
-            }
+        if (!found.equals("")) {
+            System.out.println(found.substring(0, found.length() - 1));
         }
     }
     
@@ -192,14 +186,14 @@ public class Controller
     }
 
 
-    public void searchByLocation(int x, int y)
+    public void searchByLocation(int x, int y, int radius)
     {
-        System.out.println("Searching for seminar at " + x + ", " + y + ":");
-        Seminar result = locationTree.search(x, y);
+        System.out.println("Seminars within " + radius + " units of " + x + ", " + y + ":");
+        Seminar result = locationTree.search(x, y, radius);
         if (result != null)
         {
             System.out.println("Found record with ID " + result.id() + ":");
-            printSeminar(result);
+            System.out.println(result.toString());
         }
         else
         {
@@ -208,18 +202,6 @@ public class Controller
         System.out.println(
             locationTree.getNodesVisited() + " nodes visited in this search");
         locationTree.resetNodesVisited();
-    }
-
-    private void printSeminar(Seminar seminar) {
-        System.out.println("id " + seminar.id() + " title " + seminar.title());
-        System.out.println("date " + seminar.date() + " length " + seminar.length() + 
-                           " x " + seminar.x() + " y " + seminar.y() + " cost " + seminar.cost());
-        System.out.println("description " + seminar.desc());
-        System.out.print("keywords");
-        for (String keyword : seminar.keywords()) {
-            System.out.print(" " + keyword);
-        }
-        System.out.println();
     }
 
     /**

@@ -101,7 +101,8 @@ public class CommandProcessor
                         case "location":
                             int x = Integer.parseInt(cmd.split("\\s+")[2]);
                             int y = Integer.parseInt(cmd.split("\\s+")[3]);
-                            control.searchByLocation(x, y);
+                            int radius = Integer.parseInt(cmd.split("\\s+")[4]);
+                            control.searchByLocation(x, y, radius);
                             break;
                         default:
                             System.out.println("Invalid keyword");
