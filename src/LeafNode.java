@@ -1,13 +1,13 @@
 public class LeafNode implements BinNode {
-    private LinkedList<Seminar> seminars;
+    private LinkedList seminars;
 
     public LeafNode(Seminar seminar) {
-        this.seminars = new LinkedList<>();
+        this.seminars = new LinkedList();
         this.seminars.add(seminar);
     }
 
 
-    public LinkedList<Seminar> getSeminars() {
+    public LinkedList getSeminars() {
         return seminars;
     }
 
@@ -18,7 +18,7 @@ public class LeafNode implements BinNode {
         }
     }
 
-    public LeafNode(LinkedList<Seminar> seminars) {
+    public LeafNode(LinkedList seminars) {
         this.seminars = seminars;
     }
 
@@ -95,7 +95,7 @@ public class LeafNode implements BinNode {
 
     @Override
     public BinNode delete(int id, int targetX, int targetY, int xMin, int yMin, int xMax, int yMax, int depth) {
-        LinkedList<Seminar> seminars = this.getSeminars();
+        LinkedList seminars = this.getSeminars();
         for (int i = 0; i < seminars.size(); i++) {
             Seminar seminar = seminars.get(i);
             if (seminar.id() == id && seminar.getX() == targetX && seminar.getY() == targetY) {

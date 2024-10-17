@@ -64,7 +64,7 @@ public class BinTree {
             }
             InternalNode newNode = new InternalNode(flyweight, flyweight,
                 splitOnX, splitValue);
-            LinkedList<Seminar> seminars = new LinkedList<Seminar>();
+            LinkedList seminars = new LinkedList();
             for (int i = 0; i < leaf.getSeminars().size(); i++) {
                 seminars.add(leaf.getSeminars().get(i));
             }
@@ -159,7 +159,7 @@ public class BinTree {
 
         if (node instanceof LeafNode) {
             LeafNode leaf = (LeafNode)node;
-            LinkedList<Seminar> seminars = leaf.getSeminars();
+            LinkedList seminars = leaf.getSeminars();
             for (int i = 0; i < seminars.size(); i++) {
                 Seminar seminar = seminars.get(i);
                 if (inRange(seminar.getX(), seminar.getY(), targetX, targetY,
@@ -204,15 +204,19 @@ public class BinTree {
 
     public void delete(int targetX, int targetY, int id) {
         BinNode oldRoot = root;
-        root = root.delete(id, targetX, targetY, 0, 0, worldSize - 1, worldSize - 1, 0);
+        root = root.delete(id, targetX, targetY, 0, 0, worldSize - 1, worldSize
+            - 1, 0);
         if (root instanceof EmptyNode) {
             root = EmptyNode.getInstance();
             size = 0;
-        } else if (oldRoot != root) {
-            // If the root has changed (i.e., a deletion occurred), decrement the size
+        }
+        else if (oldRoot != root) {
+            // If the root has changed (i.e., a deletion occurred), decrement
+            // the size
             size--;
         }
-        //System.out.println("record with id " + id + " successfully deleted from the database");
+        // System.out.println("record with id " + id + " successfully deleted
+        // from the database");
     }
 
 

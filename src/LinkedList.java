@@ -1,12 +1,12 @@
-public class LinkedList<T> {
-    private Node<T> head;
+public class LinkedList {
+    private Node head;
     private int size;
 
-    private static class Node<T> {
-        T data;
-        Node<T> next;
+    private static class Node {
+        Seminar data;
+        Node next;
 
-        Node(T data) {
+        Node(Seminar data) {
             this.data = data;
             this.next = null;
         }
@@ -16,25 +16,28 @@ public class LinkedList<T> {
         head = null;
         size = 0;
     }
-    public void add(T element) {
-        Node<T> newNode = new Node<>(element);
-        if (head == null) {
+
+    public void add(Seminar seminar) {
+        Node newNode = new Node(seminar);
+        if (head == null || head.data.id() > seminar.id()) {
+            newNode.next = head;
             head = newNode;
         } else {
-            Node<T> current = head;
-            while (current.next != null) {
+            Node current = head;
+            while (current.next != null && current.next.data.id() <= seminar.id()) {
                 current = current.next;
             }
+            newNode.next = current.next;
             current.next = newNode;
         }
         size++;
     }
 
-    public T get(int index) {
+    public Seminar get(int index) {
         if (index < 0 || index >= size) {
             throw new IndexOutOfBoundsException("Index: " + index + ", Size: " + size);
         }
-        Node<T> current = head;
+        Node current = head;
         for (int i = 0; i < index; i++) {
             current = current.next;
         }
@@ -48,6 +51,7 @@ public class LinkedList<T> {
     public boolean isEmpty() {
         return size == 0;
     }
+
     public void remove(int i) {
         if (i < 0 || i >= size) {
             throw new IndexOutOfBoundsException("Index: " + i + ", Size: " + size);
@@ -56,13 +60,21 @@ public class LinkedList<T> {
         if (i == 0) {
             head = head.next;
         } else {
-            Node<T> current = head;
+            Node current = head;
             for (int j = 0; j < i - 1; j++) {
                 current = current.next;
             }
             current.next = current.next.next;
         }
         size--;
-        
+    }
+
+    public void printList() {
+        Node current = head;
+        while (current != null) {
+            System.out.print(current.data.id() + " ");
+            current = current.next;
+        }
+        System.out.println();
     }
 }
