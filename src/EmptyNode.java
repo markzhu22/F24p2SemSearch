@@ -88,8 +88,35 @@ public class EmptyNode implements BinNode {
         return false;
     }
 
+    /**
+     * Prints the representation of an empty node.
+     *
+     * @param depth the depth of the node in the tree
+     */
+    @Override
+    public void print(int depth) {
+        printIndent(depth);
+        System.out.println("(E)");
+    }
+
     @Override
     public void print(BinNode node, int depth) {
-    //not needed
+        print(depth);
+    }
+
+    @Override
+    public int incrementDepth(int depth) {
+        return depth + 1;
+    }
+
+    /**
+     * Helper method to print indentation.
+     *
+     * @param depth the depth of indentation
+     */
+    private void printIndent(int depth) {
+        for (int i = 0; i < depth; i++) {
+            System.out.print("  ");
+        }
     }
 }

@@ -24,49 +24,86 @@ public class BinTree {
 
 
     public void insert(Seminar seminar) {
-        root = insertHelper(root, seminar, true, 0);
-        size++;
-        if (size % 10 == 0) { // Rebalance every 10 insertions, for example
-            rebalanceTree();
+        if (root == flyweight) {
+            root = new LeafNode(seminar);
+        } else {
+            root = insertHelper(root, seminar, 0, 0, 0, worldSize, worldSize);
         }
+        size++;
     }
-
-
-    private BinNode insertHelper(
-        BinNode node,
-        Seminar seminar,
-        boolean splitOnX,
-        int depth) {
-        if (node == flyweight) {
+    
+    private BinNode insertHelper(BinNode node, Seminar seminar, int depth, int x, int y, int width, int height) {
+        if (node instanceof EmptyNode) {
             return new LeafNode(seminar);
         }
 
         if (node instanceof LeafNode) {
             LeafNode leaf = (LeafNode) node;
-            if (leaf.getSeminars().size() < 3) {
+            if (leaf.getSeminars().size() < 2) {
                 leaf.addSeminar(seminar);
                 return leaf;
             } else {
-                return createInternalNodeWithSeminars(leaf.getSeminars(), seminar, splitOnX, depth);
+                // Create a new internal node and redistribute seminars
+                boolean splitOnX = depth % 2 == 0;
+                int splitValue;
+                if (splitOnX) {
+                    splitValue = x + width / 2;
+                } else {
+                    splitValue = y + height / 2;
+                }
+                InternalNode newNode = new InternalNode(flyweight, flyweight, splitOnX, splitValue);
+                LinkedList<Seminar> seminars = new LinkedList<Seminar>();
+                for (int i = 0; i < leaf.getSeminars().size(); i++) {
+                    seminars.add(leaf.getSeminars().get(i));
+                }
+                seminars.add(seminar);
+                
+                for (int i = 0; i < seminars.size(); i++) {
+                    Seminar s = seminars.get(i);
+                    if (splitOnX) {
+                        if (s.getX() < splitValue) {
+                            newNode.setLeft(insertHelper(newNode.getLeft(), s, depth + 1, x, y, splitValue - x, height));
+                        } else {
+                            newNode.setRight(insertHelper(newNode.getRight(), s, depth + 1, splitValue, y, width - (splitValue - x), height));
+                        }
+                    } else {
+                        if (s.getY() < splitValue) {
+                            newNode.setLeft(insertHelper(newNode.getLeft(), s, depth + 1, x, y, width, splitValue - y));
+                        } else {
+                            newNode.setRight(insertHelper(newNode.getRight(), s, depth + 1, x, splitValue, width, height - (splitValue - y)));
+                        }
+                    }
+                }
+                
+                return newNode;
             }
         }
 
-        InternalNode internal = (InternalNode) node;
-        if (splitOnX) {
-            if (seminar.getX() < internal.getSplitValue()) {
-                internal.setLeft(insertHelper(internal.getLeft(), seminar, !splitOnX, depth + 1));
+        if (node instanceof InternalNode) {
+            InternalNode internal = (InternalNode) node;
+            boolean splitOnX = internal.isSplitOnX();
+            int splitValue = internal.getSplitValue();
+
+            if (splitOnX) {
+                if (seminar.getX() < splitValue) {
+                    internal.setLeft(insertHelper(internal.getLeft(), seminar, depth + 1, x, y, splitValue - x, height));
+                } else {
+                    internal.setRight(insertHelper(internal.getRight(), seminar, depth + 1, splitValue, y, width - (splitValue - x), height));
+                }
             } else {
-                internal.setRight(insertHelper(internal.getRight(), seminar, !splitOnX, depth + 1));
+                if (seminar.getY() < splitValue) {
+                    internal.setLeft(insertHelper(internal.getLeft(), seminar, depth + 1, x, y, width, splitValue - y));
+                } else {
+                    internal.setRight(insertHelper(internal.getRight(), seminar, depth + 1, x, splitValue, width, height - (splitValue - y)));
+                }
             }
-        } else {
-            if (seminar.getY() < internal.getSplitValue()) {
-                internal.setLeft(insertHelper(internal.getLeft(), seminar, !splitOnX, depth + 1));
-            } else {
-                internal.setRight(insertHelper(internal.getRight(), seminar, !splitOnX, depth + 1));
-            }
+            return internal;
         }
-        return internal;
+
+        // This should never happen
+        return flyweight;
     }
+    
 
 
 // Helper function to create an internal node and split the seminars into
@@ -556,56 +593,35 @@ public class BinTree {
         System.out.println("Location Tree:");
         if (root == flyweight) {
             System.out.println("E");
-            return;
-        }
-        printHelper(root, 0);
-    }
-
-
-    private void printHelper(BinNode node, int depth) {
-        if (node == flyweight) {
-            printIndent(depth);
-            System.out.println("E");
-        }
-        else if (node instanceof LeafNode) {
-            ((LeafNode) node).print(depth);
-        }
-        else if (node instanceof InternalNode) {
-            InternalNode internal = (InternalNode) node;
-            printIndent(depth);
-            System.out.println("I");
-            printHelper(internal.getRight(), depth + 1);
-            printHelper(internal.getLeft(), depth + 1);
+        } else {
+            root.print(0);
         }
     }
 
+    // private void rebalanceTree() {
+    //     LinkedList<Seminar> allSeminars = new LinkedList<>();
+    //     collectAllSeminars(root, allSeminars);
+    //     root = createNodeFromSeminars(allSeminars, true, 0);
+    // }
 
-    private void printIndent(int depth) {
-        for (int i = 0; i < depth; i++) {
-            System.out.print("  ");
-        }
-    }
+// private void collectAllSeminars(BinNode node, LinkedList<Seminar> seminars) {
+// if (node instanceof LeafNode) {
+// LeafNode leaf = (LeafNode) node;
+// LinkedList<Seminar> leafSeminars = leaf.getSeminars();
+// for (int i = 0; i < leafSeminars.size(); i++) {
+// seminars.add(leafSeminars.get(i));
+// }
+// } else if (node instanceof InternalNode) {
+// InternalNode internal = (InternalNode) node;
+// collectAllSeminars(internal.getLeft(), seminars);
+// collectAllSeminars(internal.getRight(), seminars);
+// }
+// }
+    
+}
 
-    private void rebalanceTree() {
-        LinkedList<Seminar> allSeminars = new LinkedList<>();
-        collectAllSeminars(root, allSeminars);
-        root = createNodeFromSeminars(allSeminars, true, 0);
-    }
 
-    private void collectAllSeminars(BinNode node, LinkedList<Seminar> seminars) {
-        if (node instanceof LeafNode) {
-            LeafNode leaf = (LeafNode) node;
-            LinkedList<Seminar> leafSeminars = leaf.getSeminars();
-            for (int i = 0; i < leafSeminars.size(); i++) {
-                seminars.add(leafSeminars.get(i));
-            }
-        } else if (node instanceof InternalNode) {
-            InternalNode internal = (InternalNode) node;
-            collectAllSeminars(internal.getLeft(), seminars);
-            collectAllSeminars(internal.getRight(), seminars);
-        }
-    }
-    }
+
 
 
 

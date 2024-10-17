@@ -64,27 +64,10 @@ public class Controller
         locationTree.insert(seminar);
 
         // Print success message immediately after insertion
-        System.out.print(
-            "Successfully inserted record with ID " + seminar.id() + "\n");
-        System.out.print(
-            "ID: " + seminar.id() + ", Title: " + seminar.title() + "\r\n"
-                + "Date: " + seminar.date() + ", Length: " + seminar.length()
-                + ", X: " + seminar.x() + ", Y: " + seminar.y() + ", Cost: "
-                + seminar.cost() + "\r\n" + "Description: " + seminar.desc()
-                + "\r\n" + "Keywords: ");
-        for (String kywd : seminar.keywords())
-        {
-            if (kywd.equals(seminar.keywords()[0]))
-            {
-                System.out.print(kywd);
-            }
-            else
-            {
-                System.out.print(", " + kywd);
-            }
-        }
-        System.out.print("\n");
+        System.out.println("Successfully inserted record with ID " + seminar.id());
+        printSeminar(seminar);
     }
+            
 
 
     /**
@@ -139,7 +122,7 @@ public class Controller
         if (seminar != null)
         {
             System.out.println("Found record with ID " + id + ":");
-            System.out.println(seminar);
+            printSeminar(seminar);
         }
         else
         {
@@ -155,15 +138,20 @@ public class Controller
      * @param keyword
      *            The keyword to search for.
      */
-    public void searchByKeyword(String keyword)
-    {
+    public void searchByKeyword(String keyword) {
         System.out.println("Seminars matching keyword " + keyword + ":");
         String found = keywordTree.findByKeyword(keyword);
-        if (!found.equals(""))
-        {
-            System.out.println(found.substring(0, found.length() - 1));
+        if (found != null && !found.isEmpty()) {
+            String[] seminarIds = found.split(",");
+            for (String id : seminarIds) {
+                Seminar seminar = idTree.findById(Integer.parseInt(id.trim()));
+                if (seminar != null) {
+                    printSeminar(seminar);
+                }
+            }
         }
     }
+    
 
 
     /**
@@ -174,14 +162,13 @@ public class Controller
      * @param high
      *            The upper bound of the cost range.
      */
-    public void searchByCostRange(int low, int high)
-    {
-        System.out.println(
-            "Seminars with costs in range " + low + " to " + high + ":");
+    public void searchByCostRange(int low, int high) {
+        System.out.println("Seminars with costs in range " + low + " to " + high + ":");
         boolean found = costTree.findByCostRange(low, high);
-
-        System.out.println(
-            costTree.getTraversalCount() + " nodes visited in this search");
+        if (!found) {
+            System.out.println("No seminars found within the specified cost range.");
+        }
+        System.out.println(costTree.getTraversalCount() + " nodes visited in this search");
         costTree.resetTraversalCount();
     }
 
@@ -194,14 +181,13 @@ public class Controller
      * @param high
      *            The upper bound of the date range.
      */
-    public void searchByDateRange(String low, String high)
-    {
-        System.out.println(
-            "Seminars with dates in range " + low + " to " + high + ":");
+    public void searchByDateRange(String low, String high) {
+        System.out.println("Seminars with dates in range " + low + " to " + high + ":");
         boolean found = dateTree.findByDateRange(low, high);
-
-        System.out.println(
-            dateTree.getTraversalCount() + " nodes visited in this search");
+        if (!found) {
+            System.out.println("No seminars found within the specified date range.");
+        }
+        System.out.println(dateTree.getTraversalCount() + " nodes visited in this search");
         dateTree.resetTraversalCount();
     }
 
@@ -212,7 +198,8 @@ public class Controller
         Seminar result = locationTree.search(x, y);
         if (result != null)
         {
-            System.out.println(result);
+            System.out.println("Found record with ID " + result.id() + ":");
+            printSeminar(result);
         }
         else
         {
@@ -223,6 +210,17 @@ public class Controller
         locationTree.resetNodesVisited();
     }
 
+    private void printSeminar(Seminar seminar) {
+        System.out.println("id " + seminar.id() + " title " + seminar.title());
+        System.out.println("date " + seminar.date() + " length " + seminar.length() + 
+                           " x " + seminar.x() + " y " + seminar.y() + " cost " + seminar.cost());
+        System.out.println("description " + seminar.desc());
+        System.out.print("keywords");
+        for (String keyword : seminar.keywords()) {
+            System.out.print(" " + keyword);
+        }
+        System.out.println();
+    }
 
     /**
      * Prints all the seminars based on a specific tree (id, date, cost,

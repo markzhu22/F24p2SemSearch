@@ -62,9 +62,26 @@ public class InternalNode implements BinNode {
     }
 
     @Override
+    public void print(int depth) {
+        printIndent(depth);
+        System.out.println("(I)");
+        right.print(incrementDepth(depth));
+        left.print(incrementDepth(depth));
+    }
+    
+    @Override
     public void print(BinNode node, int depth) {
-        //not needed
+        print(depth);
     }
 
+    @Override
+    public int incrementDepth(int depth) {
+        return depth + 1;
+    }
 
+    private void printIndent(int depth) {
+        for (int i = 0; i < depth; i++) {
+            System.out.print("  ");
+        }
+    }
 }

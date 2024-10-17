@@ -55,6 +55,7 @@ public interface BinNode {
      */
     boolean isSplitOnX();
 
-  void print(BinNode node, int depth);
-    
+    void print(int depth);
+    void print(BinNode node, int depth);
+    int incrementDepth(int depth);
 }
