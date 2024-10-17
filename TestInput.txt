@@ -1,27 +1,201 @@
+delete 1
+
+print ID
+print date
+print cost
+print keyword
+print location
+print :3
+
+search ID 1
+search date 0 1
+search cost 0 1
+search keyword VT
+search location 0 0 0
+search :3
+
 insert 1
-Overview of HCI Research at VT
-0610051600 90 10 10 45
-HCI Computer_Science VT Virginia_Tech
-This seminar will present an overview of HCI research at VT
+Seminar 1
+0610051600 100 -1 -1 50
+key1 key2 key3
+This is Seminar 1
+
+insert 1
+Seminar 1
+0610051600 100 -1 129 50
+key1 key2 key3
+This is Seminar 1
+
+insert 1
+Seminar 1
+0610051600 100 129 129 50
+key1 key2 key3
+This is Seminar 1
+
+insert 1
+Seminar 1
+0610051600 100 -1 0 50
+key1 key2 key3
+This is Seminar 1
+
+insert 1
+Seminar 1
+0610051600 100 0 -1 50
+key1 key2 key3
+This is Seminar 1
+
+insert 1
+Seminar 1
+0610051600 100 128 129 50
+key1 key2 key3
+This is Seminar 1
+
+insert 1
+Seminar 1
+0610051600 100 10 10 50
+key1 key2 key3
+This is Seminar 1
+
+insert 1
+Seminar 1
+0610051600 100 10 10 50
+key1 key2 key3
+This is Seminar 1
+
+print ID
+print date
+print cost
+print keyword
+print location 
+
+search ID 1
+search date 0 1
+search cost 0 1
+search keyword VT
+search location 0 0 20
+
+delete 1
+
+
+
+
+
+insert 1
+Seminar 1
+0610051600 100 10 10 50
+key1 key2 key3
+This is Seminar 1
+
+insert 2
+Seminar 2
+0610051600 100 10 10 50
+key1 key2 key3
+This is Seminar 2
+
+print ID
+print date
+print cost
+print keyword
+print location 
+
+search ID 1
+search date 0 1
+search cost 0 100
+search keyword key1
+search location 0 0 20
+
+delete 1
+delete 2
+
+
 
 
 insert 2
-Computational Biology and Bioinformatics in CS at Virginia Tech
-      0610071600       60     10     10 30
-Bioinformatics computation_biology Biology Computer_Science VT Virginia_Tech
-    Introduction to   bioinformatics and computation biology
-insert 10
-Computing Systems Research at VT
-0701250830  30 30   10  17
-high_performance_computing           grids     VT computer science
-  Seminar about the      Computing systems research at      VT
+Seminar 2
+0610051600 100 10 10 50
+key1 key2 key3
+This is Seminar 2
 
-print location
-    
+insert 1
+Seminar 1
+0610051600 100 10 10 50
+key1 key2 key3
+This is Seminar 1
+
 insert 3
-Overview of HPC and CSE Research at VT
-1203301125     35        0  0                                           25
-      HPC      CSE      computer_science 
-Learn what kind of    research is done on HPC  and CSE at VT
+Seminar 3
+0610051600 100 10 10 50
+key1 key2 key3
+This is Seminar 3
+
+print ID
+print date
+print cost
+print keyword
+print location 
+
+search ID 1
+search date 0 1
+search cost 0 100
+search keyword key1
+search location 0 0 20
+
+search date 0610051600 0610051600
+search date 0610051601 0610051601
+search date 0610051599 0610051599
+
+search date 0610051600 0610051601
+search date 0610051599 0610051600
+search date 0610051601 0610051602
+search date 0610051598 0610051599
+
+search date 0610051601 0610051600
+search date 0610051600 0610051599
+search date 0610051602 0610051601
+search date 0610051599 0610051598
+
+
+
+search cost 50 50
+search cost 49 49
+search cost 51 51
+
+search cost 50 51
+search cost 49 50
+search cost 51 52
+search cost 48 49
+
+search cost 51 50
+search cost 50 49
+search cost 52 51
+search cost 49 48
+
+
+insert 4
+Seminar 2
+0610051600 100 9 10 50
+key1 key2 key3
+This is Seminar 2
+
+insert 5
+Seminar 1
+0610051600 100 13 4 50
+key1 key2 key3
+This is Seminar 1
+
+insert 6
+Seminar 3
+0610051600 100 7 9 50
+key1 key2 key3
+This is Seminar 3
 
 print location
+
+delete 6
+
+print location
+
+search location 0 0 1
+search location 0 0 4
+search location 0 0 10
+search location 0 0 20

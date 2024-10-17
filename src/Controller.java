@@ -12,6 +12,7 @@ public class Controller
     private BinarySearchTree costTree; // BST for costs
     private BinarySearchTree keywordTree; // BST for keywords
     private BinTree locationTree;
+    private int worldSize;
 
     /**
      * Constructor to initialize all BSTs.
@@ -26,6 +27,7 @@ public class Controller
         costTree = new BinarySearchTree();
         keywordTree = new BinarySearchTree();
         locationTree = new BinTree(worldSize);
+        this.worldSize = worldSize;
     }
 
 
@@ -38,8 +40,8 @@ public class Controller
     public void insert(Seminar seminar)
     {
         // Check for invalid coordinates
-        if (seminar.x() < 0 || seminar.y() < 0 || seminar.x() > 100
-            || seminar.y() > 100)
+        if (seminar.x() < 0 || seminar.y() < 0 || seminar.x() >= worldSize
+            || seminar.y() >= worldSize)
         {
             System.out.println(
                 "Insert FAILED - Bad x, y coordinates: " + seminar.x() + ", "
@@ -65,7 +67,7 @@ public class Controller
 
         // Print success message immediately after insertion
         System.out.println("Successfully inserted record with ID " + seminar.id());
-        System.out.println(seminar.toString());
+        System.out.println(seminar);
     }
             
 
@@ -88,7 +90,7 @@ public class Controller
 
             costTree.removeByCost(seminar);
 
-            locationTree.delete(seminar.getX(), seminar.getY());
+            locationTree.delete(seminar.getX(), seminar.getY(), seminar.getId());
 
             for (String kywd : seminar.keywords())
             {
@@ -122,7 +124,7 @@ public class Controller
         if (seminar != null)
         {
             System.out.println("Found record with ID " + id + ":");
-            System.out.println((seminar.toString()));
+            System.out.println(seminar);
         }
         else
         {
@@ -159,9 +161,6 @@ public class Controller
     public void searchByCostRange(int low, int high) {
         System.out.println("Seminars with costs in range " + low + " to " + high + ":");
         boolean found = costTree.findByCostRange(low, high);
-        if (!found) {
-            System.out.println("No seminars found within the specified cost range.");
-        }
         System.out.println(costTree.getTraversalCount() + " nodes visited in this search");
         costTree.resetTraversalCount();
     }
@@ -178,9 +177,6 @@ public class Controller
     public void searchByDateRange(String low, String high) {
         System.out.println("Seminars with dates in range " + low + " to " + high + ":");
         boolean found = dateTree.findByDateRange(low, high);
-        if (!found) {
-            System.out.println("No seminars found within the specified date range.");
-        }
         System.out.println(dateTree.getTraversalCount() + " nodes visited in this search");
         dateTree.resetTraversalCount();
     }
@@ -189,16 +185,8 @@ public class Controller
     public void searchByLocation(int x, int y, int radius)
     {
         System.out.println("Seminars within " + radius + " units of " + x + ", " + y + ":");
-        Seminar result = locationTree.search(x, y, radius);
-        if (result != null)
-        {
-            System.out.println("Found record with ID " + result.id() + ":");
-            System.out.println(result.toString());
-        }
-        else
-        {
-            System.out.println("No seminar found at the specified location.");
-        }
+        locationTree.search(x, y, radius);
+
         System.out.println(
             locationTree.getNodesVisited() + " nodes visited in this search");
         locationTree.resetNodesVisited();

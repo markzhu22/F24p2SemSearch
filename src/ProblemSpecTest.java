@@ -1,4 +1,4 @@
-import java.io.IOException;
+    import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import student.TestCase;
@@ -58,16 +58,13 @@ public class ProblemSpecTest
         SemSearch.main(args);
 
         // Actual output from your System console
-        @SuppressWarnings("unused")
         String actualOutput = systemOut().getHistory();
 
         // Expected output from file
-        @SuppressWarnings("unused")
         String expectedOutput =
             readFile("solutionTestData/P2_sampleOutput.txt");
 
         // Compare the two outputs
-        // TODO: uncomment the following line
         // once you have implemented your project
          assertFuzzyEquals(expectedOutput, actualOutput);
     }
@@ -91,17 +88,14 @@ public class ProblemSpecTest
         SemSearch.main(args);
 
         // Actual output from your System console
-        @SuppressWarnings("unused")
         String actualOutput = systemOut().getHistory();
 
         // Expected output from file
-        @SuppressWarnings("unused")
         String expectedOutput =
             readFile("solutionTestData/P2_syntaxInsertOutput.txt");
 
         // Compare the two outputs
-        // TODO: uncomment the following line
         // once you have implemented your project
-        // assertFuzzyEquals(expectedOutput, actualOutput);
+        assertFuzzyEquals(expectedOutput, actualOutput);
     }
 }

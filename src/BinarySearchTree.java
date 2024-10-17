@@ -101,7 +101,7 @@ public class BinarySearchTree
             if (rt.semValue().date().compareTo(low) >= 0
                 && rt.semValue().date().compareTo(high) <= 0)
             {
-                System.out.println(rt.semValue().toString());
+                System.out.println(rt.semValue());
                 found = true;
             }
         }
@@ -115,7 +115,7 @@ public class BinarySearchTree
             if (rt.semValue().date().compareTo(low) >= 0
                 && rt.semValue().date().compareTo(high) <= 0)
             {
-                System.out.println(rt.semValue().toString());
+                System.out.println(rt.semValue());
                 found = true;
             }
             if (rt.semValue().date().compareTo(high) <= 0)
@@ -155,12 +155,12 @@ public class BinarySearchTree
 
         boolean found = false;
 
-        if (low == high && rt.semValue().cost() == low)
+        if (low == high && isEquals(rt.semValue().cost(), low))
         {
             found |= findByCostRangeHelper(rt.left(), low, high);
             if (rt.semValue().cost() >= low && rt.semValue().cost() <= high)
             {
-                System.out.println(rt.semValue().toString());
+                System.out.println(rt.semValue());
                 found = true;
             }
         }
@@ -172,7 +172,7 @@ public class BinarySearchTree
             }
             if (rt.semValue().cost() >= low && rt.semValue().cost() <= high)
             {
-                System.out.println(rt.semValue().toString());
+                System.out.println(rt.semValue());
                 found = true;
             }
             if (rt.semValue().cost() <= high)
@@ -619,14 +619,21 @@ public class BinarySearchTree
         }
         else
         {
-            if (isNull(rt.left()))
-                return rt.right();
-            else if (isNull(rt.right()))
-                return rt.left();
+            if (rt.semValue().id() != cost.id())
+            {
+                rt.setLeft(removeByCostHelp(rt.left(), cost));
+            }
             else
             {
-                rt.setValue(findMax(rt.left()));
-                rt.setLeft(deleteMax(rt.left()));
+                if (isNull(rt.left()))
+                    return rt.right();
+                else if (isNull(rt.right()))
+                    return rt.left();
+                else
+                {
+                    rt.setValue(findMax(rt.left()));
+                    rt.setLeft(deleteMax(rt.left()));
+                }
             }
         }
         return rt;

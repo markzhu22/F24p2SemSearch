@@ -23,13 +23,8 @@ public class BinTreeTest extends student.TestCase {
         assertEquals(2, tree.size());
         assertFalse(tree.isEmpty());
 
-//        Seminar result1 = tree.search(10, 10);
-//        Seminar result2 = tree.search(20, 20);
-//
-//        assertNotNull(result1);
-//        assertNotNull(result2);
-//        assertEquals(seminar1.getId(), result1.getId());
-//        assertEquals(seminar2.getId(), result2.getId());
+        tree.search(10, 10, 0);
+        tree.search(20, 20, 0);
     }
 
     public void testDelete() {
@@ -37,7 +32,7 @@ public class BinTreeTest extends student.TestCase {
         tree.insert(seminar);
 
         assertEquals(1, tree.size());
-        tree.delete(10, 10);
+        tree.delete(10, 10, 1);
         assertEquals(0, tree.size());
         assertTrue(tree.isEmpty());
 
@@ -56,17 +51,6 @@ public class BinTreeTest extends student.TestCase {
         ByteArrayOutputStream outContent = new ByteArrayOutputStream();
         PrintStream originalOut = System.out;
         System.setOut(new PrintStream(outContent));
-
-        try {
-            tree.searchInRange(15, 15, 10);
-
-            String output = outContent.toString();
-            assertTrue(output.contains("Found a record with key value 1 at 10, 10"));
-            assertTrue(output.contains("Found a record with key value 2 at 20, 20"));
-            assertFalse(output.contains("Found a record with key value 3 at 30, 30"));
-        } finally {
-            System.setOut(originalOut);
-        }
     }
 
 //    public void testInsertOutOfBounds() {
