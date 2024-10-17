@@ -58,4 +58,6 @@ public interface BinNode {
     void print(int depth);
     void print(BinNode node, int depth);
     int incrementDepth(int depth);
+
+    BinNode delete(int id, int targetX, int targetY, int xMin, int yMin, int xMax, int yMax, int depth);
 }

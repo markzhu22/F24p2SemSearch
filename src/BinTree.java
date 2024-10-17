@@ -1,39 +1,32 @@
-public class BinTree
-{
+public class BinTree {
     private BinNode root;
     private int size;
     private int nodesVisited;
     private final int worldSize;
     private static final EmptyNode flyweight = EmptyNode.getInstance();
 
-    public BinTree(int worldSize)
-    {
+    public BinTree(int worldSize) {
         this.root = flyweight;
         this.size = 0;
         this.worldSize = worldSize;
     }
 
 
-    public int size()
-    {
+    public int size() {
         return size;
     }
 
 
-    public boolean isEmpty()
-    {
+    public boolean isEmpty() {
         return size == 0;
     }
 
 
-    public void insert(Seminar seminar)
-    {
-        if (root == flyweight)
-        {
+    public void insert(Seminar seminar) {
+        if (root == flyweight) {
             root = new LeafNode(seminar);
         }
-        else
-        {
+        else {
             root = insertHelper(root, seminar, 0, 0, 0, worldSize, worldSize);
         }
         size++;
@@ -47,96 +40,58 @@ public class BinTree
         int x,
         int y,
         int width,
-        int height)
-    {
-        if (node instanceof EmptyNode)
-        {
+        int height) {
+        if (node instanceof EmptyNode) {
             return new LeafNode(seminar);
         }
 
-        if (node instanceof LeafNode)
-        {
+        if (node instanceof LeafNode) {
             LeafNode leaf = (LeafNode)node;
-            if (leaf.getSeminar().x() == seminar.x() && leaf.getSeminar().y() == seminar.y()) {
+            if (leaf.getSeminar().x() == seminar.x() && leaf.getSeminar()
+                .y() == seminar.y()) {
                 leaf.addSeminar(seminar);
                 return leaf;
             }
-            
+
             // Create a new internal node and redistribute seminars
             boolean splitOnX = depth % 2 == 0;
             int splitValue;
-            if (splitOnX)
-            {
+            if (splitOnX) {
                 splitValue = x + width / 2;
             }
-            else
-            {
+            else {
                 splitValue = y + height / 2;
             }
-            InternalNode newNode =
-                new InternalNode(flyweight, flyweight, splitOnX, splitValue);
+            InternalNode newNode = new InternalNode(flyweight, flyweight,
+                splitOnX, splitValue);
             LinkedList<Seminar> seminars = new LinkedList<Seminar>();
-            for (int i = 0; i < leaf.getSeminars().size(); i++)
-            {
+            for (int i = 0; i < leaf.getSeminars().size(); i++) {
                 seminars.add(leaf.getSeminars().get(i));
             }
             seminars.add(seminar);
 
-            for (int i = 0; i < seminars.size(); i++)
-            {
+            for (int i = 0; i < seminars.size(); i++) {
                 Seminar s = seminars.get(i);
-                if (splitOnX)
-                {
-                    if (s.getX() < splitValue)
-                    {
-                        newNode.setLeft(
-                            insertHelper(
-                                newNode.getLeft(),
-                                s,
-                                plus(depth,1),
-                                x,
-                                y,
-                                minus(splitValue, x),
-                                height));
+                if (splitOnX) {
+                    if (s.getX() < splitValue) {
+                        newNode.setLeft(insertHelper(newNode.getLeft(), s, plus(
+                            depth, 1), x, y, minus(splitValue, x), height));
                     }
-                    else
-                    {
-                        newNode.setRight(
-                            insertHelper(
-                                newNode.getRight(),
-                                s,
-                                depth + 1,
-                                splitValue,
-                                y,
-                                minus(width, minus(splitValue, x)),
-                                height));
+                    else {
+                        newNode.setRight(insertHelper(newNode.getRight(), s,
+                            depth + 1, splitValue, y, minus(width, minus(
+                                splitValue, x)), height));
                     }
                 }
-                else
-                {
-                    if (s.getY() < splitValue)
-                    {
-                        newNode.setLeft(
-                            insertHelper(
-                                newNode.getLeft(),
-                                s,
-                                depth + 1,
-                                x,
-                                y,
-                                width,
-                                minus(splitValue,y)));
+                else {
+                    if (s.getY() < splitValue) {
+                        newNode.setLeft(insertHelper(newNode.getLeft(), s, depth
+                            + 1, x, y, width, minus(splitValue, y)));
                     }
-                    else
-                    {
-                        newNode.setRight(
-                            insertHelper(
-                                newNode.getRight(),
-                                s,
-                                depth + 1,
-                                x,
-                                splitValue,
-                                width,
-                                minus(height, minus(splitValue, y))));
+                    else {
+                        newNode.setRight(insertHelper(newNode.getRight(), s,
+                            depth + 1, x, splitValue, width, minus(height,
+                                minus(splitValue, y))));
                     }
                 }
             }
@@ -144,64 +99,31 @@ public class BinTree
             return newNode;
         }
 
-        if (node instanceof InternalNode)
-        {
+        if (node instanceof InternalNode) {
             InternalNode internal = (InternalNode)node;
             boolean splitOnX = internal.isSplitOnX();
             int splitValue = internal.getSplitValue();
 
-            if (splitOnX)
-            {
-                if (seminar.getX() < splitValue)
-                {
-                    internal.setLeft(
-                        insertHelper(
-                            internal.getLeft(),
-                            seminar,
-                            depth + 1,
-                            x,
-                            y,
-                            minus(splitValue,x),
-                            height));
+            if (splitOnX) {
+                if (seminar.getX() < splitValue) {
+                    internal.setLeft(insertHelper(internal.getLeft(), seminar,
+                        depth + 1, x, y, minus(splitValue, x), height));
                 }
-                else
-                {
-                    internal.setRight(
-                        insertHelper(
-                            internal.getRight(),
-                            seminar,
-                            plus(depth, 1),
-                            splitValue,
-                            y,
-                            minus(width, minus(splitValue,x)),
-                            height));
+                else {
+                    internal.setRight(insertHelper(internal.getRight(), seminar,
+                        plus(depth, 1), splitValue, y, minus(width, minus(
+                            splitValue, x)), height));
                 }
             }
-            else
-            {
-                if (seminar.getY() < splitValue)
-                {
-                    internal.setLeft(
-                        insertHelper(
-                            internal.getLeft(),
-                            seminar,
-                            depth + 1,
-                            x,
-                            y,
-                            width,
-                            minus(splitValue, y)));
+            else {
+                if (seminar.getY() < splitValue) {
+                    internal.setLeft(insertHelper(internal.getLeft(), seminar,
+                        depth + 1, x, y, width, minus(splitValue, y)));
                 }
-                else
-                {
-                    internal.setRight(
-                        insertHelper(
-                            internal.getRight(),
-                            seminar,
-                            plus(depth, 1),
-                            x,
-                            splitValue,
-                            width,
-                            minus(height, minus(splitValue,y))));
+                else {
+                    internal.setRight(insertHelper(internal.getRight(), seminar,
+                        plus(depth, 1), x, splitValue, width, minus(height,
+                            minus(splitValue, y))));
                 }
             }
             return internal;
@@ -212,9 +134,9 @@ public class BinTree
     }
 
 
-    public void search(int x, int y, int radius)
-    {
-        searchHelper(root, x, y, radius, 0, 0, 0, minus(worldSize, 1), worldSize - 1);
+    public void search(int x, int y, int radius) {
+        searchHelper(root, x, y, radius, 0, 0, 0, minus(worldSize, 1), worldSize
+            - 1);
     }
 
 
@@ -240,9 +162,11 @@ public class BinTree
             LinkedList<Seminar> seminars = leaf.getSeminars();
             for (int i = 0; i < seminars.size(); i++) {
                 Seminar seminar = seminars.get(i);
-                if (inRange(seminar.getX(), seminar.getY(), targetX, targetY, radius)) {
-                    System.out.println("Found a record with key value " + seminar.id() + 
-                        " at " + seminar.x() + ", " + seminar.y());
+                if (inRange(seminar.getX(), seminar.getY(), targetX, targetY,
+                    radius)) {
+                    System.out.println("Found a record with key value "
+                        + seminar.id() + " at " + seminar.x() + ", " + seminar
+                            .y());
                 }
             }
             return;
@@ -253,156 +177,67 @@ public class BinTree
             boolean splitOnX = (depth % 2 == 0);
             int midPoint = splitOnX ? (xMin + xMax) / 2 : (yMin + yMax) / 2;
 
-            // Always check both subtrees if the search area overlaps the split line
-            boolean checkLeft = splitOnX ? (targetX - radius <= midPoint) : (targetY - radius <= midPoint);
-            boolean checkRight = splitOnX ? (targetX + radius > midPoint) : (targetY + radius > midPoint);
+            // Always check both subtrees if the search area overlaps the split
+            // line
+            boolean checkLeft = splitOnX
+                ? (targetX - radius <= midPoint)
+                : (targetY - radius <= midPoint);
+            boolean checkRight = splitOnX
+                ? (targetX + radius > midPoint)
+                : (targetY + radius > midPoint);
 
             if (checkLeft) {
-                searchHelper(internal.getLeft(), targetX, targetY, radius, depth + 1,
-                             xMin, yMin, splitOnX ? midPoint : xMax, splitOnX ? yMax : midPoint);
+                searchHelper(internal.getLeft(), targetX, targetY, radius, depth
+                    + 1, xMin, yMin, splitOnX ? midPoint : xMax, splitOnX
+                        ? yMax
+                        : midPoint);
             }
             if (checkRight) {
-                searchHelper(internal.getRight(), targetX, targetY, radius, depth + 1,
-                             splitOnX ? midPoint + 1 : xMin, splitOnX ? yMin : midPoint + 1, xMax, yMax);
+                searchHelper(internal.getRight(), targetX, targetY, radius,
+                    depth + 1, splitOnX ? midPoint + 1 : xMin, splitOnX
+                        ? yMin
+                        : midPoint + 1, xMax, yMax);
             }
         }
     }
 
 
-    public void delete(int targetX, int targetY, int id)
-    {
-        deleteHelper(
-            root,
-            id,
-            targetX,
-            targetY,
-            0,
-            0,
-            worldSize - 1,
-            minus(worldSize,1),
-            0);
-        if (root.isLeaf()) {
-            LeafNode temp = (LeafNode)root;
-            if (temp.getSeminars().isEmpty()) {
-                root = flyweight;
-            }
+    public void delete(int targetX, int targetY, int id) {
+        BinNode oldRoot = root;
+        root = root.delete(id, targetX, targetY, 0, 0, worldSize - 1, worldSize - 1, 0);
+        if (root instanceof EmptyNode) {
+            root = EmptyNode.getInstance();
+            size = 0;
+        } else if (oldRoot != root) {
+            // If the root has changed (i.e., a deletion occurred), decrement the size
+            size--;
         }
-    }
-
-
-    private BinNode deleteHelper(
-        BinNode node,
-        int id,
-        int targetX,
-        int targetY,
-        int xMin,
-        int yMin,
-        int xMax,
-        int yMax,
-        int depth)
-    {
-        // If node is empty, return as is
-        if (node instanceof EmptyNode)
-        {
-            return null;
-        }
-
-        // If node is a leaf, check if the seminar matches, and delete if found
-        else if (node instanceof LeafNode)
-        {
-            LeafNode leaf = (LeafNode)node;
-            LinkedList<Seminar> seminars = leaf.getSeminars();
-
-            // Iterate through seminars and remove the one matching the x and y
-            // coordinates
-            for (int i = 0; i < seminars.size(); i++)
-            {
-                Seminar seminar = seminars.get(i);
-                
-                if (seminar.id() == id && seminar.getX() == targetX && seminar.getY() == targetY)
-                {
-                    seminars.remove(i);
-                    size--;
-                    i--;
-                    // If there are no more seminars in the leaf, return an
-                    // EmptyNode
-                    if (seminars.isEmpty())
-                    {
-                        return flyweight;
-                    }
-                }
-            }
-        }
-
-        // If node is an internal node, we decide whether to go left or right
-        else if (node instanceof InternalNode)
-        {
-            InternalNode internal = (InternalNode)node;
-            int midPoint;
-
-            // Calculate the midpoint and decide whether to go left or right
-            // based on depth
-            if (depth % 2 == 0)
-            { // Splitting based on X
-                midPoint = plus(xMin, xMax) / 2;
-
-                // Go left if the target X is less than the midpoint
-                if (targetX < midPoint)
-                {
-                    BinNode result = deleteHelper(internal.getLeft(), id, targetX, targetY, xMin, midPoint, yMin, xMax, depth+1);
-                    if (result == flyweight) {
-                        // These doesn't work for some reason
-                        node = internal.getRight();
-                    }
-                }
-                else {
-                    BinNode result = deleteHelper(internal.getRight(), id, targetX, targetY, midPoint, xMax, yMin, xMax, plus(depth,1));
-                    if (result == flyweight) {
-                        node = internal.getLeft();
-                    }
-                }
-            }
-            else {
-                midPoint = plus(yMin, yMax) / 2;
-                if (targetY < midPoint)
-                {
-                    BinNode result = deleteHelper(internal.getLeft(), id, targetX, targetY, xMin, xMax, yMin, midPoint, depth+1);
-                    if (result == flyweight) {
-                        node = internal.getRight();
-                    }
-                }
-                else {
-                    BinNode result = deleteHelper(internal.getRight(), id, targetX, targetY, xMin, xMax, midPoint, yMax, plus(depth,1));
-                    if (result == flyweight) {
-                        node = internal.getLeft();
-                    }
-                }
-            }
-        }
-        return null;
+        //System.out.println("record with id " + id + " successfully deleted from the database");
     }
 
 
     // Check if the seminar is within the radius
-    private boolean inRange(int seminarX, int seminarY, int x, int y, int radius)
-    {
+    private boolean inRange(
+        int seminarX,
+        int seminarY,
+        int x,
+        int y,
+        int radius) {
         int dx = seminarX - x;
         int dy = seminarY - y;
         return (dx * dx + dy * dy) <= (radius * radius);
     }
 
 
-    public int getNodesVisited()
-    {
+    public int getNodesVisited() {
         return nodesVisited;
     }
 
 
-    public void resetNodesVisited()
-    {
+    public void resetNodesVisited() {
         nodesVisited = 0;
     }
-   
+
 
     // ----------------------------------------------------------
     /**
@@ -412,46 +247,41 @@ public class BinTree
      *            the integer to be incremented
      * @return incremented i
      */
-    public int increment(int i)
-    {
+    public int increment(int i) {
         return i += 1;
     }
 
 
-    public void printTree()
-    {
+    public void printTree() {
         System.out.println("Location Tree:");
-        if (root == flyweight)
-        {
+        if (root == flyweight) {
             System.out.println("E");
         }
-        else
-        {
+        else {
             root.print(calculateHeight(root));
         }
     }
 
 
-    private int calculateHeight(BinNode node)
-    {
-        if (node == null || node instanceof EmptyNode)
-        {
+    private int calculateHeight(BinNode node) {
+        if (node == null || node instanceof EmptyNode) {
             return 0;
         }
 
-        return plus(1, Math.max(
-            calculateHeight(node.getLeft()),
+        return plus(1, Math.max(calculateHeight(node.getLeft()),
             calculateHeight(node.getRight())));
     }
 
     // ----------------------------------------------------------
     // Mutation Testing Functions
     // ----------------------------------------------------------
-    
+
+
     private int minus(int i, int j) {
         return i - j;
     }
-    
+
+
     private int plus(int i, int j) {
         return i + j;
     }

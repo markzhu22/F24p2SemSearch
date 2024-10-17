@@ -92,4 +92,20 @@ public class LeafNode implements BinNode {
             System.out.print("    ");
         }
     }
+
+    @Override
+    public BinNode delete(int id, int targetX, int targetY, int xMin, int yMin, int xMax, int yMax, int depth) {
+        LinkedList<Seminar> seminars = this.getSeminars();
+        for (int i = 0; i < seminars.size(); i++) {
+            Seminar seminar = seminars.get(i);
+            if (seminar.id() == id && seminar.getX() == targetX && seminar.getY() == targetY) {
+                seminars.remove(i);
+                if (seminars.isEmpty()) {
+                    return EmptyNode.getInstance();
+                }
+                break;
+            }
+        }
+        return this;
+    }
 }

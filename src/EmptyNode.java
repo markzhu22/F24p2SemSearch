@@ -7,6 +7,7 @@
  */
 public class EmptyNode implements BinNode {
     private static EmptyNode instance = null;
+    private static EmptyNode flyweight = new EmptyNode();
 
     /**
      * Private constructor to prevent direct instantiation.
@@ -118,5 +119,10 @@ public class EmptyNode implements BinNode {
         for (int i = 0; i < depth-1; i++) {
             System.out.print("    ");
         }
+    }
+
+    @Override
+    public BinNode delete(int id, int targetX, int targetY, int xMin, int yMin, int xMax, int yMax, int depth) {
+        return flyweight; // Nothing to delete in an empty node
     }
 }

@@ -539,7 +539,7 @@ public class ReferenceTest
             + "(Leaf with 1 objects: 4)\n"
             + "            (Leaf with 1 objects: 5)\n"
             + "                (Leaf with 1 objects: 6)\n"
-            + "Record with ID 6 successfully deleted from the database\n"
+            + "Record with ID 3 successfully deleted from the database\n"
             + "Location Tree:\n"
             + "                                            (I)\n"
             + "                                        (E)\n"
@@ -560,7 +560,7 @@ public class ReferenceTest
             + "        (I)\n"
             + "    (E)\n"
             + "    (I)\n"
-            + "(Leaf with 3 objects: 2 1 3)\n"
+            + "(Leaf with 2 objects: 2 1)\n"
             + "(Leaf with 1 objects: 4)\n"
             + "            (Leaf with 1 objects: 5)\n"
             + "                (Leaf with 1 objects: 6)\n"
@@ -576,9 +576,7 @@ public class ReferenceTest
             + "Found a record with key value 4 at 9, 10\n"
             + "Found a record with key value 2 at 10, 10\n"
             + "Found a record with key value 1 at 10, 10\n"
-            + "Found a record with key value 3 at 10, 10\n"
-            + "19 nodes visited in this search"
-            + "",
+            + "19 nodes visited in this search",
             systemOut().getHistory());
     }
 

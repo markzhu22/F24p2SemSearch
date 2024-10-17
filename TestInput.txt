@@ -191,7 +191,7 @@ This is Seminar 3
 
 print location
 
-delete 6
+delete 3
 
 print location
 
