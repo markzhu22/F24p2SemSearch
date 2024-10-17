@@ -6,6 +6,7 @@
  * @version Oct 7, 2024
  */
 public class ControllerTest
+    extends student.TestCase
 {
     private Controller controller;
     private Seminar seminar1;

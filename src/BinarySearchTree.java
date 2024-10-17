@@ -122,7 +122,6 @@ public class BinarySearchTree
             {
                 found |= findByDateRangeHelper(rt.right(), low, high);
             }
-            found = true;
         }
 
         return found;
@@ -217,18 +216,19 @@ public class BinarySearchTree
                 + ", X: " + rt.semValue().x() + ", Y: " + rt.semValue().y()
                 + ", Cost: " + rt.semValue().cost() + "\r\n" + "Description: "
                 + rt.semValue().desc() + "\r\n" + "Keywords: ";
-        }
 
-        for (String kywd : rt.semValue().keywords())
-        {
-            if (kywd.equals(rt.semValue().keywords()[0]))
+            for (String kywd : rt.semValue().keywords())
             {
-                result = result + (kywd);
+                if (kywd.equals(rt.semValue().keywords()[0]))
+                {
+                    result = result + (kywd);
+                }
+                else
+                {
+                    result = result + ", " + kywd;
+                }
             }
-            else
-            {
-                result = result + ", " + kywd;
-            }
+            result = result + "\n";
         }
 
         String foundInLeft = findByKeywordHelper(rt.left(), keyword);

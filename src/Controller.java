@@ -285,10 +285,10 @@ public class Controller
                     height,
                     field);
                 System.out.println("Number of records: " + keywordTree.size());
-
                 break;
             case "location":
                 locationTree.printTree();
+                break;
             default:
                 System.out.println("Invalid field: " + field);
         }

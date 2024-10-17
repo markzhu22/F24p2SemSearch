@@ -203,18 +203,6 @@ public class BinarySearchTreeTest
             100,
             new String[] { "Blockchain", "Cryptography" },
             "Description 2");
-        bst.insertByKeyword(seminar2);
-
-        seminar2 = new Seminar(
-            2,
-            "Seminar 2",
-            "20230102",
-            60,
-            (short)15,
-            (short)20,
-            100,
-            new String[] { "Blockchain", "Cryptography" },
-            "Description 2");
         test.insertByKeyword(seminar2);
 
         seminar3 = new Seminar(
