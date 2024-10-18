@@ -1,59 +1,38 @@
 // -------------------------------------------------------------------------
 /**
- * Test class for BinarySearchTree
+ * Test class for BinarySearchTree. This class contains unit tests to verify
+ * the functionality of the BinarySearchTree class, including insertion,
+ * deletion, and searching by various criteria like ID, date, cost, and keyword.
+ * 
+ * Tests cover both successful cases and edge cases such as duplicate entries
+ * and null handling.
  * 
  * @author markz + tarinid
  * @version Oct 7, 2024
  */
-public class BinarySearchTreeTest
-    extends student.TestCase
-{
+public class BinarySearchTreeTest extends student.TestCase {
     private BinarySearchTree bst;
-    private Seminar seminar1, seminar2, seminar3, seminar4;
+    private Seminar seminar1;
+    private Seminar seminar2;
+    private Seminar seminar3;
+    private Seminar seminar4;
 
-    public void setUp()
-    {
+    // ----------------------------------------------------------
+    /**
+     * Set up the test cases by initializing the BinarySearchTree and Seminar
+     * objects before each test.
+     */
+    public void setUp() {
         bst = new BinarySearchTree();
 
-        seminar1 = new Seminar(
-            1,
-            "HCI Seminar",
-            "20230930",
-            90,
-            (short)10,
-            (short)20,
-            50,
-            new String[] { "HCI", "AI" },
-            "HCI Research");
-        seminar2 = new Seminar(
-            2,
-            "AI Seminar",
-            "20221015",
-            60,
-            (short)15,
-            (short)25,
-            100,
-            new String[] { "AI", "ML" },
-            "AI Research");
-        seminar3 = new Seminar(
-            3,
-            "ML Seminar",
-            "20220820",
-            120,
-            (short)5,
-            (short)10,
-            75,
-            new String[] { "ML", "AI" },
-            "ML Research");
-        seminar4 = new Seminar(
-            4,
-            "Computing Seminar",
-            "20230625",
-            30,
-            (short)12,
-            (short)18,
-            30,
-            new String[] { "Computing" },
+        seminar1 = new Seminar(1, "HCI Seminar", "20230930", 90, (short)10,
+            (short)20, 50, new String[] { "HCI", "AI" }, "HCI Research");
+        seminar2 = new Seminar(2, "AI Seminar", "20221015", 60, (short)15,
+            (short)25, 100, new String[] { "AI", "ML" }, "AI Research");
+        seminar3 = new Seminar(3, "ML Seminar", "20220820", 120, (short)5,
+            (short)10, 75, new String[] { "ML", "AI" }, "ML Research");
+        seminar4 = new Seminar(4, "Computing Seminar", "20230625", 30,
+            (short)12, (short)18, 30, new String[] { "Computing" },
             "Computing Research");
 
         bst.insertById(seminar1);
@@ -65,10 +44,11 @@ public class BinarySearchTreeTest
 
     // ----------------------------------------------------------
     /**
-     * Test inserting ID
+     * Test method to verify the insertion of Seminar objects by their ID.
+     * Ensures the size of the tree and retrieval of the seminars by ID is
+     * correct.
      */
-    public void testInsertById()
-    {
+    public void testInsertById() {
         assertEquals(4, bst.size());
 
         // assertEquals(seminar1, bst.getRoot().value());
@@ -81,10 +61,10 @@ public class BinarySearchTreeTest
 
     // ----------------------------------------------------------
     /**
-     * Test inserting date
+     * Test method to verify the insertion of Seminar objects by their date.
+     * Ensures the size of the tree increases correctly upon each insertion.
      */
-    public void testInsertByDate()
-    {
+    public void testInsertByDate() {
         BinarySearchTree test = new BinarySearchTree();
         test.insertByDate(seminar1);
         assertEquals(1, test.size());
@@ -95,72 +75,33 @@ public class BinarySearchTreeTest
 
     // ----------------------------------------------------------
     /**
-     * Test inserting cost
+     * Test method to verify the insertion of Seminar objects by their cost.
+     * Ensures that the size of the tree increases correctly and the seminars
+     * are inserted in the correct order by cost.
      */
-    public void testInsertByCost()
-    {
+    public void testInsertByCost() {
         bst = new BinarySearchTree();
 
-        seminar1 = new Seminar(
-            1,
-            "Seminar 1",
-            "20230101",
-            90,
-            (short)10,
-            (short)10,
-            50,
-            new String[] { "keyword1" },
-            "Description 1");
+        seminar1 = new Seminar(1, "Seminar 1", "20230101", 90, (short)10,
+            (short)10, 50, new String[] { "keyword1" }, "Description 1");
         bst.insertByCost(seminar1);
 
-        seminar2 = new Seminar(
-            2,
-            "Seminar 2",
-            "20230102",
-            60,
-            (short)15,
-            (short)20,
-            100,
-            new String[] { "keyword2" },
-            "Description 2");
+        seminar2 = new Seminar(2, "Seminar 2", "20230102", 60, (short)15,
+            (short)20, 100, new String[] { "keyword2" }, "Description 2");
         bst.insertByCost(seminar2);
 
-        seminar3 = new Seminar(
-            3,
-            "Seminar 3",
-            "20230103",
-            70,
-            (short)12,
-            (short)15,
-            70,
-            new String[] { "keyword3" },
-            "Description 3");
+        seminar3 = new Seminar(3, "Seminar 3", "20230103", 70, (short)12,
+            (short)15, 70, new String[] { "keyword3" }, "Description 3");
 
         bst.insertByCost(seminar3);
 
         assertEquals(3, bst.size());
 
-        seminar4 = new Seminar(
-            4,
-            "Seminar 4",
-            "20230104",
-            60,
-            (short)20,
-            (short)20,
-            50,
-            new String[] { "keyword4" },
-            "Description 4");
+        seminar4 = new Seminar(4, "Seminar 4", "20230104", 60, (short)20,
+            (short)20, 50, new String[] { "keyword4" }, "Description 4");
 
-        seminar4 = new Seminar(
-            4,
-            "Seminar 4",
-            "20230104",
-            60,
-            (short)20,
-            (short)20,
-            50,
-            new String[] { "keyword4" },
-            "Description 4");
+        seminar4 = new Seminar(4, "Seminar 4", "20230104", 60, (short)20,
+            (short)20, 50, new String[] { "keyword4" }, "Description 4");
 
         bst.insertByCost(seminar4);
 
@@ -174,76 +115,42 @@ public class BinarySearchTreeTest
 
     // ----------------------------------------------------------
     /**
-     * Test inserting keyword
+     * Test method to verify the insertion of Seminar objects by keywords.
+     * Ensures that the size increases correctly with the insertion of seminars
+     * and their corresponding keywords.
      */
-    public void testInsertByKeyword()
-    {
+    public void testInsertByKeyword() {
         BinarySearchTree test = new BinarySearchTree();
 
-        seminar1 = new Seminar(
-            1,
-            "Seminar 1",
-            "20230101",
-            90,
-            (short)10,
-            (short)10,
-            50,
-            new String[] { "AI", "Machine Learning" },
+        seminar1 = new Seminar(1, "Seminar 1", "20230101", 90, (short)10,
+            (short)10, 50, new String[] { "AI", "Machine Learning" },
 
             "Description 1");
         test.insertByKeyword(seminar1);
 
-        seminar2 = new Seminar(
-            2,
-            "Seminar 2",
-            "20230102",
-            60,
-            (short)15,
-            (short)20,
-            100,
-            new String[] { "Blockchain", "Cryptography" },
+        seminar2 = new Seminar(2, "Seminar 2", "20230102", 60, (short)15,
+            (short)20, 100, new String[] { "Blockchain", "Cryptography" },
             "Description 2");
         test.insertByKeyword(seminar2);
 
-        seminar3 = new Seminar(
-            3,
-            "Seminar 3",
-            "20230103",
-            70,
-            (short)12,
-            (short)15,
-            70,
-            new String[] { "Data Science", "AI" },
+        seminar3 = new Seminar(3, "Seminar 3", "20230103", 70, (short)12,
+            (short)15, 70, new String[] { "Data Science", "AI" },
             "Description 3");
         test.insertByKeyword(seminar3);
 
         assertEquals(6, test.size());
 
-        seminar4 = new Seminar(
-            4,
-            "Seminar 4",
-            "20230104",
-            60,
-            (short)20,
-            (short)20,
-            50,
-            new String[] { "AI", "Deep Learning" },
+        seminar4 = new Seminar(4, "Seminar 4", "20230104", 60, (short)20,
+            (short)20, 50, new String[] { "AI", "Deep Learning" },
 
             "Description 4");
         test.insertByKeyword(seminar4);
 
         assertEquals(8, test.size());
 
-        Seminar seminar5 = new Seminar(
-            5,
-            "Seminar 5",
-            "20230105",
-            80,
-            (short)10,
-            (short)15,
-            60,
-            new String[] { "Cybersecurity", "Ethical Hacking" },
-            "Description 5");
+        Seminar seminar5 = new Seminar(5, "Seminar 5", "20230105", 80,
+            (short)10, (short)15, 60, new String[] { "Cybersecurity",
+                "Ethical Hacking" }, "Description 5");
         test.insertByKeyword(seminar5);
 
         assertEquals(10, test.size());
@@ -252,22 +159,14 @@ public class BinarySearchTreeTest
 
     // ----------------------------------------------------------
     /**
-     * Test inserting duplicate date
+     * Test method to verify handling of duplicate insertions when inserting
+     * by date. The tree should properly account for the duplicates.
      */
-    public void testDuplicateInsertionByDate()
-    {
+    public void testDuplicateInsertionByDate() {
         bst = new BinarySearchTree();
 
-        seminar1 = new Seminar(
-            1,
-            "Seminar Title",
-            "20230101",
-            90,
-            (short)10,
-            (short)10,
-            50,
-            new String[] { "keyword1" },
-            "Description 1");
+        seminar1 = new Seminar(1, "Seminar Title", "20230101", 90, (short)10,
+            (short)10, 50, new String[] { "keyword1" }, "Description 1");
 
         bst.insertByDate(seminar1);
 
@@ -277,16 +176,8 @@ public class BinarySearchTreeTest
 
         assertEquals(2, bst.size());
 
-        seminar2 = new Seminar(
-            2,
-            "Another Seminar",
-            "20230102",
-            60,
-            (short)15,
-            (short)20,
-            100,
-            new String[] { "keyword2" },
-            "Description 2");
+        seminar2 = new Seminar(2, "Another Seminar", "20230102", 60, (short)15,
+            (short)20, 100, new String[] { "keyword2" }, "Description 2");
 
         bst.insertByDate(seminar2);
 
@@ -298,44 +189,19 @@ public class BinarySearchTreeTest
     /**
      * Test order inserting by date
      */
-    public void testInsertOrderByDate()
-    {
+    public void testInsertOrderByDate() {
         bst = new BinarySearchTree();
 
-        seminar1 = new Seminar(
-            1,
-            "Seminar 1",
-            "20230101",
-            90,
-            (short)10,
-            (short)10,
-            50,
-            new String[] { "keyword1" },
-            "Description 1");
+        seminar1 = new Seminar(1, "Seminar 1", "20230101", 90, (short)10,
+            (short)10, 50, new String[] { "keyword1" }, "Description 1");
         bst.insertByDate(seminar1);
 
-        seminar2 = new Seminar(
-            2,
-            "Seminar 2",
-            "20230102",
-            60,
-            (short)15,
-            (short)20,
-            100,
-            new String[] { "keyword2" },
-            "Description 2");
+        seminar2 = new Seminar(2, "Seminar 2", "20230102", 60, (short)15,
+            (short)20, 100, new String[] { "keyword2" }, "Description 2");
         bst.insertByDate(seminar2);
 
-        seminar3 = new Seminar(
-            3,
-            "Seminar 3",
-            "20230103",
-            70,
-            (short)12,
-            (short)15,
-            70,
-            new String[] { "keyword3" },
-            "Description 3");
+        seminar3 = new Seminar(3, "Seminar 3", "20230103", 70, (short)12,
+            (short)15, 70, new String[] { "keyword3" }, "Description 3");
 
         bst.insertByDate(seminar3);
 
@@ -349,10 +215,10 @@ public class BinarySearchTreeTest
 
     // ----------------------------------------------------------
     /**
-     * Test find for ID
+     * Test method to verify the find functionality by ID. It checks if the
+     * correct Seminar object is returned when searched by ID.
      */
-    public void testFindById()
-    {
+    public void testFindById() {
         assertEquals(seminar1, bst.findById(1));
         assertEquals(seminar2, bst.findById(2));
         assertEquals(seminar3, bst.findById(3));
@@ -364,43 +230,20 @@ public class BinarySearchTreeTest
 
     // ----------------------------------------------------------
     /**
-     * Test remove ID
+     * Test method to verify the removal of seminars by their ID.
+     * Ensures that seminars are properly removed and that the tree adjusts
+     * correctly.
      */
-    public void testRemoveById()
-    {
+    public void testRemoveById() {
         BinarySearchTree idTree = new BinarySearchTree();
         idTree.removeById(2);
 
-        seminar1 = new Seminar(
-            1,
-            "Seminar 1",
-            "20230101",
-            90,
-            (short)10,
-            (short)10,
-            50,
-            new String[] { "AI" },
-            "Description 1");
-        seminar2 = new Seminar(
-            2,
-            "Seminar 2",
-            "20230102",
-            60,
-            (short)15,
-            (short)20,
-            100,
-            new String[] { "Blockchain" },
-            "Description 2");
-        seminar3 = new Seminar(
-            3,
-            "Seminar 3",
-            "20230103",
-            70,
-            (short)12,
-            (short)15,
-            70,
-            new String[] { "Data Science" },
-            "Description 3");
+        seminar1 = new Seminar(1, "Seminar 1", "20230101", 90, (short)10,
+            (short)10, 50, new String[] { "AI" }, "Description 1");
+        seminar2 = new Seminar(2, "Seminar 2", "20230102", 60, (short)15,
+            (short)20, 100, new String[] { "Blockchain" }, "Description 2");
+        seminar3 = new Seminar(3, "Seminar 3", "20230103", 70, (short)12,
+            (short)15, 70, new String[] { "Data Science" }, "Description 3");
 
         idTree.insertById(seminar1);
         idTree.insertById(seminar2);
@@ -453,42 +296,19 @@ public class BinarySearchTreeTest
 
     // ----------------------------------------------------------
     /**
-     * Test delete date
+     * Test method to verify the find functionality for a range of dates.
+     * Ensures that the correct results are returned when searching within a
+     * given date range.
      */
-    public void testRemoveByDate()
-    {
+    public void testRemoveByDate() {
         BinarySearchTree dateTree = new BinarySearchTree();
 
-        seminar1 = new Seminar(
-            1,
-            "Seminar 1",
-            "20230101",
-            90,
-            (short)10,
-            (short)10,
-            50,
-            new String[] { "AI" },
-            "Description 1");
-        seminar2 = new Seminar(
-            2,
-            "Seminar 2",
-            "20230103",
-            60,
-            (short)15,
-            (short)20,
-            100,
-            new String[] { "Blockchain" },
-            "Description 2");
-        seminar3 = new Seminar(
-            3,
-            "Seminar 3",
-            "20230102",
-            70,
-            (short)12,
-            (short)15,
-            70,
-            new String[] { "Data Science" },
-            "Description 3");
+        seminar1 = new Seminar(1, "Seminar 1", "20230101", 90, (short)10,
+            (short)10, 50, new String[] { "AI" }, "Description 1");
+        seminar2 = new Seminar(2, "Seminar 2", "20230103", 60, (short)15,
+            (short)20, 100, new String[] { "Blockchain" }, "Description 2");
+        seminar3 = new Seminar(3, "Seminar 3", "20230102", 70, (short)12,
+            (short)15, 70, new String[] { "Data Science" }, "Description 3");
 
         dateTree.removeByDate(seminar3);
 
@@ -536,16 +356,8 @@ public class BinarySearchTreeTest
         dateTree.removeByDate(seminar2);
         dateTree.removeByDate(seminar1);
 
-        seminar4 = new Seminar(
-            4,
-            "Seminar 4",
-            "20230102",
-            70,
-            (short)12,
-            (short)15,
-            70,
-            new String[] { "Data Science" },
-            "Description 4");
+        seminar4 = new Seminar(4, "Seminar 4", "20230102", 70, (short)12,
+            (short)15, 70, new String[] { "Data Science" }, "Description 4");
         dateTree.insertByDate(seminar4);
         dateTree.insertByDate(seminar3);
 
@@ -556,42 +368,19 @@ public class BinarySearchTreeTest
 
     // ----------------------------------------------------------
     /**
-     * Test removing cost
+     * Test method to verify the find functionality for a range of costs.
+     * Ensures that the correct results are returned when searching within a
+     * given cost range.
      */
-    public void testRemoveByCost()
-    {
+    public void testRemoveByCost() {
         BinarySearchTree costTree = new BinarySearchTree();
 
-        seminar1 = new Seminar(
-            1,
-            "Seminar 1",
-            "20230101",
-            90,
-            (short)10,
-            (short)10,
-            50,
-            new String[] { "AI" },
-            "Description 1");
-        seminar2 = new Seminar(
-            2,
-            "Seminar 2",
-            "20230102",
-            60,
-            (short)15,
-            (short)20,
-            100,
-            new String[] { "Blockchain" },
-            "Description 2");
-        seminar3 = new Seminar(
-            3,
-            "Seminar 3",
-            "20230103",
-            70,
-            (short)12,
-            (short)15,
-            70,
-            new String[] { "Data Science" },
-            "Description 3");
+        seminar1 = new Seminar(1, "Seminar 1", "20230101", 90, (short)10,
+            (short)10, 50, new String[] { "AI" }, "Description 1");
+        seminar2 = new Seminar(2, "Seminar 2", "20230102", 60, (short)15,
+            (short)20, 100, new String[] { "Blockchain" }, "Description 2");
+        seminar3 = new Seminar(3, "Seminar 3", "20230103", 70, (short)12,
+            (short)15, 70, new String[] { "Data Science" }, "Description 3");
 
         costTree.removeByCost(seminar3);
 
@@ -638,16 +427,8 @@ public class BinarySearchTreeTest
         costTree.removeByCost(seminar2);
         costTree.removeByCost(seminar1);
 
-        seminar4 = new Seminar(
-            4,
-            "Seminar 4",
-            "20230103",
-            70,
-            (short)12,
-            (short)15,
-            70,
-            new String[] { "Data Science" },
-            "Description 4");
+        seminar4 = new Seminar(4, "Seminar 4", "20230103", 70, (short)12,
+            (short)15, 70, new String[] { "Data Science" }, "Description 4");
         costTree.insertByCost(seminar4);
         costTree.insertByCost(seminar3);
 
@@ -659,40 +440,15 @@ public class BinarySearchTreeTest
     /**
      * Test remove keywords
      */
-    public void testRemoveByKeyword()
-    {
+    public void testRemoveByKeyword() {
         BinarySearchTree keywordTree = new BinarySearchTree();
 
-        seminar1 = new Seminar(
-            1,
-            "Seminar 1",
-            "20230101",
-            90,
-            (short)10,
-            (short)10,
-            50,
-            new String[] { "AI" },
-            "Description 1");
-        seminar2 = new Seminar(
-            2,
-            "Seminar 2",
-            "20230102",
-            60,
-            (short)15,
-            (short)20,
-            100,
-            new String[] { "Data Science" },
-            "Description 2");
-        seminar3 = new Seminar(
-            3,
-            "Seminar 3",
-            "20230103",
-            70,
-            (short)12,
-            (short)15,
-            70,
-            new String[] { "Blockchain" },
-            "Description 3");
+        seminar1 = new Seminar(1, "Seminar 1", "20230101", 90, (short)10,
+            (short)10, 50, new String[] { "AI" }, "Description 1");
+        seminar2 = new Seminar(2, "Seminar 2", "20230102", 60, (short)15,
+            (short)20, 100, new String[] { "Data Science" }, "Description 2");
+        seminar3 = new Seminar(3, "Seminar 3", "20230103", 70, (short)12,
+            (short)15, 70, new String[] { "Blockchain" }, "Description 3");
 
         keywordTree.removeByKeyword("Data Science", seminar3);
 
@@ -747,16 +503,8 @@ public class BinarySearchTreeTest
         keywordTree.removeByKeyword("Data Science", seminar2);
         keywordTree.removeByKeyword("AI", seminar1);
 
-        seminar4 = new Seminar(
-            4,
-            "Seminar 4",
-            "20230103",
-            70,
-            (short)12,
-            (short)15,
-            70,
-            new String[] { "Blockchain" },
-            "Description 4");
+        seminar4 = new Seminar(4, "Seminar 4", "20230103", 70, (short)12,
+            (short)15, 70, new String[] { "Blockchain" }, "Description 4");
         keywordTree.insertByKeyword(seminar4);
         keywordTree.insertByKeyword(seminar3);
 
@@ -768,20 +516,11 @@ public class BinarySearchTreeTest
     /**
      * Find using dates
      */
-    public void testFindByDateRange()
-    {
+    public void testFindByDateRange() {
         BinarySearchTree test = new BinarySearchTree();
 
-        seminar2 = new Seminar(
-            2,
-            "Seminar 2",
-            "0",
-            60,
-            (short)15,
-            (short)20,
-            100,
-            new String[] { "keyword2" },
-            "Description 2");
+        seminar2 = new Seminar(2, "Seminar 2", "0", 60, (short)15, (short)20,
+            100, new String[] { "keyword2" }, "Description 2");
         test.insertByDate(seminar2);
 
         boolean found = test.findByDateRange("20230930", "20230930");
@@ -805,16 +544,8 @@ public class BinarySearchTreeTest
         found = test.findByDateRange("20230932", "20230931");
         assertFalse(found);
 
-        seminar1 = new Seminar(
-            1,
-            "HCI Seminar",
-            "20230930",
-            90,
-            (short)10,
-            (short)20,
-            50,
-            new String[] { "HCI", "AI" },
-            "HCI Research");
+        seminar1 = new Seminar(1, "HCI Seminar", "20230930", 90, (short)10,
+            (short)20, 50, new String[] { "HCI", "AI" }, "HCI Research");
 
         test.insertByDate(seminar1);
 
@@ -846,20 +577,11 @@ public class BinarySearchTreeTest
     /**
      * Find using cost
      */
-    public void testFindByCostRange()
-    {
+    public void testFindByCostRange() {
         BinarySearchTree test = new BinarySearchTree();
 
-        seminar2 = new Seminar(
-            2,
-            "Seminar 2",
-            "0",
-            60,
-            (short)15,
-            (short)20,
-            0,
-            new String[] { "keyword2" },
-            "Description 2");
+        seminar2 = new Seminar(2, "Seminar 2", "0", 60, (short)15, (short)20, 0,
+            new String[] { "keyword2" }, "Description 2");
         test.insertByCost(seminar2);
 
         boolean found = test.findByCostRange(100, 100);
@@ -883,16 +605,8 @@ public class BinarySearchTreeTest
         found = test.findByCostRange(101, 101);
         assertFalse(found);
 
-        seminar1 = new Seminar(
-            1,
-            "HCI Seminar",
-            "20230930",
-            90,
-            (short)10,
-            (short)20,
-            100,
-            new String[] { "HCI", "AI" },
-            "HCI Research");
+        seminar1 = new Seminar(1, "HCI Seminar", "20230930", 90, (short)10,
+            (short)20, 100, new String[] { "HCI", "AI" }, "HCI Research");
 
         test.insertByCost(seminar1);
 
@@ -923,40 +637,15 @@ public class BinarySearchTreeTest
     /**
      * Find keywords with two children
      */
-    public void testFindByKeywordWithLeftAndRightSubtrees()
-    {
+    public void testFindByKeywordWithLeftAndRightSubtrees() {
         bst = new BinarySearchTree();
 
-        seminar1 = new Seminar(
-            1,
-            "Seminar 1",
-            "20230101",
-            90,
-            (short)10,
-            (short)10,
-            50,
-            new String[] { "AI" },
-            "Description 1");
-        seminar2 = new Seminar(
-            2,
-            "Seminar 2",
-            "20230102",
-            60,
-            (short)15,
-            (short)20,
-            100,
-            new String[] { "Blockchain" },
-            "Description 2");
-        seminar3 = new Seminar(
-            3,
-            "Seminar 3",
-            "20230103",
-            70,
-            (short)12,
-            (short)15,
-            70,
-            new String[] { "Data Science" },
-            "Description 3");
+        seminar1 = new Seminar(1, "Seminar 1", "20230101", 90, (short)10,
+            (short)10, 50, new String[] { "AI" }, "Description 1");
+        seminar2 = new Seminar(2, "Seminar 2", "20230102", 60, (short)15,
+            (short)20, 100, new String[] { "Blockchain" }, "Description 2");
+        seminar3 = new Seminar(3, "Seminar 3", "20230103", 70, (short)12,
+            (short)15, 70, new String[] { "Data Science" }, "Description 3");
 
         bst.insertByKeyword(seminar1);
         bst.insertByKeyword(seminar2);
@@ -978,31 +667,14 @@ public class BinarySearchTreeTest
     /**
      * Find keywords with null as children
      */
-    public void testFindByKeywordWithNullSubtrees()
-    {
+    public void testFindByKeywordWithNullSubtrees() {
         bst = new BinarySearchTree();
 
-        seminar1 = new Seminar(
-            1,
-            "Seminar 1",
-            "20230101",
-            90,
-            (short)10,
-            (short)10,
-            50,
-            new String[] { "AI" },
-            "Description 1");
+        seminar1 = new Seminar(1, "Seminar 1", "20230101", 90, (short)10,
+            (short)10, 50, new String[] { "AI" }, "Description 1");
 
-        seminar1 = new Seminar(
-            1,
-            "Seminar 1",
-            "20230101",
-            90,
-            (short)10,
-            (short)10,
-            50,
-            new String[] { "AI" },
-            "Description 1");
+        seminar1 = new Seminar(1, "Seminar 1", "20230101", 90, (short)10,
+            (short)10, 50, new String[] { "AI" }, "Description 1");
 
         bst.insertByKeyword(seminar1);
 
@@ -1019,51 +691,18 @@ public class BinarySearchTreeTest
     /**
      * Test duplicate insertions
      */
-    public void testDuplicateInsertions()
-    {
+    public void testDuplicateInsertions() {
         bst = new BinarySearchTree();
 
-        seminar1 = new Seminar(
-            1,
-            "Seminar A",
-            "20220101",
-            60,
-            (short)10,
-            (short)10,
-            100,
-            new String[] { "AI" },
-            "Description A");
-        seminar2 = new Seminar(
-            1,
-            "Seminar A",
-            "20220101",
-            60,
-            (short)10,
-            (short)10,
-            100,
-            new String[] { "AI" },
-            "Description A");
+        seminar1 = new Seminar(1, "Seminar A", "20220101", 60, (short)10,
+            (short)10, 100, new String[] { "AI" }, "Description A");
+        seminar2 = new Seminar(1, "Seminar A", "20220101", 60, (short)10,
+            (short)10, 100, new String[] { "AI" }, "Description A");
 
-        seminar1 = new Seminar(
-            1,
-            "Seminar A",
-            "20220101",
-            60,
-            (short)10,
-            (short)10,
-            100,
-            new String[] { "AI" },
-            "Description A");
-        seminar2 = new Seminar(
-            1,
-            "Seminar A",
-            "20220101",
-            60,
-            (short)10,
-            (short)10,
-            100,
-            new String[] { "AI" },
-            "Description A");
+        seminar1 = new Seminar(1, "Seminar A", "20220101", 60, (short)10,
+            (short)10, 100, new String[] { "AI" }, "Description A");
+        seminar2 = new Seminar(1, "Seminar A", "20220101", 60, (short)10,
+            (short)10, 100, new String[] { "AI" }, "Description A");
 
         bst.insertById(seminar1);
         assertEquals(1, bst.size());
@@ -1077,43 +716,18 @@ public class BinarySearchTreeTest
     /**
      * Test findMax and deleteMax functions
      */
-    public void testFindMaxAndDeleteMax()
-    {
+    public void testFindMaxAndDeleteMax() {
         bst = new BinarySearchTree();
 
         Seminar maxSeminar = bst.findMax(bst.getRoot());
         assertNull(maxSeminar);
 
-        seminar1 = new Seminar(
-            1,
-            "Seminar 1",
-            "20230101",
-            90,
-            (short)10,
-            (short)10,
-            50,
-            new String[] { "AI" },
-            "Description 1");
-        seminar2 = new Seminar(
-            2,
-            "Seminar 2",
-            "20230102",
-            60,
-            (short)15,
-            (short)20,
-            100,
-            new String[] { "Blockchain" },
-            "Description 2");
-        seminar3 = new Seminar(
-            3,
-            "Seminar 3",
-            "20230103",
-            70,
-            (short)12,
-            (short)15,
-            70,
-            new String[] { "Data Science" },
-            "Description 3");
+        seminar1 = new Seminar(1, "Seminar 1", "20230101", 90, (short)10,
+            (short)10, 50, new String[] { "AI" }, "Description 1");
+        seminar2 = new Seminar(2, "Seminar 2", "20230102", 60, (short)15,
+            (short)20, 100, new String[] { "Blockchain" }, "Description 2");
+        seminar3 = new Seminar(3, "Seminar 3", "20230103", 70, (short)12,
+            (short)15, 70, new String[] { "Data Science" }, "Description 3");
 
         bst.insertByCost(seminar1);
         bst.insertByCost(seminar2);
@@ -1141,43 +755,18 @@ public class BinarySearchTreeTest
     /**
      * Test findStringMax
      */
-    public void testFindStringMax()
-    {
+    public void testFindStringMax() {
         bst = new BinarySearchTree();
 
         String maxSeminar = bst.findStringMax(bst.getRoot());
         assertNull(maxSeminar);
 
-        seminar1 = new Seminar(
-            1,
-            "Seminar 1",
-            "20230101",
-            90,
-            (short)10,
-            (short)10,
-            50,
-            new String[] { "AI" },
-            "Description 1");
-        seminar2 = new Seminar(
-            2,
-            "Seminar 2",
-            "20230102",
-            60,
-            (short)15,
-            (short)20,
-            100,
-            new String[] { "Blockchain" },
-            "Description 2");
-        seminar3 = new Seminar(
-            3,
-            "Seminar 3",
-            "20230103",
-            70,
-            (short)12,
-            (short)15,
-            70,
-            new String[] { "Data Science" },
-            "Description 3");
+        seminar1 = new Seminar(1, "Seminar 1", "20230101", 90, (short)10,
+            (short)10, 50, new String[] { "AI" }, "Description 1");
+        seminar2 = new Seminar(2, "Seminar 2", "20230102", 60, (short)15,
+            (short)20, 100, new String[] { "Blockchain" }, "Description 2");
+        seminar3 = new Seminar(3, "Seminar 3", "20230103", 70, (short)12,
+            (short)15, 70, new String[] { "Data Science" }, "Description 3");
 
         bst.insertByKeyword(seminar1);
         bst.insertByKeyword(seminar2);
@@ -1193,8 +782,7 @@ public class BinarySearchTreeTest
     /**
      * Test clear
      */
-    public void testClear()
-    {
+    public void testClear() {
         bst.clear();
         assertEquals(0, bst.size());
         assertNull(bst.getRoot());
@@ -1205,49 +793,24 @@ public class BinarySearchTreeTest
     /**
      * Test help function
      */
-    public void testHelp()
-    {
+    public void testHelp() {
         BinarySearchTree test = new BinarySearchTree();
 
-        seminar2 = new Seminar(
-            2,
-            "Seminar 2",
-            "0",
-            60,
-            (short)15,
-            (short)20,
-            0,
-            new String[] { "keyword2" },
-            "Description 2");
+        seminar2 = new Seminar(2, "Seminar 2", "0", 60, (short)15, (short)20, 0,
+            new String[] { "keyword2" }, "Description 2");
         test.find(seminar2);
         test.insertById(seminar2);
         assertTrue(test.find(seminar2));
 
-        seminar1 = new Seminar(
-            1,
-            "Seminar 1",
-            "0",
-            60,
-            (short)15,
-            (short)20,
-            0,
-            new String[] { "keyword1" },
-            "Description 1");
+        seminar1 = new Seminar(1, "Seminar 1", "0", 60, (short)15, (short)20, 0,
+            new String[] { "keyword1" }, "Description 1");
 
         test.find(seminar1);
         test.insertById(seminar1);
         assertTrue(test.find(seminar1));
 
-        seminar3 = new Seminar(
-            3,
-            "Seminar 3",
-            "0",
-            60,
-            (short)15,
-            (short)20,
-            0,
-            new String[] { "keyword3" },
-            "Description 3");
+        seminar3 = new Seminar(3, "Seminar 3", "0", 60, (short)15, (short)20, 0,
+            new String[] { "keyword3" }, "Description 3");
         test.find(seminar3);
         test.insertById(seminar3);
         assertTrue(test.find(seminar3));

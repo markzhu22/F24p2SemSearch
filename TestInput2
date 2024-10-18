@@ -1,0 +1,92 @@
+# TestInput.txt
+
+# Insert seminars to the left side of the tree
+insert 1
+Seminar 1
+0610051600 100 5 5 50
+key1 key2 key3
+This is Seminar 1
+
+insert 2
+Seminar 2
+0610051600 100 4 4 50
+key1 key2 key3
+This is Seminar 2
+
+insert 3
+Seminar 3
+0610051600 100 3 3 50
+key1 key2 key3
+This is Seminar 3
+
+# Insert seminars to the right side of the tree
+insert 4
+Seminar 4
+0610051600 100 10 10 50
+key1 key2 key3
+This is Seminar 4
+
+insert 5
+Seminar 5
+0610051600 100 11 11 50
+key1 key2 key3
+This is Seminar 5
+
+insert 6
+Seminar 6
+0610051600 100 12 12 50
+key1 key2 key3
+This is Seminar 6
+
+# Insert seminars to both sides of the tree
+insert 7
+Seminar 7
+0610051600 100 6 6 50
+key1 key2 key3
+This is Seminar 7
+
+insert 8
+Seminar 8
+0610051600 100 9 9 50
+key1 key2 key3
+This is Seminar 8
+
+# Print the tree structure after inserts
+print ID
+print date
+print cost
+print keyword
+print location
+
+# Test searching for inserted seminars
+search ID 1
+search ID 2
+search ID 3
+search ID 4
+search ID 5
+search ID 6
+search ID 7
+search ID 8
+
+# Test deleting seminars
+delete 1  # Delete from the bottom
+delete 4  # Delete from the top
+delete 2  # Delete from the middle
+delete 5  # Delete from the right side
+delete 3  # Delete from the left side
+delete 6  # Delete from the right side
+
+# Print the tree structure after deletions
+print ID
+print date
+print cost
+print keyword
+print location
+
+# Test searching for deleted seminars
+search ID 1
+search ID 2
+search ID 3
+search ID 4
+search ID 5
+search ID 6

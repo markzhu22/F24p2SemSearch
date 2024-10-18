@@ -1,4 +1,4 @@
-    import java.io.IOException;
+import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import student.TestCase;
@@ -10,14 +10,11 @@ import student.TestCase;
  * @author markz + tarinid
  * @version Oct 7, 2024
  */
-public class ProblemSpecTest
-    extends TestCase
-{
+public class ProblemSpecTest extends TestCase {
     /**
      * Sets up the tests that follow. In general, used for initialization
      */
-    public void setUp()
-    {
+    public void setUp() {
         // Nothing here
     }
 
@@ -30,9 +27,7 @@ public class ProblemSpecTest
      * @return the string
      * @throws IOException
      */
-    static String readFile(String path)
-        throws IOException
-    {
+    static String readFile(String path) throws IOException {
         byte[] encoded = Files.readAllBytes(Paths.get(path));
         return new String(encoded);
     }
@@ -46,9 +41,7 @@ public class ProblemSpecTest
      * 
      * @throws IOException
      */
-    public void testPostedSample()
-        throws IOException
-    {
+    public void testPostedSample() throws IOException {
         // Setting up all the parameters
         String[] args = new String[2];
         args[0] = "128";
@@ -61,12 +54,12 @@ public class ProblemSpecTest
         String actualOutput = systemOut().getHistory();
 
         // Expected output from file
-        String expectedOutput =
-            readFile("solutionTestData/P2_sampleOutput.txt");
+        String expectedOutput = readFile(
+            "solutionTestData/P2_sampleOutput.txt");
 
         // Compare the two outputs
         // once you have implemented your project
-         assertFuzzyEquals(expectedOutput, actualOutput);
+        assertFuzzyEquals(expectedOutput, actualOutput);
     }
 
 
@@ -76,9 +69,7 @@ public class ProblemSpecTest
      * 
      * @throws IOException
      */
-    public void testPostedSyntaxSample()
-        throws IOException
-    {
+    public void testPostedSyntaxSample() throws IOException {
         // Setting up all the parameters
         String[] args = new String[2];
         args[0] = "128";
@@ -91,8 +82,8 @@ public class ProblemSpecTest
         String actualOutput = systemOut().getHistory();
 
         // Expected output from file
-        String expectedOutput =
-            readFile("solutionTestData/P2_syntaxInsertOutput.txt");
+        String expectedOutput = readFile(
+            "solutionTestData/P2_syntaxInsertOutput.txt");
 
         // Compare the two outputs
         // once you have implemented your project
